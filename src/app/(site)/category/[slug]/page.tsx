@@ -6,6 +6,7 @@ import {
   CATEGORY_META,
   getCategoryLongSeo,
 } from '@/lib/categories';
+import { siteConfig } from '@/lib/seo';
 import { getBaseUrl } from '@/lib/site-url';
 
 export function generateStaticParams() {
@@ -22,20 +23,20 @@ export async function generateMetadata({
   if (!meta) return { title: 'Category not found' };
   const canonical = getBaseUrl() + '/category/' + slug;
   return {
-    title: `${meta.name} | DevToolDock`,
+    title: `${meta.name} | ${siteConfig.name}`,
     description: meta.description,
-    keywords: `${meta.name}, developer tools, ${slug}`,
+    keywords: `${meta.name}, calculators, ${slug}`,
     alternates: { canonical },
     openGraph: {
-      title: `${meta.name} | DevToolDock`,
+      title: `${meta.name} | ${siteConfig.name}`,
       description: meta.description,
       url: canonical,
       type: 'website',
-      siteName: 'DevToolDock',
+      siteName: siteConfig.name,
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${meta.name} | DevToolDock`,
+      title: `${meta.name} | ${siteConfig.name}`,
       description: meta.description,
     },
   };
@@ -99,11 +100,8 @@ export default async function CategoryPage({
             <p className="text-sm text-gray-500 dark:text-gray-400 leading-6 flex-1">
               {tool.description}
             </p>
-            <Link
-              href={`/${tool.slug}`}
-              className="mt-4 inline-flex items-center justify-center px-5 py-3 text-sm font-medium text-white rounded-full bg-primary-500 hover:bg-primary-600 transition w-fit"
-            >
-              Open Tool
+            <Link href={`/${tool.slug}`} className="mt-4 inline-flex items-center justify-center px-5 py-3 text-sm font-medium text-white rounded-full bg-primary-500 hover:bg-primary-600 transition w-fit">
+              Open Calculator
             </Link>
           </div>
         ))}
@@ -111,7 +109,7 @@ export default async function CategoryPage({
 
       {categoryTools.length === 0 && (
         <p className="text-gray-500 dark:text-gray-400 py-8">
-          No tools in this category yet.
+          No calculators in this category yet.
         </p>
       )}
     </div>

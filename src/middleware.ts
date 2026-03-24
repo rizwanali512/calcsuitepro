@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 /**
  * Enforce a single canonical host:
- * devtooldock.com -> www.devtooldock.com
+ * www.calcsuitepro.com -> calcsuitepro.com
  *
  * This helps avoid duplicate indexing across hosts and prevents SEO dilution.
  */
@@ -16,10 +16,10 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Only redirect the apex domain to www
-  if (host === 'devtooldock.com') {
+  // Redirect www host to apex domain
+  if (host === 'www.calcsuitepro.com') {
     const url = req.nextUrl.clone();
-    url.host = 'www.devtooldock.com';
+    url.host = 'calcsuitepro.com';
     url.protocol = 'https:';
     return NextResponse.redirect(url, 308);
   }

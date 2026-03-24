@@ -7,7 +7,7 @@ import {
   SEO_PAGE_SLUGS,
 } from '@/lib/seo-pages';
 import { getBaseUrl } from '@/lib/site-url';
-import { DEFAULT_KEYWORDS } from '@/lib/seo';
+import { DEFAULT_KEYWORDS, siteConfig } from '@/lib/seo';
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const config = getSeoPageConfig(slug);
   if (!config) return { title: 'Page not found' };
 
-  const title = `${config.title} | DevToolDock`;
+  const title = `${config.title} | ${siteConfig.name}`;
   const description = config.metaDescription;
 
   return {
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description,
       url: getBaseUrl() + '/seo/' + slug,
       type: 'website',
-      siteName: 'DevToolDock',
+      siteName: siteConfig.name,
     },
     twitter: {
       card: 'summary_large_image',

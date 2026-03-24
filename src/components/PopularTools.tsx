@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getPopularTools } from '@/lib/tools';
+import { getPopularCalculators as getPopularTools } from '@/lib/calculators';
 
 const cardClass =
   'bg-white p-6 sm:p-9 border border-gray-200 dark:bg-white/5 dark:border-white/10 rounded-[20px] shadow-[0px_30px_50px_-32px_rgba(107,110,148,0.04)]';

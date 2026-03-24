@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import type { SeoPageEntry } from '@/lib/seoPages';
-import type { Tool } from '@/lib/tools';
+import type { Calculator as Tool } from '@/lib/calculators';
 import { getCategoryDisplayName } from '@/lib/categories';
 
 type Props = {

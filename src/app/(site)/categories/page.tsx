@@ -1,28 +1,27 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { CATEGORY_META } from '@/lib/categories';
+import { siteConfig } from '@/lib/seo';
 import { getBaseUrl } from '@/lib/site-url';
-import { DEFAULT_KEYWORDS } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'Tool Categories',
+  title: 'Calculator Categories',
   description:
-    'Browse developer tools organized by categories including JSON tools, encoding tools, security tools, text tools, and more.',
-  keywords: `${DEFAULT_KEYWORDS}, tool categories, json tools, encoding tools`,
+    'Browse calculators organized by Finance, Math, and Physics categories.',
   alternates: { canonical: getBaseUrl() + '/categories' },
   openGraph: {
-    title: 'Tool Categories – DevToolDock',
+    title: `Calculator Categories – ${siteConfig.name}`,
     description:
-      'Browse developer tools organized by categories including JSON tools, encoding tools, security tools, text tools, and more.',
+      'Browse calculators organized by Finance, Math, and Physics categories.',
     url: getBaseUrl() + '/categories',
     type: 'website',
-    siteName: 'DevToolDock',
+    siteName: siteConfig.name,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tool Categories – DevToolDock',
+    title: `Calculator Categories – ${siteConfig.name}`,
     description:
-      'Browse developer tools organized by categories including JSON tools, encoding tools, security tools, and more.',
+      'Browse calculators organized by Finance, Math, and Physics categories.',
   },
 };
 
@@ -31,10 +30,10 @@ export default function CategoriesPage() {
     <div className="wrapper py-14 md:py-28">
       <div className="max-w-2xl mx-auto mb-10 text-center">
         <h1 className="mb-3 font-bold text-center text-gray-800 dark:text-white/90 text-3xl md:text-title-lg">
-          Tool Categories
+          Calculator Categories
         </h1>
         <p className="max-w-2xl mx-auto leading-6 text-gray-500 dark:text-gray-400 mb-8">
-          Browse developer tools organized by categories including JSON tools, encoding tools, security tools and more.
+          Browse calculators organized by Finance, Math, and Physics.
         </p>
       </div>
 
@@ -54,7 +53,7 @@ export default function CategoriesPage() {
               href={`/category/${category.slug}`}
               className="mt-4 inline-flex items-center justify-center px-5 py-3 text-sm font-medium text-white rounded-full bg-primary-500 hover:bg-primary-600 transition w-fit"
             >
-              View Tools
+              View Calculators
             </Link>
           </div>
         ))}

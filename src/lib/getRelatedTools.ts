@@ -1,4 +1,4 @@
-import { tools } from '@/lib/tools';
+import { calculators as tools } from '@/lib/calculators';
 import { CORE_POPULAR_SLUGS } from '@/lib/popularTools';
 
 const MIN_RELATED = 3;

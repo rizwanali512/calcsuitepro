@@ -24,7 +24,7 @@ export function isPriorityToolSlug(slug: string): slug is PriorityToolSlug {
   return (PRIORITY_TOOL_SLUGS as readonly string[]).includes(slug);
 }
 
-/** Page title segment only (root layout adds `| DevToolDock`). */
+/** Page title segment only (root layout adds `| CalcSuite Pro`). */
 export function getPriorityToolMetadata(slug: string): {
   title: string;
   description: string;
@@ -131,7 +131,7 @@ export function getPriorityToolSeoSpec(
           'Pretty-print JSON with stable indentation for nested objects and arrays',
           'Surfaces parse errors so you can fix syntax before shipping',
           'Works entirely in the browser for quick feedback loops',
-          'Pairs naturally with JSON Validator, Minifier, and converters on DevToolDock',
+          'Pairs naturally with JSON Validator, Minifier, and converters on CalcSuite Pro',
           'Copy-ready output for README examples and support threads',
         ],
         useCases: [
@@ -165,7 +165,7 @@ export function getPriorityToolSeoSpec(
           },
           {
             q: 'Is this tool free?',
-            a: 'Yes. DevToolDock provides this JSON Formatter as a free online developer tool.',
+            a: 'Yes. CalcSuite Pro provides this JSON Formatter as a free online developer tool.',
           },
         ],
       };
@@ -184,7 +184,7 @@ export function getPriorityToolSeoSpec(
         features: [
           'Fast client-side encoding for everyday developer tasks',
           'Clear output you can paste into JSON, headers, or scripts',
-          'Works alongside Base64 Decoder and JWT utilities on DevToolDock',
+          'Works alongside Base64 Decoder and JWT utilities on CalcSuite Pro',
           'Helpful for debugging encoded strings without local tooling',
           'Free to use with no account required',
         ],
@@ -269,7 +269,7 @@ export function getPriorityToolSeoSpec(
           },
           {
             q: 'Is this tool free?',
-            a: 'Yes. DevToolDock provides this regex tester for free in your browser.',
+            a: 'Yes. CalcSuite Pro provides this regex tester for free in your browser.',
           },
         ],
       };
@@ -371,11 +371,11 @@ export function getPriorityToolSeoSpec(
           },
           {
             q: 'Can I validate UUIDs?',
-            a: 'Yes—use the UUID Validator tool on DevToolDock.',
+            a: 'Yes—use the UUID Validator tool on CalcSuite Pro.',
           },
           {
             q: 'Is this tool free?',
-            a: 'Yes. DevToolDock provides UUID generation as a free online utility.',
+            a: 'Yes. CalcSuite Pro provides UUID generation as a free online utility.',
           },
         ],
       };
@@ -395,7 +395,7 @@ export function getPriorityToolSeoSpec(
           'Converts between epoch and human-readable date/time',
           'Supports common millisecond vs second pitfalls with clear UI',
           'Useful for log correlation and API debugging',
-          'Works alongside timezone and format converters on DevToolDock',
+          'Works alongside timezone and format converters on CalcSuite Pro',
           'Free to use with no account',
         ],
         useCases: [
@@ -428,7 +428,7 @@ export function getPriorityToolSeoSpec(
           },
           {
             q: 'Is the tool free?',
-            a: 'Yes. DevToolDock provides this timestamp utility for free.',
+            a: 'Yes. CalcSuite Pro provides this timestamp utility for free.',
           },
         ],
       };
@@ -477,7 +477,7 @@ export function getPriorityToolSeoSpec(
           },
           {
             q: 'Is the validator free?',
-            a: 'Yes. DevToolDock provides this JSON Validator for free.',
+            a: 'Yes. CalcSuite Pro provides this JSON Validator for free.',
           },
           {
             q: 'Can I validate large JSON?',
@@ -530,7 +530,7 @@ export function getPriorityToolSeoSpec(
           },
           {
             q: 'Is this free?',
-            a: 'Yes. DevToolDock provides this JSON Minifier for free.',
+            a: 'Yes. CalcSuite Pro provides this JSON Minifier for free.',
           },
           {
             q: 'Does this replace gzip?',
@@ -553,7 +553,7 @@ export function getPriorityToolSeoSpec(
         features: [
           'Encodes characters unsafe for URLs',
           'Helps prevent broken links and invalid query strings',
-          'Pairs with URL Decoder and URL Parser on DevToolDock',
+          'Pairs with URL Decoder and URL Parser on CalcSuite Pro',
           'Fast browser-based workflow',
           'Free online tool for developers',
         ],
@@ -587,7 +587,7 @@ export function getPriorityToolSeoSpec(
           },
           {
             q: 'Is this free?',
-            a: 'Yes. DevToolDock provides URL encoding for free.',
+            a: 'Yes. CalcSuite Pro provides URL encoding for free.',
           },
         ],
       };
@@ -595,7 +595,7 @@ export function getPriorityToolSeoSpec(
       return {
         cluster: 'security',
         intro:
-          `The Password Generator creates random passwords with length and character classes you choose—useful for staging accounts, test users, and local development secrets. It does not replace enterprise secrets managers for production systems. Store outputs in a password manager; never commit passwords to Git or paste them in public channels. Passwords differ from API tokens: scope and rotate them per policy. For feedback on a candidate string, use the Password Strength Checker. DevToolDock does not store generated values.`,
+          `The Password Generator creates random passwords with length and character classes you choose—useful for staging accounts, test users, and local development secrets. It does not replace enterprise secrets managers for production systems. Store outputs in a password manager; never commit passwords to Git or paste them in public channels. Passwords differ from API tokens: scope and rotate them per policy. For feedback on a candidate string, use the Password Strength Checker. CalcSuite Pro does not store generated values.`,
         steps: [
           'Choose length and character sets that match your policy.',
           'Generate a secure random password.',
@@ -606,7 +606,7 @@ export function getPriorityToolSeoSpec(
         features: [
           'Generates random passwords with configurable complexity',
           'Supports developer workflows for test environments',
-          'Pairs with Password Strength Checker on DevToolDock',
+          'Pairs with Password Strength Checker on CalcSuite Pro',
           'Runs in the browser without storing passwords server-side',
           'Free to use with sensible security practices',
         ],
@@ -624,7 +624,7 @@ export function getPriorityToolSeoSpec(
         faqs: [
           {
             q: 'Are generated passwords stored?',
-            a: 'DevToolDock does not store your output. Treat it like any client-side secret.',
+            a: 'CalcSuite Pro does not store your output. Treat it like any client-side secret.',
           },
           {
             q: 'Is this for production?',
@@ -640,7 +640,7 @@ export function getPriorityToolSeoSpec(
           },
           {
             q: 'Can I check password strength?',
-            a: 'Yes—use the Password Strength Checker on DevToolDock.',
+            a: 'Yes—use the Password Strength Checker on CalcSuite Pro.',
           },
         ],
       };

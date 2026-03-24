@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { tools } from '@/lib/tools';
+import { calculators as tools } from '@/lib/calculators';
 import {
   categoryToSlug,
   getCategoryDisplayName,
@@ -43,7 +43,7 @@ export function MoreFromCategory({ toolSlug, max = 6 }: Props) {
         >
           {label}
         </Link>{' '}
-        collection on DevToolDock.
+        collection on CalcSuite Pro.
       </p>
       <ul className="list-disc pl-6 space-y-2 text-gray-500 dark:text-gray-400 leading-7">
         {peers.map((t) => (

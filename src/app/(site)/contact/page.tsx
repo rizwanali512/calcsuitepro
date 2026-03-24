@@ -3,27 +3,27 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/inputs/textarea';
 import type { Metadata } from 'next';
 import { getBaseUrl } from '@/lib/site-url';
-import { DEFAULT_KEYWORDS } from '@/lib/seo';
+import { DEFAULT_KEYWORDS, siteConfig } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'Contact Us – Get in Touch',
   description:
-    'Have a question, feedback, or need help with our developer tools? Contact us and we’ll get back to you as soon as we can.',
+    'Have a question, feedback, or need help with our calculators? Contact us and we will get back to you soon.',
   keywords: DEFAULT_KEYWORDS,
   alternates: { canonical: getBaseUrl() + '/contact' },
   openGraph: {
     title: 'Contact Us – Get in Touch',
     description:
-      'Have a question, feedback, or need help with our developer tools? Contact us and we’ll get back to you as soon as we can.',
+      'Have a question, feedback, or need help with our calculators? Contact us and we will get back to you soon.',
     url: getBaseUrl() + '/contact',
     type: 'website',
-    siteName: 'DevToolDock',
+    siteName: siteConfig.name,
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Contact Us – Get in Touch',
     description:
-      "Have a question, feedback, or need help with our developer tools? Contact us and we'll get back to you as soon as we can.",
+      "Have a question, feedback, or need help with our calculators? Contact us and we'll get back to you soon.",
   },
 };
 

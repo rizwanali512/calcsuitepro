@@ -9,7 +9,7 @@ type Props = {
 
 function buildLongIntro(toolName: string, toolDescription: string) {
   return (
-    `${toolName} is an AI-powered online developer tool on DevToolDock. It is designed to ${toolDescription.toLowerCase()} ` +
+    `${toolName} is an AI-powered online developer tool on CalcSuite Pro. It is designed to ${toolDescription.toLowerCase()} ` +
     `while keeping you in control of quality and security. AI-assisted utilities are best used as accelerators: they produce a strong first draft that you review, test against real inputs, and align with your team’s conventions before anything reaches production. ` +
     `This page explains how the tool fits into typical engineering workflows, which adjacent classic utilities pair well with it, and how to get consistent results without unnecessary rework. ` +
     `Whether you are documenting an API, drafting SQL, or generating structured text, combining AI output with deterministic tools—like a JSON formatter, regex tester, or Base64 encoder—helps you catch mistakes early and ship with confidence. ` +
@@ -23,7 +23,7 @@ function buildSteps(toolSlug: string) {
     `Generate a first draft with ${toolSlug.includes('generator') ? 'the generator' : 'this AI tool'}.`,
     `Review output for correctness, edge cases, and security-sensitive fields.`,
     `Refine the prompt and rerun until the result matches your standards.`,
-    `Optionally pass structured data through classic DevToolDock utilities for validation and formatting.`,
+    `Optionally pass structured data through classic CalcSuite Pro utilities for validation and formatting.`,
   ];
   switch (toolSlug) {
     case 'code-generator':
@@ -48,7 +48,7 @@ function buildSteps(toolSlug: string) {
 function buildFeatures(toolName: string) {
   return [
     `Purpose-built prompts and UI for ${toolName}`,
-    'Fits alongside classic DevToolDock formatters, encoders, and parsers',
+    'Fits alongside classic CalcSuite Pro formatters, encoders, and parsers',
     'Designed for fast iteration while you stay in the editor flow',
     'Encourages pairing AI drafts with deterministic validation tools',
   ];
@@ -57,8 +57,8 @@ function buildFeatures(toolName: string) {
 function buildFaqs(toolName: string) {
   return [
     {
-      q: `Is ${toolName} free to try on DevToolDock?`,
-      a: 'Yes. DevToolDock lists AI tools alongside free browser-based developer utilities. Follow your organization’s policy for API keys and data handling.',
+      q: `Is ${toolName} free to try on CalcSuite Pro?`,
+      a: 'Yes. CalcSuite Pro lists AI tools alongside free browser-based developer utilities. Follow your organization’s policy for API keys and data handling.',
     },
     {
       q: 'Should I trust AI output without review?',
@@ -74,7 +74,7 @@ function buildFaqs(toolName: string) {
     },
     {
       q: 'Where can I browse more utilities?',
-      a: 'Explore the Tools directory, All Tools, category pages, and the blog for guides.',
+      a: 'Explore calculator categories and the full calculators directory from the site navigation.',
     },
   ];
 }
@@ -126,31 +126,31 @@ export function AIToolSeoContent({ toolSlug, toolName, toolDescription }: Props)
       <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
         After AI generates structured content, validate and format it with{' '}
         <Link
-          href="/json-formatter"
+          href="/percentage-calculator"
           className="text-primary-500 hover:text-primary-600 underline font-medium"
         >
-          JSON Formatter
+          Percentage Calculator
         </Link>
         , test patterns with the{' '}
         <Link
-          href="/regex-tester"
+          href="/scientific-calculator"
           className="text-primary-500 hover:text-primary-600 underline font-medium"
         >
-          Regex Tester
+          Scientific Calculator
         </Link>
         , encode data with the{' '}
         <Link
-          href="/base64-encoder"
+          href="/fraction-calculator"
           className="text-primary-500 hover:text-primary-600 underline font-medium"
         >
-          Base64 Encoder
+          Fraction Calculator
         </Link>
         , and inspect tokens using the{' '}
         <Link
-          href="/jwt-decoder"
+          href="/probability-calculator"
           className="text-primary-500 hover:text-primary-600 underline font-medium"
         >
-          JWT Decoder
+          Probability Calculator
         </Link>
         .
       </p>
@@ -173,10 +173,10 @@ export function AIToolSeoContent({ toolSlug, toolName, toolDescription }: Props)
       <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
         Browse all AI utilities on{' '}
         <Link
-          href="/ai-tools"
+          href="/all-calculators"
           className="text-primary-500 hover:text-primary-600 underline font-medium"
         >
-          AI Tools
+          All Calculators
         </Link>
         , explore classic utilities on{' '}
         <Link href="/tools" className="text-primary-500 hover:text-primary-600 underline font-medium">

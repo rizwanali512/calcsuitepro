@@ -1,27 +1,27 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getBaseUrl } from '@/lib/site-url';
-import { DEFAULT_KEYWORDS } from '@/lib/seo';
+import { DEFAULT_KEYWORDS, siteConfig } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'About Us',
   description:
-    'DevToolDock is a collection of free developer tools and AI-powered utilities designed to help developers work faster. The platform includes JSON tools, encoding utilities, regex testers, file converters, and AI tools for generating code and automation tasks.',
+    `${siteConfig.name} is a calculator platform for finance, math, and physics with simple, reliable web-based workflows.`,
   keywords: DEFAULT_KEYWORDS,
   alternates: { canonical: getBaseUrl() + '/about' },
   openGraph: {
-    title: 'About DevToolDock – Free Developer Tools & AI Utilities',
+    title: `About ${siteConfig.name} – Calculator Platform`,
     description:
-      'DevToolDock is a collection of free developer tools and AI-powered utilities designed to help developers work faster. JSON tools, encoding utilities, regex testers, file converters, and AI tools for code and automation.',
+      `${siteConfig.name} helps users solve finance, math, and physics problems with formula-based calculators.`,
     url: getBaseUrl() + '/about',
     type: 'website',
-    siteName: 'DevToolDock',
+    siteName: siteConfig.name,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About DevToolDock – Free Developer Tools & AI Utilities',
+    title: `About ${siteConfig.name} – Calculator Platform`,
     description:
-      'DevToolDock is a collection of free developer tools and AI-powered utilities designed to help developers work faster.',
+      `${siteConfig.name} helps users solve finance, math, and physics problems with formula-based calculators.`,
   },
 };
 
@@ -30,10 +30,10 @@ export default function AboutPage() {
     <div className="wrapper py-14 md:py-28">
       <div className="max-w-3xl mx-auto">
         <h1 className="mb-4 font-bold text-gray-800 dark:text-white/90 text-3xl md:text-title-lg">
-          About DevToolDock
+          About {siteConfig.name}
         </h1>
         <p className="mb-10 text-lg text-gray-600 dark:text-gray-300">
-          DevToolDock is a collection of free developer tools and AI-powered utilities designed to help developers work faster. The platform includes JSON tools, encoding utilities, regex testers, file converters, and AI tools for generating code and automation tasks.
+          {siteConfig.name} is a calculator-first platform focused on finance, math, and physics workflows.
         </p>
 
         <div className="space-y-10 text-gray-600 dark:text-gray-300 leading-6">
@@ -42,11 +42,9 @@ export default function AboutPage() {
               Our mission
             </h2>
             <p>
-              Our goal is to give developers and teams instant access to
-              essential utilities: JSON formatting and validation, Base64
-              encode/decode, regex testing, UUID and password generation, timestamps,
-              color converters, and dozens more. Everything runs in your
-              browser—no sign-up, no tracking, no cost.
+              Our goal is to provide accurate, easy-to-use calculators for everyday
+              formulas. Everything runs in your browser with a fast and consistent
+              interface.
             </p>
           </section>
 
@@ -55,23 +53,26 @@ export default function AboutPage() {
               What we offer
             </h2>
             <p className="mb-4">
-              We provide a growing collection of developer tools and AI-powered
-              utilities:
+              We provide a growing collection of calculator categories:
             </p>
             <ul className="list-disc list-inside space-y-2 pl-2">
               <li>
                 <strong className="text-gray-800 dark:text-white/90">
-                  Developer tools
+                  Finance calculators
                 </strong>{' '}
-                — JSON formatter, validators, encoders/decoders, hashing, JWT
-                tools, regex tester, and many more for data and code.
+                — Interest, EMI, and planning calculations.
               </li>
               <li>
                 <strong className="text-gray-800 dark:text-white/90">
-                  AI utilities
+                  Math calculators
                 </strong>{' '}
-                — Code generation, SQL helpers, and automation aids to speed up
-                your workflow.
+                — Percentage and core formula solving.
+              </li>
+              <li>
+                <strong className="text-gray-800 dark:text-white/90">
+                  Physics calculators
+                </strong>{' '}
+                — Motion and mechanics calculations.
               </li>
             </ul>
           </section>
@@ -81,10 +82,10 @@ export default function AboutPage() {
               Why choose us
             </h2>
             <p>
-              Our tools are built to be fast, reliable, and private. We keep the
+              Our calculators are built to be fast, reliable, and private. We keep the
               interface simple and the results accurate. Whether you&apos;re
-              debugging JSON, generating secure tokens, or converting data
-              formats, you get a no-fuss experience with no account required.
+              solving a finance, math, or physics problem, you get a no-fuss
+              experience with no account required.
             </p>
           </section>
 
@@ -93,15 +94,15 @@ export default function AboutPage() {
               Get in touch
             </h2>
             <p className="mb-4">
-              Have feedback, ideas for new tools, or questions? We&apos;d love to
+              Have feedback, ideas for new calculators, or questions? We&apos;d love to
               hear from you.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
-                href="/tools"
+                href="/all-calculators"
                 className="inline-flex items-center justify-center h-12 px-6 rounded-full font-medium text-sm bg-primary-500 hover:bg-primary-600 text-white transition"
               >
-                Browse all tools
+                Browse all calculators
               </Link>
               <Link
                 href="/contact"

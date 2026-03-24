@@ -199,10 +199,10 @@ export default function BenefitsGrid() {
                     AI-powered utilities designed to help developers generate code, automate tasks, and improve productivity. Text Generator, Code Generator, Image Generator, Email Generator, SQL Generator, Regex Generator, Commit Message Generator, API Documentation Generator, Error Explainer, Code Refactor Tool, and more.
                   </p>
                   <Link
-                    href="/ai-tools"
+                    href="/finance-calculators"
                     className="font-medium inline-block text-sm text-white rounded-full bg-primary-500 hover:bg-primary-600 transition py-3 px-6"
                   >
-                    Open Tool
+                    Open Calculators
                   </Link>
                 </div>
                 <div>

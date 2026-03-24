@@ -7,21 +7,20 @@ import Script from 'next/script';
 import './globals.css';
 import { ToasterProvider } from './providers/toaster';
 import { getBaseUrl } from '@/lib/site-url';
-import { DEFAULT_KEYWORDS } from '@/lib/seo';
+import { DEFAULT_KEYWORDS, siteConfig } from '@/lib/seo';
 
 const onest = Onest({
   subsets: ['latin'],
 });
 
-const defaultTitle = 'DevToolDock – Free Developer Tools & AI Utilities';
-const defaultDescription =
-  'DevToolDock provides free developer tools and AI utilities including JSON formatter, Base64 encoder, regex tester, UUID generator, and AI-powered developer tools.';
+const defaultTitle = 'CalcSuite Pro - Free Online Calculators';
+const defaultDescription = siteConfig.description;
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.devtooldock.com'),
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: defaultTitle,
-    template: '%s | DevToolDock',
+    template: `%s | ${siteConfig.name}`,
   },
   description: defaultDescription,
   keywords: DEFAULT_KEYWORDS,
@@ -35,7 +34,7 @@ export const metadata: Metadata = {
     description: defaultDescription,
     type: 'website',
     url: getBaseUrl(),
-    siteName: 'DevToolDock',
+    siteName: siteConfig.name,
   },
   twitter: {
     card: 'summary_large_image',
@@ -90,14 +89,14 @@ export default function RootLayout({
   const organizationJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'DevToolDock',
+    name: siteConfig.name,
     url: getBaseUrl(),
   };
 
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`bg-gray-50 dark:bg-dark-secondary min-h-screen flex flex-col ${onest.className}`}
+        className={`min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text)] ${onest.className}`}
         suppressHydrationWarning
       >
         <script

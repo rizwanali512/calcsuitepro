@@ -6,7 +6,7 @@ import {
   COMPARE_PAGE_SLUGS,
 } from '@/lib/compare-pages';
 import { getBaseUrl } from '@/lib/site-url';
-import { DEFAULT_KEYWORDS } from '@/lib/seo';
+import { DEFAULT_KEYWORDS, siteConfig } from '@/lib/seo';
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const config = getComparePageConfig(slug);
   if (!config) return { title: 'Page not found' };
 
-  const title = `${config.title} | DevToolDock`;
+  const title = `${config.title} | ${siteConfig.name}`;
 
   return {
     title: config.title,
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: config.metaDescription,
       url: getBaseUrl() + '/compare/' + slug,
       type: 'website',
-      siteName: 'DevToolDock',
+      siteName: siteConfig.name,
     },
     twitter: {
       card: 'summary_large_image',
@@ -143,10 +143,10 @@ export default async function ComparePage({ params }: PageProps) {
         </section>
 
         <p className="mt-10 text-sm text-gray-500 dark:text-gray-400">
-          <Link href="/all-tools" className="text-primary-500 hover:underline">
-            Browse all developer tools
+          <Link href="/all-calculators" className="text-primary-500 hover:underline">
+            Browse all calculators
           </Link>{' '}
-          on DevToolDock.
+          on {siteConfig.name}.
         </p>
       </article>
     </div>

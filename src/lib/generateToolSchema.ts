@@ -1,4 +1,4 @@
-import type { Tool } from '@/lib/tools';
+import type { Calculator as Tool } from '@/lib/calculators';
 import { getBaseUrl } from '@/lib/site-url';
 import { buildToolSeoSpec } from '@/lib/tool-seo';
 

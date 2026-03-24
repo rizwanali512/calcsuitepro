@@ -1,15 +1,17 @@
-# DevToolDock
+# CalcSuite Pro
 
-**DevToolDock** – Free developer tools and AI utilities. Built with **Next.js** and **Tailwind CSS**.
+**CalcSuite Pro** is a calculator and formula SaaS platform built with **Next.js App Router** and **Tailwind CSS v4**.
 
-DevToolDock provides free, fast tools for developers: JSON formatter, Base64 encoder/decoder, regex tester, UUID generator, file converters, and more. All tools run in your browser.
+The app includes 100+ calculators across finance, math, physics, and health, plus SEO-focused content pages, blogs, category hubs, and subcategory hubs. All tools run in the browser with a shared dynamic calculator architecture.
 
 ## Key Features
 
-- **Next.js & Tailwind CSS:** Modern tech stack for fast, responsive development with Tailwind v4 and Next.js App Router.
-- **Developer Tools:** Format JSON, encode/decode Base64, test regex, generate UUIDs, convert files, and more.
-- **AI Tools:** AI-powered generators for code, SQL, text, and other developer utilities.
-- **SEO & Metadata:** Sitemap, robots.txt, OpenGraph, and per-page metadata configured for production.
+- **Dynamic calculator system:** Single reusable calculator template driven by `src/lib/calculators.ts` and `src/lib/calculatorEngine.ts`.
+- **Finance subcategories:** Mortgage, auto, investment, retirement, tax, loans, and general finance pages.
+- **SEO-first architecture:** Dynamic metadata, canonical URLs, OpenGraph, breadcrumbs JSON-LD, sitemap, robots, and internal linking.
+- **Content at scale:** Programmatic SEO pages and static blog posts with calculator linking.
+- **Modern UX:** Dark mode, command menu (`Cmd/Ctrl + K`) calculator search, skeleton loaders, subtle page transitions, and responsive UI.
+- **Design system:** Brand color tokens, gradient accents, and glassmorphism-inspired card styling.
 
 ## Getting Started
 
@@ -25,7 +27,7 @@ We use npm as the package manager.
 
 2. **Environment variables**
 
-   Copy `.env.example` to `.env.local` and set your variables (e.g. `NEXT_PUBLIC_SITE_URL`, `OPENAI_API_KEY` if using AI features).
+   Copy `.env.example` to `.env.local` and set your variables (for example `NEXT_PUBLIC_SITE_URL`, analytics keys, and any optional AI provider keys).
 
 3. **Development server**
 
@@ -45,10 +47,11 @@ We use npm as the package manager.
 
 ## Tech Stack
 
-- [Next.js](https://nextjs.org) App Router – routing, SEO, React Server Components
-- [Tailwind CSS](https://tailwindcss.com) v4 – styling
-- [AI SDK](https://sdk.vercel.ai/docs) – optional AI features (OpenAI and other providers)
+- [Next.js](https://nextjs.org) App Router – routing, metadata, React Server Components
+- [Tailwind CSS](https://tailwindcss.com) v4 – utility-first styling
+- [framer-motion](https://www.framer.com/motion/) – lightweight page transitions
+- [next-themes](https://github.com/pacocoursey/next-themes) – dark/light theme support
 
 ## License
 
-MIT © 2026 DevToolDock
+MIT © 2026 CalcSuite Pro

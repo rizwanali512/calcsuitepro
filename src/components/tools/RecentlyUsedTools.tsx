@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getRecentToolSlugs } from '@/lib/recent-tools-storage';
-import { getTool } from '@/lib/tools';
+import { getCalculatorBySlug } from '@/lib/calculators';
 
 const cardClass =
   'bg-white p-6 border border-gray-200 dark:bg-white/5 dark:border-white/10 rounded-[20px] shadow-[0px_30px_50px_-32px_rgba(107,110,148,0.04)] hover:border-primary-200 dark:hover:border-primary-500/30 transition flex flex-col';
@@ -16,7 +16,7 @@ export function RecentlyUsedTools() {
   }, []);
 
   const tools = slugs
-    .map((slug) => getTool(slug))
+    .map((slug) => getCalculatorBySlug(slug))
     .filter((t): t is NonNullable<typeof t> => t != null);
 
   if (tools.length === 0) return null;

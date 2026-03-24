@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { tools, type Tool } from '@/lib/tools';
+import { calculators as tools, type Calculator as Tool } from '@/lib/calculators';
 import { getCategoryDisplayName } from '@/lib/categories';
 import { cn } from '@/lib/utils';
 

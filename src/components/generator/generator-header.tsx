@@ -39,14 +39,14 @@ export default function GeneratorHeader({
                     className="block dark:hidden"
                     width={180}
                     height={30}
-                    alt="DevToolDock"
+                    alt="CalcSuite Pro"
                   />
                   <Image
                     src="/images/logo.png"
                     className="hidden dark:block"
                     width={180}
                     height={30}
-                    alt="DevToolDock"
+                    alt="CalcSuite Pro"
                   />
                 </Link>
               </div>

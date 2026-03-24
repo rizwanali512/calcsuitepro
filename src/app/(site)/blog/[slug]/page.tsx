@@ -1,155 +1,187 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-import { getBlogBySlug, getAllBlogSlugs } from '@/lib/blogs';
-import { getBaseUrl } from '@/lib/site-url';
-import { PopularTools } from '@/components/tools/PopularTools';
+import type { ReactNode } from 'react';
 
-/** Tool slugs that can be embedded in blog posts. Maps to the tool page component (reuses ToolLayout). */
-const EMBEDDABLE_TOOL_LOADERS: Record<
-  string,
-  () => Promise<{ default: React.ComponentType }>
-> = {
-  'json-formatter': () => import('../../tools/json-formatter/page'),
-  'base64-encoder': () => import('../../tools/base64-encoder/page'),
-  'url-encoder': () => import('../../tools/url-encoder/page'),
+import { blogs, getBlogBySlug } from '@/lib/blogs';
+import { getCalculatorBySlug, getPopularCalculators } from '@/lib/calculators';
+import { siteConfig } from '@/lib/seo';
+
+type Params = {
+  slug: string;
 };
 
-export function generateStaticParams() {
-  return getAllBlogSlugs().map((slug) => ({ slug }));
+type BlogPageProps = {
+  params: Promise<Params>;
+};
+
+function renderParagraphWithLinks(paragraph: string) {
+  const regex = /\[([^\]]+)\]\((\/[^)]+)\)/g;
+  const nodes: ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null = regex.exec(paragraph);
+
+  while (match) {
+    const [fullMatch, text, href] = match;
+    const start = match.index;
+
+    if (start > lastIndex) {
+      nodes.push(paragraph.slice(lastIndex, start));
+    }
+
+    nodes.push(
+      <Link key={`${href}-${start}`} href={href} className="text-primary hover:underline">
+        {text}
+      </Link>,
+    );
+
+    lastIndex = start + fullMatch.length;
+    match = regex.exec(paragraph);
+  }
+
+  if (lastIndex < paragraph.length) {
+    nodes.push(paragraph.slice(lastIndex));
+  }
+
+  return nodes;
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
+export async function generateStaticParams() {
+  return blogs.map((blog) => ({
+    slug: blog.slug,
+  }));
+}
+
+export async function generateMetadata({ params }: BlogPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogBySlug(slug);
-  if (!post)
-    return { title: 'Post not found' };
+  const blog = getBlogBySlug(slug);
 
-  const baseUrl = getBaseUrl();
-  const url = `${baseUrl}/blog/${post.slug}`;
-
-  const title =
-    post.slug === 'how-to-format-json'
-      ? 'How to Format JSON – Complete Developer Guide'
-      : post.title;
-  const description =
-    post.slug === 'how-to-format-json'
-      ? 'Learn how to format JSON, fix common JSON errors, and use online tools to clean and validate JSON data.'
-      : post.description;
+  if (!blog) {
+    return {
+      title: 'Blog Not Found',
+      description: 'The requested blog article could not be found.',
+    };
+  }
 
   return {
-    title,
-    description,
-    keywords: `${post.title}, developer tools, tutorial`,
-    robots: { index: true, follow: true },
+    title: `${blog.title} | ${siteConfig.name}`,
+    description: `${blog.description} Read more on ${siteConfig.name}.`,
+    alternates: {
+      canonical: `${siteConfig.url}/blog/${blog.slug}`,
+    },
     openGraph: {
-      title,
-      description,
+      title: `${blog.title} | ${siteConfig.name}`,
+      description: `${blog.description} Read more on ${siteConfig.name}.`,
+      url: `${siteConfig.url}/blog/${blog.slug}`,
+      siteName: siteConfig.name,
       type: 'article',
-      publishedTime: post.date,
-      authors: post.author ? [post.author] : undefined,
-      url,
-      siteName: 'DevToolDock',
     },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-    },
-    alternates: { canonical: url },
   };
 }
 
-export default async function BlogPostPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function BlogDetailPage({ params }: BlogPageProps) {
   const { slug } = await params;
-  const post = getBlogBySlug(slug);
-  if (!post) notFound();
+  const blog = getBlogBySlug(slug);
 
-  const baseUrl = getBaseUrl();
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl + '/' },
-      { '@type': 'ListItem', position: 2, name: 'Blog', item: baseUrl + '/blog' },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: post.title,
-        item: baseUrl + '/blog/' + post.slug,
-      },
-    ],
-  };
+  if (!blog) {
+    notFound();
+  }
 
-  const embedToolSlug = post.embedTool;
-  const loader =
-    embedToolSlug && EMBEDDABLE_TOOL_LOADERS[embedToolSlug]
-      ? EMBEDDABLE_TOOL_LOADERS[embedToolSlug]
-      : null;
-  const EmbeddedTool = loader ? (await loader()).default : null;
+  const paragraphs = blog.content.split('\n\n').filter(Boolean);
+  const popularCalculators = getPopularCalculators().slice(0, 6);
+  const relatedCalculatorSlugs = Array.from(
+    new Set(
+      Array.from(blog.content.matchAll(/\]\(\/([a-z0-9-]+)\)/g))
+        .map((match) => match[1])
+        .filter((slugValue) => slugValue.endsWith('calculator'))
+    )
+  ).slice(0, 5);
+  const relatedCalculators = relatedCalculatorSlugs
+    .map((slugValue) => getCalculatorBySlug(slugValue))
+    .filter((calculator) => calculator != null);
 
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <div className="wrapper py-14 md:py-28">
-        <article className="max-w-3xl mx-auto">
-          <Link
-            href="/blog"
-            className="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400 mb-6"
-          >
-            ← Back to blog
-          </Link>
-          <header className="mb-8">
-            <h1 className="mb-3 font-bold text-gray-800 dark:text-white/90 text-3xl md:text-title-lg">
-              {post.title}
-            </h1>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500 dark:text-gray-400">
-              <span>{post.author}</span>
-              <time dateTime={post.date}>
-                {new Date(post.date).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </time>
-            </div>
-          </header>
-          <div
-            className="blog-content prose prose-gray dark:prose-invert max-w-none prose-p:leading-7 prose-a:text-primary-500 prose-a:no-underline hover:prose-a:underline"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
-        </article>
+    <main className="wrapper py-14 md:py-24">
+      <article className="mx-auto max-w-5xl">
+        <header className="mb-8 text-center">
+          <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
+            <Link href="/blog" className="transition hover:text-primary-500">
+              Blog
+            </Link>{' '}
+            / {blog.title}
+          </p>
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-white/90 md:text-title-lg">
+            {blog.title}
+          </h1>
+          <p className="mx-auto mt-4 max-w-3xl leading-7 text-gray-600 dark:text-gray-300">
+            {blog.description}
+          </p>
+        </header>
 
-        {EmbeddedTool ? (
-          <section className="mt-14 md:mt-18" aria-label="Try the tool">
-            <Suspense
-              fallback={
-                <div className="max-w-5xl mx-auto py-12 flex items-center justify-center text-gray-500 dark:text-gray-400">
-                  Loading tool…
-                </div>
-              }
-            >
-              <EmbeddedTool />
-            </Suspense>
+        <div className="rounded-[20px] border border-gray-200 bg-white p-6 shadow-[0px_30px_50px_-32px_rgba(107,110,148,0.06)] dark:border-white/10 dark:bg-white/5 md:p-8">
+          <section className="space-y-5 text-base leading-8 text-gray-700 dark:text-gray-200">
+            {paragraphs.map((paragraph, index) => (
+              <p key={`${blog.slug}-paragraph-${index}`}>{renderParagraphWithLinks(paragraph)}</p>
+            ))}
           </section>
-        ) : null}
 
-        <section className="mt-14 md:mt-18">
-          <PopularTools />
-        </section>
-      </div>
-    </>
+          {relatedCalculators.length > 0 && (
+            <section className="mt-10 border-t border-gray-200 pt-8 dark:border-white/10">
+              <h2 className="mb-3 text-xl font-bold text-gray-800 dark:text-white/90">
+                Related Calculators
+              </h2>
+              <p className="mb-5 text-sm text-gray-500 dark:text-gray-400">
+                Continue this topic with practical calculator pages.
+              </p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {relatedCalculators.map((calculator) => (
+                  <Link
+                    key={calculator.slug}
+                    href={`/${calculator.slug}`}
+                    className="rounded-xl border border-gray-200 bg-white p-4 transition hover:border-primary-200 dark:border-white/10 dark:bg-white/5 dark:hover:border-primary-500/30"
+                  >
+                    <p className="font-medium text-gray-800 dark:text-white/90">{calculator.name}</p>
+                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                      {calculator.description}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <section className="mt-10 border-t border-gray-200 pt-8 dark:border-white/10">
+            <h2 className="mb-3 text-xl font-bold text-gray-800 dark:text-white/90">
+              Popular Calculators
+            </h2>
+            <p className="mb-5 text-sm text-gray-500 dark:text-gray-400">
+              Continue with practical tools after reading this guide.
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {popularCalculators.map((calculator) => (
+                <Link
+                  key={calculator.slug}
+                  href={calculator.href}
+                  className="rounded-xl border border-gray-200 bg-white p-4 transition hover:border-primary-200 dark:border-white/10 dark:bg-white/5 dark:hover:border-primary-500/30"
+                >
+                  <p className="font-medium text-gray-800 dark:text-white/90">{calculator.name}</p>
+                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    {calculator.description}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </section>
+          <div className="mt-8">
+            <Link
+              href="/blog"
+              className="inline-flex items-center justify-center rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 transition hover:border-primary-200 dark:border-white/10 dark:bg-white/5 dark:text-white/90 dark:hover:border-primary-500/30"
+            >
+              Back to all blog posts
+            </Link>
+          </div>
+        </div>
+      </article>
+    </main>
   );
 }

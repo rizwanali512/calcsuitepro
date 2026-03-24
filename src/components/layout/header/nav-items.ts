@@ -10,32 +10,27 @@ export const navItems: NavItem[] = [
   },
   {
     type: 'link',
-    label: 'Tools',
-    href: '/tools',
+    label: 'Finance Calculators',
+    href: '/finance-calculators',
   },
   {
     type: 'link',
-    label: 'AI Tools',
-    href: '/ai-tools',
+    label: 'Math Calculators',
+    href: '/math-calculators',
   },
   {
     type: 'link',
-    label: 'Categories',
-    href: '/categories',
+    label: 'Physics Calculators',
+    href: '/physics-calculators',
+  },
+  {
+    type: 'link',
+    label: 'All Calculators',
+    href: '/all-calculators',
   },
   {
     type: 'link',
     label: 'Blog',
     href: '/blog',
-  },
-  {
-    type: 'link',
-    label: 'About',
-    href: '/about',
-  },
-  {
-    type: 'link',
-    label: 'Contact',
-    href: '/contact',
   },
 ];

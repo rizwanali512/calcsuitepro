@@ -19,7 +19,7 @@ export function ShareResultButton({ toolSlug, input, output }: Props) {
       const res = await fetch('/api/tool-result', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ toolSlug, input, output }),
+        body: JSON.stringify({ slug: toolSlug, input, output }),
       });
       if (!res.ok) throw new Error('Failed to save');
       const { id } = await res.json();

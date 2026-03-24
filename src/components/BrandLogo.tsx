@@ -11,14 +11,14 @@ export default function BrandLogo() {
     >
       <Image
         src="/images/logo.png"
-        alt="DevToolDock"
+        alt="CalcSuite Pro"
         width={32}
         height={32}
         className="h-8 w-auto shrink-0"
       />
       <span className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
-        DevTool
-        <span className="text-primary-500">Dock</span>
+        CalcSuite
+        <span className="text-primary-500"> Pro</span>
       </span>
     </Link>
   );

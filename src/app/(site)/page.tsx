@@ -10,44 +10,21 @@ import { PopularTools } from '@/components/tools/PopularTools';
 import { RecentlyUsedTools } from '@/components/tools/RecentlyUsedTools';
 import { getBaseUrl } from '@/lib/site-url';
 import { features } from '@/config/features';
-import { DEFAULT_KEYWORDS } from '@/lib/seo';
 import Link from 'next/link';
-import { aiTools } from '@/lib/ai-tools';
-import { blogs } from '@/lib/blogs';
-import { getTopTools } from '@/lib/tools';
-import { CATEGORY_META } from '@/lib/categories';
+import { getTopCalculators } from '@/lib/calculators';
 
 export const metadata: Metadata = {
-  title: 'DevToolDock – Free Developer Tools & AI Utilities',
+  title: 'Free Online Calculators - CalcSuite Pro',
   description:
-    'DevToolDock provides free developer tools and AI utilities including JSON formatter, Base64 encoder, regex tester, UUID generator, and AI-powered developer tools.',
-  keywords: DEFAULT_KEYWORDS,
+    'CalcSuite Pro provides free calculators and formulas for finance, math, physics, and health with fast, accurate, easy-to-use tools.',
   alternates: { canonical: getBaseUrl() + '/' },
-  openGraph: {
-    title: 'DevToolDock – Free Developer Tools & AI Utilities',
-    description:
-      'DevToolDock provides free developer tools and AI utilities including JSON formatter, Base64 encoder, regex tester, UUID generator, and AI-powered developer tools.',
-    url: getBaseUrl() + '/',
-    type: 'website',
-    siteName: 'DevToolDock',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'DevToolDock – Free Developer Tools & AI Utilities',
-    description:
-      'DevToolDock provides free developer tools and AI utilities including JSON formatter, Base64 encoder, regex tester, UUID generator, and AI-powered developer tools.',
-  },
 };
 
 const cardClass =
-  'bg-white p-6 border border-gray-200 dark:bg-white/5 dark:border-white/10 rounded-[20px] shadow-[0px_30px_50px_-32px_rgba(107,110,148,0.04)] hover:border-primary-200 dark:hover:border-primary-500/30 transition flex flex-col';
+  'glass-card p-6 rounded-2xl hover:scale-[1.02] hover:shadow-2xl transition-all duration-300 flex flex-col';
 
 export default async function Home() {
-  const topTools = getTopTools();
-  const topAi = aiTools.slice(0, 6);
-  const topBlogs = [...blogs]
-    .sort((a, b) => (a.date < b.date ? 1 : -1))
-    .slice(0, 6);
+  const topTools = getTopCalculators();
 
   return (
     <>
@@ -61,15 +38,18 @@ export default async function Home() {
         <RecentlyUsedTools />
 
         <div className="max-w-5xl mx-auto w-full">
+          <p className="mb-5 text-sm text-gray-500 dark:text-gray-400">
+            Used by thousands of users worldwide.
+          </p>
           <div className="flex items-end justify-between gap-4 mb-6">
             <h2 className="text-xl font-bold text-gray-800 dark:text-white/90">
-              Top tools
+              Featured Calculators
             </h2>
             <Link
-              href="/tools"
+              href="/free-calculators"
               className="text-sm font-medium text-primary-500 hover:text-primary-600 hover:underline"
             >
-              Browse all tools
+              Browse all calculators
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -83,9 +63,9 @@ export default async function Home() {
                 </p>
                 <Link
                   href={t.href}
-                  className="mt-4 inline-flex items-center justify-center px-5 py-3 text-sm font-medium text-white rounded-full bg-primary-500 hover:bg-primary-600 transition w-fit"
+                  className="mt-4 inline-flex items-center justify-center px-5 py-3 text-sm font-medium text-white rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 hover:scale-105 transition-all duration-300 shadow-md w-fit"
                 >
-                  Open tool
+                  Open calculator
                 </Link>
               </div>
             ))}
@@ -99,105 +79,34 @@ export default async function Home() {
         <div className="mt-14 md:mt-18 max-w-5xl mx-auto w-full">
           <div className="flex items-end justify-between gap-4 mb-6">
             <h2 className="text-xl font-bold text-gray-800 dark:text-white/90">
-              Popular Developer Tools
+              Popular Calculators
             </h2>
             <Link
-              href="/free-developer-tools"
+              href="/all-calculators"
               className="text-sm font-medium text-primary-500 hover:text-primary-600 hover:underline"
             >
-              Explore tool hubs
+              View popular calculator pages
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                href: '/free-developer-tools',
-                title: 'Free Developer Tools',
-                description:
-                  'A broad hub linking top free online coding utilities and debugging tools.',
-              },
-              {
-                href: '/json-tools-online',
-                title: 'JSON Tools Online',
-                description:
-                  'Formatter, validator, minifier, diff, and converters for JSON workflows.',
-              },
-              {
-                href: '/regex-tools',
-                title: 'Regex Tools',
-                description:
-                  'Tester, generator, explainer, and text utilities for regex debugging.',
-              },
-              {
-                href: '/encoding-tools',
-                title: 'Encoding Tools',
-                description:
-                  'Base64, URL, and HTML encoding/decoding tools for transport-safe data.',
-              },
-              {
-                href: '/developer-utilities',
-                title: 'Developer Utilities',
-                description:
-                  'Lookups, validators, generators, and parsers for day-to-day engineering tasks.',
-              },
-            ].map((hub) => (
-              <article key={hub.href} className={cardClass}>
-                <h3 className="mb-2 text-lg font-bold text-gray-800 dark:text-white/90">
-                  {hub.title}
-                </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400 leading-6 flex-1">
-                  {hub.description}
-                </p>
+          <div className="flex flex-wrap gap-2">
+            {getTopCalculators()
+              .slice(0, 8)
+              .map((tool) => (
                 <Link
-                  href={hub.href}
-                  className="mt-4 inline-flex items-center justify-center px-5 py-3 text-sm font-medium text-white rounded-full bg-primary-500 hover:bg-primary-600 transition w-fit"
+                  key={tool.slug}
+                  href={tool.href}
+                  className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white/90 bg-white dark:bg-white/5 hover:border-primary-200 dark:hover:border-primary-500/30 transition"
                 >
-                  Open hub
+                  {tool.name}
                 </Link>
-              </article>
-            ))}
+              ))}
           </div>
         </div>
 
         <div className="mt-14 md:mt-18 max-w-5xl mx-auto w-full">
           <div className="flex items-end justify-between gap-4 mb-6">
             <h2 className="text-xl font-bold text-gray-800 dark:text-white/90">
-              Top AI tools
-            </h2>
-            <Link
-              href="/ai-tools"
-              className="text-sm font-medium text-primary-500 hover:text-primary-600 hover:underline"
-            >
-              View all AI tools
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {topAi.map((t) => (
-              <div
-                key={t.slug}
-                className="bg-white p-6 border border-gray-200 dark:bg-white/5 dark:border-white/10 rounded-[20px] shadow-[0px_30px_50px_-32px_rgba(107,110,148,0.04)] hover:border-primary-200 dark:hover:border-primary-500/30 transition flex flex-col"
-              >
-                <h3 className="mb-2 text-lg font-bold text-gray-800 dark:text-white/90">
-                  {t.name}
-                </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400 leading-6 flex-1">
-                  {t.description}
-                </p>
-                <Link
-                  href={`/ai/${t.slug}`}
-                  className="mt-4 inline-flex items-center justify-center px-5 py-3 text-sm font-medium text-white rounded-full bg-primary-500 hover:bg-primary-600 transition w-fit"
-                >
-                  Open Tool
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-14 md:mt-18 max-w-5xl mx-auto w-full">
-          <div className="flex items-end justify-between gap-4 mb-6">
-            <h2 className="text-xl font-bold text-gray-800 dark:text-white/90">
-              Categories
+              Calculator Categories
             </h2>
             <Link
               href="/categories"
@@ -206,22 +115,47 @@ export default async function Home() {
               View all categories
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {CATEGORY_META.map((c) => (
-              <div key={c.slug} className={cardClass}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                href: '/finance-calculators',
+                name: 'Finance Calculators',
+                description:
+                  'Calculate EMI, interest, and common finance formulas.',
+              },
+              {
+                href: '/math-calculators',
+                name: 'Math Calculators',
+                description:
+                  'Solve percentage and core math formulas quickly.',
+              },
+              {
+                href: '/physics-calculators',
+                name: 'Physics Calculators',
+                description:
+                  'Compute motion and mechanics formulas in seconds.',
+              },
+              {
+                href: '/health-calculators',
+                name: 'Health Calculators',
+                description:
+                  'Track BMI, calorie, and wellness metrics with clear formulas.',
+              },
+            ].map((hub) => (
+              <article key={hub.href} className={cardClass}>
                 <h3 className="mb-2 text-lg font-bold text-gray-800 dark:text-white/90">
-                  {c.name}
+                  {hub.name}
                 </h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400 leading-6 flex-1">
-                  {c.description}
+                  {hub.description}
                 </p>
                 <Link
-                  href={`/category/${c.slug}`}
-                  className="mt-4 inline-flex items-center justify-center px-5 py-3 text-sm font-medium text-white rounded-full bg-primary-500 hover:bg-primary-600 transition w-fit"
+                  href={hub.href}
+                  className="mt-4 inline-flex items-center justify-center px-5 py-3 text-sm font-medium text-white rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 hover:scale-105 transition-all duration-300 shadow-md w-fit"
                 >
-                  View tools
+                  View calculators
                 </Link>
-              </div>
+              </article>
             ))}
           </div>
         </div>
@@ -229,37 +163,51 @@ export default async function Home() {
         <div className="mt-14 md:mt-18 max-w-5xl mx-auto w-full">
           <div className="flex items-end justify-between gap-4 mb-6">
             <h2 className="text-xl font-bold text-gray-800 dark:text-white/90">
-              Latest guides
+              Finance Subcategories
             </h2>
             <Link
-              href="/blog"
+              href="/finance-calculators"
               className="text-sm font-medium text-primary-500 hover:text-primary-600 hover:underline"
             >
-              Read the blog
+              View finance calculators
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {topBlogs.map((post) => (
-              <article
-                key={post.slug}
-                className="bg-white p-6 border border-gray-200 dark:bg-white/5 dark:border-white/10 rounded-[20px] shadow-[0px_30px_50px_-32px_rgba(107,110,148,0.04)] hover:border-primary-200 dark:hover:border-primary-500/30 transition flex flex-col"
-              >
+            {[
+              {
+                href: '/mortgage-calculators',
+                name: 'Mortgage Calculators',
+                description: 'Plan EMI, refinancing, payoff, and affordability scenarios.',
+              },
+              {
+                href: '/investment-calculators',
+                name: 'Investment Calculators',
+                description: 'Estimate compounding, ROI, and future value growth.',
+              },
+              {
+                href: '/loan-calculators',
+                name: 'Loan Calculators',
+                description: 'Compare loan repayment options and debt payoff plans.',
+              },
+            ].map((hub) => (
+              <article key={hub.href} className={cardClass}>
                 <h3 className="mb-2 text-lg font-bold text-gray-800 dark:text-white/90">
-                  {post.title}
+                  {hub.name}
                 </h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400 leading-6 flex-1">
-                  {post.description}
+                  {hub.description}
                 </p>
                 <Link
-                  href={`/blog/${post.slug}`}
-                  className="mt-4 inline-flex items-center justify-center px-5 py-3 text-sm font-medium text-white rounded-full bg-primary-500 hover:bg-primary-600 transition w-fit"
+                  href={hub.href}
+                  className="mt-4 inline-flex items-center justify-center px-5 py-3 text-sm font-medium text-white rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 hover:scale-105 transition-all duration-300 shadow-md w-fit"
                 >
-                  Read article
+                  View calculators
                 </Link>
               </article>
             ))}
           </div>
         </div>
+
       </section>
       <FaqAccordion />
     </>

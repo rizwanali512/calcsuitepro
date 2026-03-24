@@ -10,7 +10,9 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="inline-flex items-center justify-center size-11 rounded-full bg-[#F2F4F7] dark:bg-white/5 text-[#667085] dark:text-white/60 hover:text-gray-800 dark:hover:text-white/90 hover:bg-gray-100 dark:hover:bg-white/10"
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      className="inline-flex items-center justify-center size-11 rounded-full border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-200 hover:text-slate-800 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700 transition"
     >
       <svg
         className="size-5 dark:inline hidden"

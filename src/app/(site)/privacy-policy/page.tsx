@@ -1,21 +1,22 @@
 import type { Metadata } from 'next';
 import { getBaseUrl } from '@/lib/site-url';
+import { siteConfig } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description:
-    'Privacy policy for our developer tools platform. Learn how we collect, use, and protect your information.',
-  keywords: 'privacy policy, developer tools, data protection',
+    'Privacy policy for our calculator platform. Learn how we collect, use, and protect your information.',
+  keywords: 'privacy policy, calculators, data protection',
   alternates: { canonical: getBaseUrl() + '/privacy-policy' },
   openGraph: {
     title: 'Privacy Policy',
     description:
-      'Privacy policy for our developer tools platform. Learn how we collect, use, and protect your information.',
+      'Privacy policy for our calculator platform. Learn how we collect, use, and protect your information.',
     url: getBaseUrl() + '/privacy-policy',
     type: 'website',
-    siteName: 'DevToolDock',
+    siteName: siteConfig.name,
   },
-  twitter: { card: 'summary_large_image', title: 'Privacy Policy', description: 'Privacy policy for our developer tools platform.' },
+  twitter: { card: 'summary_large_image', title: 'Privacy Policy', description: 'Privacy policy for our calculator platform.' },
 };
 
 export default function PrivacyPolicyPage() {
@@ -36,8 +37,7 @@ export default function PrivacyPolicyPage() {
             </h2>
             <p>
               This Privacy Policy describes how we collect, use, and protect
-              information when you use our developer tools platform. Our tools
-              are designed with privacy in mind: most tools run entirely in your
+              information when you use our calculator platform. Most calculators run entirely in your
               browser and do not send your data to our servers.
             </p>
           </section>
@@ -49,10 +49,8 @@ export default function PrivacyPolicyPage() {
             <p>
               We may collect information you provide directly (e.g., account
               registration, contact forms) and automatically (e.g., usage data,
-              cookies). When you use our developer tools—such as the JSON
-              formatter, Base64 encoder, or converters—input and output are
-              processed in your browser. We do not store or transmit the content
-              you paste or generate in these tools.
+              cookies). When you use our calculators, inputs are processed in your browser.
+              We do not store or transmit the content you enter into calculations.
             </p>
           </section>
 
@@ -96,9 +94,8 @@ export default function PrivacyPolicyPage() {
             </h2>
             <p>
               We take reasonable measures to protect your information. Because
-              our tools run in the browser and do not store user data, the
-              content you process in tools (e.g., JSON, text, encoded data) is
-              not retained on our systems.
+              many calculator workflows run in the browser and do not store user data,
+              the content you process is not retained on our systems.
             </p>
           </section>
 

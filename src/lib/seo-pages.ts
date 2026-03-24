@@ -1,5 +1,5 @@
-import type { Tool } from '@/lib/tools';
-import { tools } from '@/lib/tools';
+import type { Calculator as Tool } from '@/lib/calculators';
+import { calculators as tools } from '@/lib/calculators';
 
 export const SEO_PAGE_SLUGS = [
   'json-tools-online',
@@ -29,7 +29,7 @@ const configs: SeoPageConfig[] = [
     slug: 'json-tools-online',
     title: 'JSON Tools Online',
     description:
-      'Browse the best JSON tools including JSON formatter, validator, and converters available on DevToolDock.',
+      'Browse the best JSON tools including JSON formatter, validator, and converters available on CalcSuite Pro.',
     metaDescription:
       'Use free JSON tools online including JSON formatter and JSON converters built for developers.',
     category: 'json',
@@ -47,7 +47,7 @@ const configs: SeoPageConfig[] = [
     slug: 'base64-tools',
     title: 'Base64 Tools',
     description:
-      'Encode and decode Base64 online. Use our Base64 encoder and decoder plus image-to-Base64 tools on DevToolDock.',
+      'Encode and decode Base64 online. Use our Base64 encoder and decoder plus image-to-Base64 tools on CalcSuite Pro.',
     metaDescription:
       'Free Base64 encoder and decoder online. Encode, decode, and convert images to Base64 in your browser.',
     category: null,
@@ -69,7 +69,7 @@ const configs: SeoPageConfig[] = [
     slug: 'free-developer-tools',
     title: 'Free Developer Tools',
     description:
-      'Use the best free developer tools on DevToolDock—JSON, Base64, regex, JWT, UUID, and dozens more. No account required.',
+      'Use the best free developer tools on CalcSuite Pro—JSON, Base64, regex, JWT, UUID, and dozens more. No account required.',
     metaDescription:
       'Free developer tools including JSON formatter, Base64 encoder, regex tester, and more. No sign-up.',
     category: null,
@@ -79,7 +79,7 @@ const configs: SeoPageConfig[] = [
     slug: 'best-developer-tools',
     title: 'Best Developer Tools',
     description:
-      'Curated collection of the best developer tools: formatters, validators, encoders, and converters. Free and fast on DevToolDock.',
+      'Curated collection of the best developer tools: formatters, validators, encoders, and converters. Free and fast on CalcSuite Pro.',
     metaDescription:
       'Best free developer tools online: JSON formatter, Base64, regex, JWT decoder, and more for developers.',
     category: null,

@@ -1,21 +1,22 @@
 import type { Metadata } from 'next';
 import { getBaseUrl } from '@/lib/site-url';
+import { siteConfig } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'Terms & Conditions',
   description:
-    'Terms and conditions for using our developer tools platform. Use of tools, intellectual property, and disclaimers.',
-  keywords: 'terms and conditions, developer tools, legal',
+    'Terms and conditions for using our calculator platform. Use of calculators, intellectual property, and disclaimers.',
+  keywords: 'terms and conditions, calculators, legal',
   alternates: { canonical: getBaseUrl() + '/terms' },
   openGraph: {
     title: 'Terms & Conditions',
     description:
-      'Terms and conditions for using our developer tools platform. Use of tools, intellectual property, and disclaimers.',
+      'Terms and conditions for using our calculator platform. Use of calculators, intellectual property, and disclaimers.',
     url: getBaseUrl() + '/terms',
     type: 'website',
-    siteName: 'DevToolDock',
+    siteName: siteConfig.name,
   },
-  twitter: { card: 'summary_large_image', title: 'Terms & Conditions', description: 'Terms and conditions for using our developer tools platform.' },
+  twitter: { card: 'summary_large_image', title: 'Terms & Conditions', description: 'Terms and conditions for using our calculator platform.' },
 };
 
 export default function TermsPage() {
@@ -35,7 +36,7 @@ export default function TermsPage() {
               Acceptance of terms
             </h2>
             <p>
-              By accessing or using this developer tools platform, you agree to
+              By accessing or using this calculator platform, you agree to
               these Terms &amp; Conditions. If you do not agree, please do not
               use the platform.
             </p>
@@ -43,14 +44,13 @@ export default function TermsPage() {
 
           <section>
             <h2 className="mb-3 text-xl font-bold text-gray-800 dark:text-white/90">
-              Use of tools
+              Use of calculators
             </h2>
             <p>
-              Our tools are provided for educational and developer utility
-              purposes. You may use them to format, convert, encode, decode, and
-              otherwise process data in accordance with applicable laws. You are
-              responsible for ensuring that your use of the tools and any data
-              you input complies with your own policies and regulations.
+              Our calculators are provided for educational and general utility
+              purposes. You may use them in accordance with applicable laws. You
+              are responsible for ensuring your usage and any data you input
+              complies with your own policies and regulations.
             </p>
           </section>
 
@@ -63,7 +63,7 @@ export default function TermsPage() {
               user-provided data), is owned by us or our licensors. You may not
               copy, modify, or distribute our materials without permission. You
               retain rights to the content you create or input when using the
-              tools.
+              calculators.
             </p>
           </section>
 
@@ -72,9 +72,9 @@ export default function TermsPage() {
               Disclaimer of warranties
             </h2>
             <p>
-              The platform and tools are provided &quot;as is&quot; and
+              The platform and calculators are provided &quot;as is&quot; and
               &quot;as available&quot; without warranties of any kind, express or
-              implied. We do not guarantee that the tools will be error-free,
+              implied. We do not guarantee that the calculators will be error-free,
               secure, or suitable for any particular purpose. Use them at your
               own risk.
             </p>
@@ -87,7 +87,7 @@ export default function TermsPage() {
             <p>
               To the fullest extent permitted by law, we are not liable for any
               indirect, incidental, special, or consequential damages arising
-              from your use of the platform or tools. Our total liability shall
+              from your use of the platform or calculators. Our total liability shall
               not exceed the amount you paid to use the service, if any.
             </p>
           </section>

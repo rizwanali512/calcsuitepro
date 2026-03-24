@@ -1,4 +1,3 @@
-import { getCurrentYear } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { features } from "@/config/features";
@@ -47,16 +46,21 @@ export default function Footer() {
           <div className="grid gap-y-8 gap-x-6 lg:grid-cols-12">
             <div className="lg:col-span-3 xl:col-span-4">
               <div>
-                <Link href="/" className="block mb-6">
+                <Link href="/" className="mb-6 inline-flex items-center gap-2.5 whitespace-nowrap transition-opacity hover:opacity-90">
                   <Image
-                    src="/images/logo-white.svg"
-                    alt="DevToolDock - Free Developer Tools & AI Utilities"
-                    width={128}
+                    src="/images/logo.png"
+                    alt="CalcSuite Pro"
+                    width={32}
                     height={32}
+                    className="h-8 w-auto shrink-0"
                   />
+                  <span className="text-lg font-semibold tracking-tight text-white">
+                    CalcSuite
+                    <span className="text-primary-400"> Pro</span>
+                  </span>
                 </Link>
                 <p className="block text-sm text-gray-400 mb-9">
-                  Free Developer Tools & AI Utilities
+                  Interactive Calculator & Formula Platform
                 </p>
               </div>
             </div>
@@ -68,58 +72,58 @@ export default function Footer() {
                   </span>
                   <nav className="flex flex-col space-y-3">
                     <Link
-                      href="/tools"
+                      href="/all-calculators"
                       className="text-sm font-normal text-gray-400 transition hover:text-white"
                     >
-                      Tools
+                      All Calculators
                     </Link>
                     <Link
-                      href="/ai-tools"
+                      href="/finance-calculators"
                       className="text-sm font-normal text-gray-400 transition hover:text-white"
                     >
-                      AI Tools
+                      Finance Calculators
                     </Link>
                     <Link
-                      href="/categories"
+                      href="/math-calculators"
                       className="text-sm font-normal text-gray-400 transition hover:text-white"
                     >
-                      Categories
+                      Math Calculators
+                    </Link>
+                    <Link
+                      href="/physics-calculators"
+                      className="text-sm font-normal text-gray-400 transition hover:text-white"
+                    >
+                      Physics Calculators
+                    </Link>
+                    <Link
+                      href="/health-calculators"
+                      className="text-sm font-normal text-gray-400 transition hover:text-white"
+                    >
+                      Health Calculators
+                    </Link>
+                    <Link
+                      href="/mortgage-calculators"
+                      className="text-sm font-normal text-gray-400 transition hover:text-white"
+                    >
+                      Mortgage Calculators
+                    </Link>
+                    <Link
+                      href="/investment-calculators"
+                      className="text-sm font-normal text-gray-400 transition hover:text-white"
+                    >
+                      Investment Calculators
+                    </Link>
+                    <Link
+                      href="/loan-calculators"
+                      className="text-sm font-normal text-gray-400 transition hover:text-white"
+                    >
+                      Loan Calculators
                     </Link>
                     <Link
                       href="/blog"
                       className="text-sm font-normal text-gray-400 transition hover:text-white"
                     >
                       Blog
-                    </Link>
-                    <Link
-                      href="/free-developer-tools"
-                      className="text-sm font-normal text-gray-400 transition hover:text-white"
-                    >
-                      Free Developer Tools
-                    </Link>
-                    <Link
-                      href="/json-tools-online"
-                      className="text-sm font-normal text-gray-400 transition hover:text-white"
-                    >
-                      JSON Tools Online
-                    </Link>
-                    <Link
-                      href="/regex-tools"
-                      className="text-sm font-normal text-gray-400 transition hover:text-white"
-                    >
-                      Regex Tools
-                    </Link>
-                    <Link
-                      href="/encoding-tools"
-                      className="text-sm font-normal text-gray-400 transition hover:text-white"
-                    >
-                      Encoding Tools
-                    </Link>
-                    <Link
-                      href="/developer-utilities"
-                      className="text-sm font-normal text-gray-400 transition hover:text-white"
-                    >
-                      Developer Utilities
                     </Link>
                   </nav>
                 </div>
@@ -155,6 +159,24 @@ export default function Footer() {
                     Legal
                   </span>
                   <nav className="flex flex-col space-y-3">
+                    <Link
+                      href="/compound-interest-calculator"
+                      className="text-sm font-normal text-gray-400 transition hover:text-white"
+                    >
+                      Compound Interest Calculator
+                    </Link>
+                    <Link
+                      href="/emi-calculator"
+                      className="text-sm font-normal text-gray-400 transition hover:text-white"
+                    >
+                      EMI Calculator
+                    </Link>
+                    <Link
+                      href="/bmi-calculator"
+                      className="text-sm font-normal text-gray-400 transition hover:text-white"
+                    >
+                      BMI Calculator
+                    </Link>
                     <Link
                       href="/terms"
                       className="text-sm font-normal text-gray-400 transition hover:text-white"
@@ -207,7 +229,7 @@ export default function Footer() {
         <div className="container relative z-10 px-5 mx-auto sm:px-7">
           <div className="py-5 text-center">
             <p className="text-sm text-gray-500">
-              &copy; {getCurrentYear()} DevToolDock. All rights reserved.
+              &copy; 2026 CalcSuite Pro. All rights reserved.
             </p>
           </div>
         </div>

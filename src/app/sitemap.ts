@@ -1,156 +1,62 @@
 import type { MetadataRoute } from 'next';
-import { tools } from '@/lib/tools';
-import { aiTools } from '@/lib/ai-tools';
-import { CATEGORY_META } from '@/lib/categories';
-import { getBlogBySlug, getAllBlogSlugs } from '@/lib/blogs';
-import { getBaseUrl } from '@/lib/site-url';
-import { SEO_PAGE_SLUGS } from '@/lib/seo-pages';
-import { COMPARE_PAGE_SLUGS } from '@/lib/compare-pages';
-import { SEO_PAGES_PUBLISHED } from '@/lib/seoPages';
 
-/** Highest-priority tool URLs for crawling (matches SEO landing priorities). */
-const SITEMAP_PRIORITY_TOOLS = new Set([
-  'json-formatter',
-  'base64-encoder',
-  'regex-tester',
-  'jwt-decoder',
-]);
+import { blogs } from '@/lib/blogs';
+import { calculators } from '@/lib/calculators';
+import { CATEGORY_META } from '@/lib/categories';
+import { COMPARE_PAGE_SLUGS } from '@/lib/compare-pages';
+import { siteConfig } from '@/lib/seo';
+import { SEO_PAGE_SLUGS } from '@/lib/seo-pages';
+import { seoPages } from '@/lib/seoPages';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = getBaseUrl();
+  const baseUrl = siteConfig.url;
   const lastModified = new Date();
 
-  const landingPages: string[] = [
-    '/json-tools-online',
-    '/regex-tools',
-    '/base64-tools',
-    '/free-developer-tools',
-    '/developer-utilities',
-    '/online-developer-tools',
-    '/best-json-formatters',
-    '/best-regex-tools',
-    '/encoding-tools',
-    '/text-tools',
-    '/ai-developer-tools',
+  const staticPaths = [
+    '/',
+    '/about',
+    '/contact',
+    '/all-calculators',
+    '/categories',
+    '/free-calculators',
+    '/finance-calculators',
+    '/math-calculators',
+    '/physics-calculators',
+    '/health-calculators',
+    '/mortgage-calculators',
+    '/auto-calculators',
+    '/investment-calculators',
+    '/retirement-calculators',
+    '/tax-calculators',
+    '/loan-calculators',
+    '/general-finance-calculators',
+    '/finance-tools',
+    '/math-tools',
+    '/privacy-policy',
+    '/terms',
+    '/blog',
   ];
 
-  const corePages: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 1.0,
-    },
-    {
-      url: `${baseUrl}/tools`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/ai-tools`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/categories`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/all-tools`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/privacy-policy`,
-      lastModified,
-      changeFrequency: 'monthly',
-      priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/terms`,
-      lastModified,
-      changeFrequency: 'monthly',
-      priority: 0.3,
-    },
-    ...landingPages.map((p) => ({
-      url: `${baseUrl}${p}`,
-      lastModified,
-      changeFrequency: 'weekly' as const,
-      priority: 0.6,
-    })),
+  const calculatorPaths = calculators.map((calculator) => `/${calculator.slug}`);
+  const seoPaths = seoPages.map((seoPage) => `/${seoPage.slug}`);
+  const blogPaths = blogs.map((blog) => `/blog/${blog.slug}`);
+  const categoryPaths = CATEGORY_META.map((category) => `/category/${category.slug}`);
+  const comparePaths = COMPARE_PAGE_SLUGS.map((slug) => `/compare/${slug}`);
+  const seoLandingPaths = SEO_PAGE_SLUGS.map((slug) => `/seo/${slug}`);
+
+  const allPaths = [
+    ...staticPaths,
+    ...calculatorPaths,
+    ...seoPaths,
+    ...blogPaths,
+    ...categoryPaths,
+    ...comparePaths,
+    ...seoLandingPaths,
   ];
+  const uniquePaths = Array.from(new Set(allPaths));
 
-  const blogPages: MetadataRoute.Sitemap = getAllBlogSlugs().map((slug) => {
-    const post = getBlogBySlug(slug);
-    return {
-      url: `${baseUrl}/blog/${slug}`,
-      lastModified: post ? new Date(post.date) : lastModified,
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    };
-  });
-
-  const developerToolPages: MetadataRoute.Sitemap = tools.map((tool) => ({
-    url: `${baseUrl}/${tool.slug}`,
+  return uniquePaths.map((path) => ({
+    url: `${baseUrl}${path}`,
     lastModified,
-    changeFrequency: 'weekly' as const,
-    priority: SITEMAP_PRIORITY_TOOLS.has(tool.slug) ? 1.0 : 0.9,
   }));
-
-  const aiToolPages: MetadataRoute.Sitemap = aiTools.map((tool) => ({
-    url: `${baseUrl}/ai/${tool.slug}`,
-    lastModified,
-    changeFrequency: 'weekly' as const,
-    priority: 0.9,
-  }));
-
-  const categoryPages: MetadataRoute.Sitemap = CATEGORY_META.map((cat) => ({
-    url: `${baseUrl}/category/${cat.slug}`,
-    lastModified,
-    changeFrequency: 'weekly' as const,
-    priority: 0.7,
-  }));
-
-  const seoPages: MetadataRoute.Sitemap = SEO_PAGE_SLUGS.map((slug) => ({
-    url: `${baseUrl}/seo/${slug}`,
-    lastModified,
-    changeFrequency: 'weekly' as const,
-    priority: 0.7,
-  }));
-
-  const programmaticSeoPages: MetadataRoute.Sitemap = SEO_PAGES_PUBLISHED.map((page) => ({
-    url: `${baseUrl}/${page.slug}`,
-    lastModified,
-    changeFrequency: 'weekly' as const,
-    priority: 0.75,
-  }));
-
-  const comparePages: MetadataRoute.Sitemap = COMPARE_PAGE_SLUGS.map((slug) => ({
-    url: `${baseUrl}/compare/${slug}`,
-    lastModified,
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }));
-
-  return [
-    ...corePages,
-    ...developerToolPages,
-    ...aiToolPages,
-    ...categoryPages,
-    ...seoPages,
-    ...programmaticSeoPages,
-    ...comparePages,
-    ...blogPages,
-  ];
 }

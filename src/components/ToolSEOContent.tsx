@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { tools } from '@/lib/tools';
+import { calculators as tools } from '@/lib/calculators';
 import { categoryToSlug, getCategoryDisplayName } from '@/lib/categories';
 import { buildToolSeoSpec } from '@/lib/tool-seo';
 import { isPriorityToolSlug } from '@/lib/priority-tools-seo';

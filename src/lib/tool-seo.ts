@@ -1,4 +1,4 @@
-import { tools } from '@/lib/tools';
+import { calculators as tools } from '@/lib/calculators';
 import { getPriorityToolSeoSpec } from '@/lib/priority-tools-seo';
 
 /** High-level SEO cluster (ToolBaz-style grouping). */
@@ -35,7 +35,7 @@ function wordyIntro(
   clusterHint: string
 ): string {
   return (
-    `${title} is a free online developer tool on DevToolDock. ${description} ` +
+    `${title} is a free online developer tool on CalcSuite Pro. ${description} ` +
     `It helps you work faster in the browser without installing software—ideal when you need reliable output for debugging, documentation, or everyday engineering tasks. ` +
     `${clusterHint} ` +
     `Use it as part of a simple workflow: paste or upload your input, run the tool, then copy the result into your editor, ticket, or CI notes. ` +
@@ -193,7 +193,7 @@ function defaultSpec(
       `Fast ${title} results in your browser`,
       'Clear output you can copy into code or docs',
       'Designed as a practical free developer tool',
-      'Works well alongside other DevToolDock formatters and validators',
+      'Works well alongside other CalcSuite Pro formatters and validators',
     ],
     useCases: [
       `Use ${title} for day-to-day developer tasks without local setup`,
@@ -207,7 +207,7 @@ function defaultSpec(
     faqs: [
       {
         q: `Is ${title} free to use?`,
-        a: 'Yes. DevToolDock offers this as a free online developer tool.',
+        a: 'Yes. CalcSuite Pro offers this as a free online developer tool.',
       },
       {
         q: `Does ${title} run in the browser?`,
@@ -219,7 +219,7 @@ function defaultSpec(
       },
       {
         q: `Where can I find related utilities?`,
-        a: 'Browse your category page, Popular Tools, and the full tools directory on DevToolDock.',
+        a: 'Browse your category page, Popular Tools, and the full tools directory on CalcSuite Pro.',
       },
       {
         q: `Can I use this for production data?`,

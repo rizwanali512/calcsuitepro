@@ -4,7 +4,32 @@
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
+:root {
+  --primary: #4f46e5;
+  --primary-2: #7c3aed;
+  --primary-3: #2563eb;
+
+  --accent: #14b8a6;
+  --accent-2: #06b6d4;
+
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+}
+
+.dark,
+[data-theme="dark"] {
+  --bg: #020617;
+  --card: #0f172a;
+  --text: #e2e8f0;
+}
+
 @layer base {
+  body {
+    background: var(--bg);
+    color: var(--text);
+  }
+
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
@@ -78,11 +103,11 @@
 
 /* Brand → accent gradient (hero / highlights) */
 .bg-gradient-brand-accent {
-  background-image: linear-gradient(to right, #7a5af8, #22c55e);
+  background-image: linear-gradient(to right, var(--primary), var(--primary-2));
 }
 
 .button-bg {
-  background-image: linear-gradient(97deg, #7a5af8 0%, #6941c6 100%);
+  background-image: linear-gradient(97deg, var(--primary) 0%, var(--primary-2) 100%);
 }
 
 .tab-img-bg {
@@ -279,7 +304,7 @@
 }
 
 .gradient-btn {
-  background-image: linear-gradient(97deg, #7a5af8 0%, #6941c6 100%);
+  background-image: linear-gradient(97deg, var(--primary) 0%, var(--primary-2) 100%);
   color: white;
   background-size: 200% auto;
   background-position: 0% center;
@@ -290,8 +315,51 @@
 }
 
 .gradient-btn:hover {
-  background-image: linear-gradient(97deg, #6941c6 0%, #7a5af8 100%);
+  background-image: linear-gradient(97deg, var(--primary-2) 0%, var(--primary) 100%);
   background-position: 100% center;
+}
+
+.brand-card {
+  background: var(--card);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.brand-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.12);
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradientMove 8s ease infinite;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 40px -20px rgba(15, 23, 42, 0.25);
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .floating {
