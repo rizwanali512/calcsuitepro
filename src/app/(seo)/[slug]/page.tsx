@@ -64,7 +64,7 @@ export default async function SeoCalculatorPage({ params }: PageProps) {
   const webAppSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: siteConfig.name,
+    name: title,
     url: `${getBaseUrl()}/${slug}`,
     applicationCategory: 'Calculator',
     operatingSystem: 'All',

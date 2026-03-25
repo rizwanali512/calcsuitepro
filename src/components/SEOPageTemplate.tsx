@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import type { SeoPageEntry } from '@/lib/seoPages';
+import type { SeoPage } from '@/lib/seoPages';
 import type { Calculator as Tool } from '@/lib/calculators';
 import { getCategoryDisplayName } from '@/lib/categories';
 
 type Props = {
-  page: SeoPageEntry;
+  page: SeoPage;
   baseTool: Tool;
   relatedTools: Tool[];
   content: string[];
@@ -25,7 +25,7 @@ export function SEOPageTemplate({
   faq,
   embeddedTool,
 }: Props) {
-  const categoryLabel = getCategoryDisplayName(page.category);
+  const categoryLabel = getCategoryDisplayName(baseTool.category);
 
   return (
     <div className="wrapper py-14 md:py-28">
@@ -113,7 +113,7 @@ export function SEOPageTemplate({
               Base tool
             </Link>
             <Link
-              href={`/category/${page.category}`}
+              href={`/category/${baseTool.category}`}
               className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-full border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white/90 bg-white dark:bg-white/5 hover:border-primary-200 dark:hover:border-primary-500/30 transition"
             >
               {categoryLabel}

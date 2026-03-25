@@ -157,7 +157,6 @@ const handlers: Record<string, Handler> = {
     // Prevent unsupported tokens and consecutive unsafe operators.
     if (/([A-Za-z]|[=,;:{}[\]])/.test(safeExpression)) return null;
 
-    // eslint-disable-next-line no-new-func
     const result = Function(`"use strict"; return (${safeExpression});`)();
     return typeof result === 'number' && Number.isFinite(result) ? result : null;
   },

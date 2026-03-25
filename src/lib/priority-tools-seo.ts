@@ -108,12 +108,7 @@ export function getPriorityToolMetadata(slug: string): {
   return map[slug] ?? null;
 }
 
-export function getPriorityToolSeoSpec(
-  slug: string,
-  title: string,
-  _description: string,
-  _category: string
-): ToolSeoSpec | null {
+export function getPriorityToolSeoSpec(slug: string): ToolSeoSpec | null {
   switch (slug) {
     case 'json-formatter':
       return {

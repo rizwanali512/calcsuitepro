@@ -149,7 +149,10 @@ export default function CalculatorTemplate({ calculator }: Props) {
   }, [calculator.slug]);
   const breadcrumbs = useMemo(() => {
     const categoryCrumb = categoryPaths[calculator.category];
-    const items: Array<{ name: string; href: string }> = [{ name: 'Home', href: '/' }, categoryCrumb];
+    const items: Array<{ name: string; href: string }> = [
+      { name: 'Home', href: '/' },
+      { name: categoryCrumb.label, href: categoryCrumb.href },
+    ];
     if (calculator.category === 'finance' && calculator.subcategory) {
       const subcategoryCrumb = financeSubcategoryPaths[calculator.subcategory];
       if (subcategoryCrumb) {

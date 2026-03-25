@@ -235,7 +235,7 @@ export function buildToolSeoSpec(
   description: string,
   category: string
 ): ToolSeoSpec {
-  const priority = getPriorityToolSeoSpec(slug, title, description, category);
+  const priority = getPriorityToolSeoSpec(slug);
   if (priority) return priority;
 
   const cluster = getSeoCluster(category, slug);

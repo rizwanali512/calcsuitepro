@@ -1,4 +1,4 @@
-import { calculators as tools } from '@/lib/calculators';
+import { type Calculator, calculators as tools } from '@/lib/calculators';
 import { CORE_POPULAR_SLUGS } from '@/lib/popularTools';
 
 const MIN_RELATED = 3;
@@ -10,6 +10,20 @@ export type RelatedTool = {
   slug: string;
   href: string;
 };
+
+/** Tokens for cross-category similarity (keywords + category + subcategory). */
+function relationTokens(t: Calculator): string[] {
+  const out: string[] = [t.category];
+  if (t.subcategory) out.push(t.subcategory);
+  if (t.keywords) {
+    out.push(t.keywords.primary.trim().toLowerCase());
+    for (const s of t.keywords.secondary) {
+      const x = s.trim().toLowerCase();
+      if (x) out.push(x);
+    }
+  }
+  return out;
+}
 
 function tagOverlap(a: string[], b: string[]): number {
   const bs = new Set(b);
@@ -28,7 +42,7 @@ function toRelated(t: (typeof tools)[number]): RelatedTool {
 /**
  * Related tools for SEO internal linking:
  * 1) Same category first
- * 2) Then other tools ranked by shared tags
+ * 2) Then other tools ranked by shared keyword/category tokens
  * 3) Fill with core popular tools if still below MIN_RELATED
  * Max MAX_RELATED links.
  */
@@ -40,11 +54,12 @@ export function getRelatedTools(currentSlug: string): RelatedTool[] {
     (t) => t.category === current.category && t.slug !== currentSlug
   );
 
+  const currentTokens = relationTokens(current);
   const otherByTags = tools
     .filter((t) => t.slug !== currentSlug && t.category !== current.category)
     .map((t) => ({
       tool: t,
-      score: tagOverlap(current.tags, t.tags),
+      score: tagOverlap(currentTokens, relationTokens(t)),
     }))
     .filter((x) => x.score > 0)
     .sort((a, b) => b.score - a.score)
