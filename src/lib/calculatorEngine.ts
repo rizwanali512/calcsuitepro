@@ -2,6 +2,8 @@ type InputValues = Record<string, unknown>;
 
 export type CalculationResult =
   | number
+  /** User-visible error (e.g. visceral fat validation). */
+  | string
   | {
       type: 'fraction';
       numerator: number;
@@ -293,6 +295,56 @@ const handlers: Record<string, Handler> = {
     const nums = getNumbers(values, ['income', 'expenses']);
     if (!nums) return null;
     return nums.income - nums.expenses;
+  },
+  /**
+   * Simple educational estimate (not clinical). Waist/thigh in cm, height in m, weight in kg.
+   * visceralFat = (waist / height) + (weight / height) - (thigh / 10)
+   */
+  'visceral-fat-calculator': (values) => {
+    const genderRaw = values.gender;
+    const gender =
+      typeof genderRaw === 'string' ? genderRaw.trim().toLowerCase() : '';
+    const isMale = gender === 'man' || gender === 'male' || gender === 'm';
+    const isFemale =
+      gender === 'woman' || gender === 'female' || gender === 'f' || gender === 'w';
+    if (!isMale && !isFemale) {
+      return 'Please complete all fields (gender and all measurements).';
+    }
+
+    const nums = getNumbers(values, ['age', 'weightKg', 'heightM', 'waistCm', 'thighCm']);
+    if (!nums) {
+      return 'Please complete all fields (gender and all measurements).';
+    }
+
+    const { age, weightKg, waistCm, thighCm } = nums;
+    let heightM = nums.heightM;
+
+    if (heightM >= 100 && heightM <= 250) {
+      heightM = heightM / 100;
+    }
+
+    if (
+      age < 10 ||
+      age > 120 ||
+      weightKg < 30 ||
+      weightKg > 300 ||
+      heightM < 1 ||
+      heightM > 2.5 ||
+      waistCm < 50 ||
+      waistCm > 200 ||
+      thighCm < 30 ||
+      thighCm > 150
+    ) {
+      return 'Please enter realistic values';
+    }
+
+    const visceralFat =
+      waistCm / heightM + weightKg / heightM - thighCm / 10;
+    if (!Number.isFinite(visceralFat)) {
+      return 'Please enter realistic values';
+    }
+
+    return Number(visceralFat.toFixed(2));
   },
 };
 

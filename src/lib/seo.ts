@@ -1,8 +1,12 @@
+import { siteConfig as baseSiteConfig } from '@/lib/config';
+
+export const siteDescription =
+  'CalcSuite Pro offers free online calculators for finance, math, physics, and health. Fast, accurate, and easy-to-use tools.';
+
+// Keep the existing `siteConfig.description` contract for SEO metadata.
 export const siteConfig = {
-  name: 'CalcSuite Pro',
-  url: 'https://calcsuitepro.com',
-  description:
-    'CalcSuite Pro offers free online calculators for finance, math, physics, and health. Fast, accurate, and easy-to-use tools.',
+  ...baseSiteConfig,
+  description: siteDescription,
 };
 
 /**

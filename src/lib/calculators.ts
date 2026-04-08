@@ -15,7 +15,20 @@ export type Calculator = {
   inputs: {
     name: string;
     label: string;
-    type: 'number';
+    type: 'number' | 'select';
+    /** Unit or helper line under the label (e.g. "Kilograms"). */
+    hint?: string;
+    /** Required when type is "select". */
+    options?: { value: string; label: string }[];
+    /** Optional input placeholder (falls back to sensible defaults in the template). */
+    placeholder?: string;
+    /** Centralized validation and UX hints (merged with global inference in `validateInputs`). */
+    validation?: {
+      min?: number;
+      max?: number;
+      message?: string;
+      placeholder?: string;
+    };
   }[];
 };
 
@@ -1441,14 +1454,83 @@ export const calculators: Calculator[] = [
     name: 'Visceral Fat Estimate Calculator',
     slug: 'visceral-fat-calculator',
     category: 'health',
-    formula: 'Estimate = Waist / Height x Age Factor',
-    description: 'Estimate visceral fat trend score from body metrics.',
+    formula:
+      'Visceral fat estimate = (Waist ÷ Height) + (Weight ÷ Height) − (Thigh ÷ 10). Waist/thigh in cm, height in m, weight in kg (educational only).',
+    description:
+      'Estimate an abdominal adiposity proxy score from gender, age, weight, height, waist, and thigh circumferences. For education only; not a medical diagnosis.',
     seoTitle: 'Visceral Fat Calculator (Free Online)',
-    seoDescription: 'Estimate visceral fat score using waist, height, and age inputs.',
+    seoDescription:
+      'Estimate a visceral-fat-style proxy using gender, age, weight, height, waist, and thigh measurements.',
     inputs: [
-      { name: 'waist', label: 'Waist (cm)', type: 'number' },
-      { name: 'height', label: 'Height (cm)', type: 'number' },
-      { name: 'age', label: 'Age', type: 'number' },
+      {
+        name: 'gender',
+        label: 'Gender',
+        type: 'select',
+        options: [
+          { value: 'woman', label: 'Woman' },
+          { value: 'man', label: 'Man' },
+        ],
+      },
+      {
+        name: 'age',
+        label: 'Age',
+        type: 'number',
+        hint: 'Years',
+        validation: {
+          min: 10,
+          max: 120,
+          message: 'Age must be between 10 and 120 years',
+          placeholder: 'e.g. 25',
+        },
+      },
+      {
+        name: 'weightKg',
+        label: 'Weight',
+        type: 'number',
+        hint: 'Kilograms',
+        validation: {
+          min: 30,
+          max: 300,
+          message: 'Weight must be between 30 and 300 kg',
+          placeholder: 'e.g. 70',
+        },
+      },
+      {
+        name: 'heightM',
+        label: 'Height',
+        type: 'number',
+        hint: 'Meters (e.g. 1.72 for 172 cm)',
+        validation: {
+          min: 1,
+          max: 2.5,
+          message: 'Height must be between 1 and 2.5 meters',
+          placeholder: 'e.g. 1.75',
+        },
+      },
+      {
+        name: 'waistCm',
+        label: 'Waist circumference',
+        type: 'number',
+        hint: 'Centimeters',
+        validation: {
+          min: 50,
+          max: 200,
+          message: 'Waist circumference must be between 50 and 200 cm',
+          placeholder: 'e.g. 85',
+        },
+      },
+      {
+        name: 'thighCm',
+        label: 'Thigh circumference',
+        type: 'number',
+        hint: 'Centimeters',
+        validation: {
+          min: 30,
+          max: 150,
+          message: 'Thigh circumference must be between 30 and 150 cm',
+          placeholder: 'e.g. 55',
+        },
+      },
     ],
   },
   {

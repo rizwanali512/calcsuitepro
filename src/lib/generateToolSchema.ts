@@ -1,17 +1,16 @@
 import type { Calculator as Tool } from '@/lib/calculators';
-import { getBaseUrl } from '@/lib/site-url';
+import { siteConfig } from '@/lib/seo';
 import { buildToolSeoSpec } from '@/lib/tool-seo';
 
 /**
  * WebApplication JSON-LD for individual tool URLs (rich results / SEO).
  */
 export function generateWebApplicationSchema(tool: Tool): Record<string, unknown> {
-  const baseUrl = getBaseUrl();
   return {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
     name: tool.name,
-    url: `${baseUrl}/${tool.slug}`,
+    url: `${siteConfig.url}/${tool.slug}`,
     applicationCategory: 'DeveloperApplication',
     operatingSystem: 'All',
     description: tool.description,
@@ -54,18 +53,17 @@ export function generateFaqPageSchema(tool: Tool): Record<string, unknown> | nul
  * BreadcrumbList for tool detail pages.
  */
 export function generateToolBreadcrumbSchema(tool: Tool): Record<string, unknown> {
-  const baseUrl = getBaseUrl();
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: `${baseUrl}/` },
-      { '@type': 'ListItem', position: 2, name: 'Tools', item: `${baseUrl}/tools` },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteConfig.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Tools', item: `${siteConfig.url}/tools` },
       {
         '@type': 'ListItem',
         position: 3,
         name: tool.name,
-        item: `${baseUrl}/${tool.slug}`,
+        item: `${siteConfig.url}/${tool.slug}`,
       },
     ],
   };

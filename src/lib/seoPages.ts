@@ -18,25 +18,29 @@ const variantTemplates: VariantTemplate[] = [
     suffix: 'online',
     title: (calculator) => `${calculator.name} Online (Free Tool)`,
     description: (calculator) =>
-      `Use this ${calculator.name.toLowerCase()} online to get fast and accurate results for ${calculator.category} calculations.`,
+      `Use this ${calculator.name.toLowerCase()} online to get fast and accurate results for ${calculator.category} calculations. ` +
+      `This “online” entry point is written for people searching browser-based ${calculator.name.toLowerCase()} workflows without installing software.`,
   },
   {
     suffix: 'free',
     title: (calculator) => `Free ${calculator.name}`,
     description: (calculator) =>
-      `Try this free ${calculator.name.toLowerCase()} to calculate values quickly using simple inputs and instant output.`,
+      `Try this free ${calculator.name.toLowerCase()} to calculate values quickly using simple inputs and instant output. ` +
+      `The “free” page variant targets searches for no-cost access while using the same calculator engine as the primary tool page.`,
   },
   {
     suffix: 'with-formula',
     title: (calculator) => `${calculator.name} with Formula`,
     description: (calculator) =>
-      `Calculate with ${calculator.name.toLowerCase()} and view the formula "${calculator.formula}" for transparent step-based understanding.`,
+      `Calculate with ${calculator.name.toLowerCase()} and view the formula "${calculator.formula}" for transparent step-based understanding. ` +
+      `The “with formula” variant highlights the displayed equation and how inputs map to the result.`,
   },
   {
     suffix: '2026',
     title: (calculator) => `${calculator.name} 2026`,
     description: (calculator) =>
-      `Use the updated ${calculator.name.toLowerCase()} 2026 version for quick ${calculator.category} planning and formula-based results.`,
+      `Use the updated ${calculator.name.toLowerCase()} 2026 version for quick ${calculator.category} planning and formula-based results. ` +
+      `This dated variant answers year-specific queries while keeping methodology aligned with the main calculator.`,
   },
 ];
 

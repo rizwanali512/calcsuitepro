@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import SignupForm from './signup-form';
-import { getBaseUrl } from '@/lib/site-url';
+import { siteConfig } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'Sign Up',
-  alternates: { canonical: getBaseUrl() + '/signup' },
+  alternates: { canonical: `${siteConfig.url}/signup` },
   robots: { index: false, follow: false },
 };
 

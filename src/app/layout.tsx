@@ -6,7 +6,6 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import Script from 'next/script';
 import './globals.css';
 import { ToasterProvider } from './providers/toaster';
-import { getBaseUrl } from '@/lib/site-url';
 import { DEFAULT_KEYWORDS, siteConfig } from '@/lib/seo';
 
 const onest = Onest({
@@ -33,7 +32,7 @@ export const metadata: Metadata = {
     title: defaultTitle,
     description: defaultDescription,
     type: 'website',
-    url: getBaseUrl(),
+    url: siteConfig.url,
     siteName: siteConfig.name,
   },
   twitter: {
@@ -90,7 +89,7 @@ export default function RootLayout({
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: siteConfig.name,
-    url: getBaseUrl(),
+    url: siteConfig.url,
   };
 
   return (

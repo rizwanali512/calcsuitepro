@@ -12,12 +12,14 @@ import {
   getPopularCalculators,
 } from '@/lib/calculators';
 import { siteConfig } from '@/lib/seo';
+import { getFieldPlaceholder, validateCalculatorForm } from '@/lib/validateInputs';
+import { cn } from '@/lib/utils';
 
 type Props = {
   calculator: Calculator;
 };
 
-type FormValues = Record<string, number>;
+type FormValues = Record<string, number | string>;
 
 const cardClass =
   'glass-card p-6 sm:p-8 rounded-2xl hover:scale-[1.02] hover:shadow-2xl transition-all duration-300';
@@ -86,25 +88,52 @@ function explanationParagraphs(calculator: Calculator): string[] {
 }
 
 function buildHowToUseSteps(calculator: Calculator): string[] {
-  const labels = calculator.inputs.map((input) => input.label);
+  const labels = calculator.inputs.map((input) =>
+    input.type === 'select'
+      ? `${input.label} (${input.options?.map((o) => o.label).join(' / ') ?? ''})`
+      : input.label
+  );
   return [
-    `Enter ${toSentenceList(labels)} in the input fields.`,
-    'Review that all values are numeric and use the correct units shown in each label.',
+    `Enter or choose ${toSentenceList(labels)} as indicated.`,
+    'Use the units shown under each field (for example kg, m, cm, years).',
     `Click Calculate to run the ${calculator.formula} formula.`,
     'Read the result and compare with alternate values if you want scenario-based planning.',
   ];
 }
 
 function buildExampleValues(calculator: Calculator): FormValues {
+  if (calculator.slug === 'visceral-fat-calculator') {
+    return {
+      gender: 'woman',
+      age: 25,
+      weightKg: 70,
+      heightM: 1.75,
+      waistCm: 85,
+      thighCm: 55,
+    };
+  }
   return Object.fromEntries(
-    calculator.inputs.map((input, index) => [input.name, (index + 2) * 10])
-  );
+    calculator.inputs.map((input, index) => {
+      if (input.type === 'select') {
+        return [input.name, input.options?.[0]?.value ?? ''];
+      }
+      return [input.name, (index + 2) * 10];
+    })
+  ) as FormValues;
+}
+
+/** Stable DOM id per field — avoids collisions with generic ids like `height` / `age` (browser globals / page noise). */
+function calculatorFieldId(calculatorSlug: string, inputName: string) {
+  return `calc-field-${calculatorSlug}-${inputName}`;
 }
 
 export default function CalculatorTemplate({ calculator }: Props) {
   const [values, setValues] = useState<FormValues>({});
   const [result, setResult] = useState<CalculationResult>(null);
   const [hasCalculated, setHasCalculated] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [showValidationSummary, setShowValidationSummary] = useState(false);
+  const [attemptedSubmit, setAttemptedSubmit] = useState(false);
 
   const relatedCalculators = useMemo(
     () => {
@@ -176,7 +205,26 @@ export default function CalculatorTemplate({ calculator }: Props) {
     [breadcrumbs]
   );
 
-  const onInputChange = (name: string, rawValue: string) => {
+  const onInputChange = (name: string, rawValue: string, kind: 'number' | 'select' = 'number') => {
+    setFieldErrors((prev) => {
+      const next = { ...prev };
+      delete next[name];
+      return next;
+    });
+    setShowValidationSummary(false);
+
+    if (kind === 'select') {
+      setValues((prev) => ({ ...prev, [name]: rawValue }));
+      return;
+    }
+    if (rawValue.trim() === '') {
+      setValues((prev) => {
+        const next = { ...prev };
+        delete next[name];
+        return next;
+      });
+      return;
+    }
     const parsed = Number(rawValue);
     setValues((prev) => ({
       ...prev,
@@ -185,9 +233,20 @@ export default function CalculatorTemplate({ calculator }: Props) {
   };
 
   const onCalculate = () => {
-    const nextResult = calculate(calculator.slug, values);
-    setResult(nextResult);
+    setAttemptedSubmit(true);
+    const validation = validateCalculatorForm(calculator, values, calculatorFieldId);
+    if (!validation.ok) {
+      setFieldErrors(validation.fieldErrors);
+      setShowValidationSummary(true);
+      setHasCalculated(false);
+      setResult(null);
+      return;
+    }
+    setFieldErrors({});
+    setShowValidationSummary(false);
     setHasCalculated(true);
+    const nextResult = calculate(calculator.slug, validation.payload);
+    setResult(nextResult);
   };
 
   const seoExplanation = useMemo(() => explanationParagraphs(calculator), [calculator]);
@@ -259,23 +318,77 @@ export default function CalculatorTemplate({ calculator }: Props) {
         </header>
 
         <section className={cardClass}>
+          {showValidationSummary && Object.keys(fieldErrors).length > 0 ? (
+            <p
+              className="mb-4 rounded-lg border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/30 px-4 py-3 text-sm font-medium text-red-700 dark:text-red-300 transition-colors duration-150"
+              role="alert"
+            >
+              Please fix the highlighted fields
+            </p>
+          ) : null}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {calculator.inputs.map((input) => (
-              <div key={input.name}>
-                <label
-                  htmlFor={input.name}
-                  className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  {input.label}
-                </label>
-                <Input
-                  id={input.name}
-                  type={input.type}
-                  placeholder={`Enter ${input.label.toLowerCase()}`}
-                  onChange={(event) => onInputChange(input.name, event.target.value)}
-                />
-              </div>
-            ))}
+            {calculator.inputs.map((input) => {
+              const fieldId = calculatorFieldId(calculator.slug, input.name);
+              const fieldError = fieldErrors[input.name];
+              return (
+                <div key={input.name}>
+                  <label
+                    htmlFor={fieldId}
+                    className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                  >
+                    {input.label}
+                  </label>
+                  {input.hint ? (
+                    <p className="mb-1.5 text-xs text-gray-500 dark:text-gray-400">{input.hint}</p>
+                  ) : null}
+                  {input.type === 'select' && input.options?.length ? (
+                    <>
+                      <select
+                        id={fieldId}
+                        name={input.name}
+                        className={cn(
+                          'h-12 w-full rounded-full border bg-white dark:bg-slate-800 px-5 py-2.5 text-left text-sm text-gray-800 dark:text-slate-100 shadow-theme-xs transition-colors duration-150 ease-out',
+                          fieldError
+                            ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500'
+                            : 'border-gray-300 dark:border-slate-600 focus:border-transparent focus:ring-2 focus:ring-indigo-500',
+                          'focus:outline-0'
+                        )}
+                        defaultValue={input.options[0]?.value}
+                        onChange={(event) => onInputChange(input.name, event.target.value, 'select')}
+                        aria-invalid={fieldError ? true : undefined}
+                      >
+                        {input.options.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                      {fieldError ? (
+                        <p className="mt-1.5 text-sm text-red-500 dark:text-red-400">{fieldError}</p>
+                      ) : null}
+                    </>
+                  ) : (
+                    <>
+                      <Input
+                        id={fieldId}
+                        name={input.name}
+                        autoComplete="off"
+                        type="number"
+                        inputMode="decimal"
+                        step="any"
+                        placeholder={getFieldPlaceholder(calculator, input)}
+                        error={Boolean(fieldError)}
+                        onChange={(event) => onInputChange(input.name, event.target.value, 'number')}
+                        aria-invalid={fieldError ? true : undefined}
+                      />
+                      {fieldError ? (
+                        <p className="mt-1.5 text-sm text-red-500 dark:text-red-400">{fieldError}</p>
+                      ) : null}
+                    </>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -291,7 +404,16 @@ export default function CalculatorTemplate({ calculator }: Props) {
           <div className="mt-6 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/5 p-4">
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Result</p>
             {!hasCalculated ? (
-              <p className="text-gray-700 dark:text-gray-300">Enter values and click calculate.</p>
+              <p className="text-gray-700 dark:text-gray-300">
+                {attemptedSubmit && Object.keys(fieldErrors).length > 0
+                  ? 'Fix the fields marked above, then click Calculate again.'
+                  : 'Enter values and click calculate.'}
+              </p>
+            ) : typeof result === 'string' ? (
+              <div className="space-y-1 text-red-600 dark:text-red-400">
+                <p className="font-medium">Could not calculate</p>
+                <p className="text-sm leading-relaxed">{result}</p>
+              </div>
             ) : result == null ? (
               <p className="text-red-500">Invalid input. Please check values and try again.</p>
             ) : typeof result === 'object' ? (
@@ -300,7 +422,9 @@ export default function CalculatorTemplate({ calculator }: Props) {
               </pre>
             ) : (
               <p className="text-lg font-semibold text-gray-800 dark:text-white/90">
-                {result.toFixed(4)}
+                {calculator.slug === 'visceral-fat-calculator'
+                  ? result.toFixed(2)
+                  : result.toFixed(4)}
               </p>
             )}
             {hasCalculated && (
@@ -343,16 +467,24 @@ export default function CalculatorTemplate({ calculator }: Props) {
             <p>
               Sample inputs:{' '}
               {calculator.inputs
-                .map((input) => `${input.label} = ${example.sampleValues[input.name]}`)
+                .map((input) => {
+                  const v = example.sampleValues[input.name];
+                  const display = v === undefined ? '—' : String(v);
+                  return `${input.label} = ${display}`;
+                })
                 .join(', ')}
             </p>
             <p>
               Calculated result:{' '}
               {example.sampleResult == null
                 ? 'Unable to generate sample output for this formula.'
-                : typeof example.sampleResult === 'object'
-                  ? JSON.stringify(example.sampleResult)
-                  : example.sampleResult.toFixed(4)}
+                : typeof example.sampleResult === 'string'
+                  ? example.sampleResult
+                  : typeof example.sampleResult === 'object'
+                    ? JSON.stringify(example.sampleResult)
+                    : calculator.slug === 'visceral-fat-calculator'
+                      ? example.sampleResult.toFixed(2)
+                      : example.sampleResult.toFixed(4)}
             </p>
             <p>
               You can replace these values with your own numbers to calculate a real-world result

@@ -3,12 +3,14 @@ import { notFound } from 'next/navigation';
 import CalculatorTemplate from '@/components/CalculatorTemplate';
 import { calculators, getCalculatorBySlug } from '@/lib/calculators';
 import { siteConfig } from '@/lib/seo';
-import { getBaseUrl } from '@/lib/site-url';
 import { getSeoPageBySlug, seoPages } from '@/lib/seoPages';
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
+
+/** Allow valid slugs not present in the last build output to render (no redirect to base calculator). */
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return [
@@ -32,7 +34,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const title = seoPage?.title ?? calculator.seoTitle ?? calculator.name;
   const description = seoPage?.description ?? calculator.seoDescription ?? calculator.description;
-  const url = `${getBaseUrl()}/${slug}`;
+  const url = `${siteConfig.url}/${slug}`;
 
   return {
     title,
@@ -65,7 +67,7 @@ export default async function SeoCalculatorPage({ params }: PageProps) {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
     name: title,
-    url: `${getBaseUrl()}/${slug}`,
+    url: `${siteConfig.url}/${slug}`,
     applicationCategory: 'Calculator',
     operatingSystem: 'All',
     description,
@@ -85,16 +87,9 @@ export default async function SeoCalculatorPage({ params }: PageProps) {
               {seoPage.title}
             </h1>
             <p className="text-gray-500 dark:text-gray-400 leading-7">
-              {seoPage.description} This page is designed for users searching high-intent keyword
-              variations of calculator workflows, so you can access the same trusted calculator engine
-              with a query-focused entry point. Enter values, calculate instantly, and compare outputs
-              without switching tools. These SEO pages support discovery for terms like online calculator,
-              free calculator, and keyword-specific variations while keeping the underlying calculation
-              logic centralized and consistent. You get the same formula-driven results, validation rules,
-              and related navigation links as the core calculator page, which improves usability and
-              strengthens internal linking depth. If you arrived from search, you can continue to related
-              categories including finance, math, physics, and health calculators from the links below the
-              calculator section.
+              {seoPage.description} This entry uses the path &apos;{seoPage.slug}&apos; so indexed snippets can match
+              specific searches; the interactive {calculator.name} tool below uses the same engine, inputs,
+              validation, and formula behavior as the primary calculator page.
             </p>
           </div>
         </div>
