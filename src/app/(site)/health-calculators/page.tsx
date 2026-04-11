@@ -16,6 +16,7 @@ export default function HealthCalculatorsPage() {
   const tools = getToolsByCategory('health');
   const healthTopics = [
     { name: 'BMI Calculator', href: '/bmi-calculator' },
+    { name: 'BMR Calculator', href: '/bmr-calculator' },
     { name: 'Calorie Calculator', href: '/calorie-calculator' },
     { name: 'Body Fat Calculator', href: '/body-fat-calculator' },
   ];

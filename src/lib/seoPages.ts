@@ -1,10 +1,15 @@
 import { calculators, type Calculator } from '@/lib/calculators';
+import { programmaticSeoCalculatorPages } from '@/lib/programmaticSeoCalculatorPages';
 
 export type SeoPage = {
   slug: string;
   calculatorSlug: string;
   title: string;
   description: string;
+  /** When set, used for meta tags, Open Graph, and JSON-LD instead of `description`. */
+  metaDescription?: string;
+  /** Long-form copy rendered below the embedded calculator on programmatic pages. */
+  content?: string;
 };
 
 type VariantTemplate = {
@@ -45,6 +50,9 @@ const variantTemplates: VariantTemplate[] = [
 ];
 
 export const seoPages: SeoPage[] = (() => {
+  const manual = programmaticSeoCalculatorPages as SeoPage[];
+  const manualSlugs = new Set(manual.map((p) => p.slug));
+
   const pages = calculators.flatMap((calculator) =>
     variantTemplates.map((variant) => ({
       slug: `${calculator.slug}-${variant.suffix}`,
@@ -54,13 +62,17 @@ export const seoPages: SeoPage[] = (() => {
     }))
   );
 
+  const generatedFiltered = pages.filter((page) => !manualSlugs.has(page.slug));
+
   // Safety dedupe in case slugs overlap in future variants.
   const seen = new Set<string>();
-  return pages.filter((page) => {
+  const dedupedGenerated = generatedFiltered.filter((page) => {
     if (seen.has(page.slug)) return false;
     seen.add(page.slug);
     return true;
   });
+
+  return [...manual, ...dedupedGenerated];
 })();
 
 export function getSeoPageBySlug(slug: string): SeoPage | null {

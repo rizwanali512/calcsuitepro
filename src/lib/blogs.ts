@@ -1,3 +1,6 @@
+import { calculatorSeoBlogPosts } from './calculatorSeoBlogPosts';
+import { informationalCalculatorBlogPosts } from './informationalCalculatorBlogPosts';
+
 export type Blog = {
   slug: string;
   title: string;
@@ -5,6 +8,8 @@ export type Blog = {
   content: string;
   longTailKeyword: string;
   questionKeyword: string;
+  /** Primary tool slug for in-article embed + funnel (e.g. compound-interest-calculator). */
+  embedCalculatorSlug?: string;
 };
 
 type BlogSeed = {
@@ -22,6 +27,8 @@ function buildBlogContent(seed: BlogSeed): string {
   const [k1, k2, k3] = seed.supportingKeywords;
   const [c2, c3] = seed.secondaryCalculators;
 
+  const lead = `Start here: [Try this calculator — ${seed.primaryCalculator.label}](${seed.primaryCalculator.href})—same engine as the full tool page. Keep [${c2.label}](${c2.href}) and [${c3.label}](${c3.href}) open for the next steps, and browse [all calculators](/all-calculators) when you want the full catalog.`;
+
   const p1 = `${seed.focusKeyword} is one of the most searched practical topics because users want a clear method they can apply quickly with real numbers. This guide is written for ${seed.audience} and explains both the formula logic and the decision context behind each result. Instead of giving shortcuts without explanation, we will break down the calculation in plain language so you can verify outcomes and avoid common mistakes. You will also see how to combine manual reasoning with tool-based validation for higher accuracy in day-to-day use.`;
   const p2 = `The first step is to define the inputs correctly. Most errors happen before the formula is applied, especially when units or assumptions are mixed. For example, people often combine monthly and yearly values in one equation, or use percentages as whole numbers without conversion. Always standardize units, write assumptions explicitly, and then apply the formula. This approach keeps your process repeatable and makes your output easier to explain to clients, teammates, teachers, or decision makers.`;
   const p3 = `For better SEO clarity and user intent alignment, this article focuses on ${seed.focusKeyword}, ${k1}, ${k2}, and ${k3}. These are the exact keyword variations people use when they want a practical answer, not theory alone. By the end, you should be able to run the full workflow from input selection to result interpretation. You should also know when a number is technically correct but contextually weak, which is an important distinction in finance, math, health, and physics calculations.`;
@@ -35,7 +42,7 @@ function buildBlogContent(seed: BlogSeed): string {
   const p11 = `From an SEO perspective, pages that combine formula explanation, real examples, scenario analysis, and internal links to related calculators tend to perform better for informational keywords. They match user intent across awareness and action stages. This article is structured to do exactly that: explain, demonstrate, and guide next steps. Use the linked calculators, test your own numbers, and build a repeatable workflow you can trust.`;
   const p12 = `Final takeaway: ${seed.focusKeyword} is most valuable when used as part of a process, not a one-click number. Learn the formula logic, validate with tools, compare scenarios, and apply results with clear assumptions. If you follow this method consistently, your calculations become faster, more accurate, and more useful for real decisions. Begin with [${seed.primaryCalculator.label}](${seed.primaryCalculator.href}) and continue with related tools to complete your analysis confidently.`;
 
-  return [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12].join('\n\n');
+  return [lead, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12].join('\n\n');
 }
 
 const blogSeeds: BlogSeed[] = [
@@ -301,14 +308,19 @@ const blogSeeds: BlogSeed[] = [
   },
 ];
 
-export const blogs: Blog[] = blogSeeds.map((seed) => ({
-  slug: seed.slug,
-  title: seed.title,
-  description: seed.description,
-  content: buildBlogContent(seed),
-  longTailKeyword: `${seed.focusKeyword} for ${seed.audience}`,
-  questionKeyword: `how to ${seed.focusKeyword}?`,
-}));
+export const blogs: Blog[] = [
+  ...blogSeeds.map((seed) => ({
+    slug: seed.slug,
+    title: seed.title,
+    description: seed.description,
+    content: buildBlogContent(seed),
+    longTailKeyword: `${seed.focusKeyword} for ${seed.audience}`,
+    questionKeyword: `how to ${seed.focusKeyword}?`,
+    embedCalculatorSlug: seed.primaryCalculator.href.replace(/^\//, ''),
+  })),
+  ...calculatorSeoBlogPosts,
+  ...informationalCalculatorBlogPosts,
+];
 
 export function getBlogBySlug(slug: string) {
   return blogs.find((blog) => blog.slug === slug);

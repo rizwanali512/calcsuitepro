@@ -220,6 +220,15 @@ export function readRawFieldValue(
     num = num / 100;
   }
 
+  if (
+    calculator.slug === 'bmi-calculator' &&
+    input.name === 'height' &&
+    num >= 100 &&
+    num <= 250
+  ) {
+    num = num / 100;
+  }
+
   return { ok: true, value: num };
 }
 

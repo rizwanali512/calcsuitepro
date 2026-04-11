@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import CalculatorTemplate from '@/components/CalculatorTemplate';
 import { calculators, getCalculatorBySlug } from '@/lib/calculators';
+import { getCalculatorSeoDescription, getCalculatorSeoTitle } from '@/lib/calculatorSeoMeta';
 import { siteConfig } from '@/lib/seo';
 import { getSeoPageBySlug, seoPages } from '@/lib/seoPages';
 
@@ -32,13 +33,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const title = seoPage?.title ?? calculator.seoTitle ?? calculator.name;
-  const description = seoPage?.description ?? calculator.seoDescription ?? calculator.description;
+  const title = seoPage?.title ?? getCalculatorSeoTitle(calculator);
+  const description =
+    seoPage?.metaDescription ?? seoPage?.description ?? getCalculatorSeoDescription(calculator);
   const url = `${siteConfig.url}/${slug}`;
+  const keywordList = calculator.keywords
+    ? [calculator.keywords.primary, ...calculator.keywords.secondary]
+    : undefined;
 
   return {
     title,
     description,
+    ...(keywordList ? { keywords: keywordList } : {}),
     alternates: { canonical: url },
     openGraph: {
       title,
@@ -60,8 +66,9 @@ export default async function SeoCalculatorPage({ params }: PageProps) {
     notFound();
   }
 
-  const title = seoPage?.title ?? calculator.name;
-  const description = seoPage?.description ?? calculator.description;
+  const title = seoPage?.title ?? getCalculatorSeoTitle(calculator);
+  const description =
+    seoPage?.metaDescription ?? seoPage?.description ?? getCalculatorSeoDescription(calculator);
 
   const webAppSchema = {
     '@context': 'https://schema.org',
@@ -80,22 +87,35 @@ export default async function SeoCalculatorPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
       />
 
+      <CalculatorTemplate calculator={calculator} />
+
       {seoPage ? (
-        <div className="wrapper pt-10 md:pt-14 pb-2">
+        <div className="wrapper pb-10 md:pb-14 pt-6 md:pt-8">
           <div className="max-w-5xl mx-auto">
-            <h1 className="mb-3 font-bold text-gray-800 dark:text-white/90 text-3xl md:text-title-lg">
+            <h2 className="mb-3 font-bold text-gray-800 dark:text-white/90 text-2xl md:text-3xl">
               {seoPage.title}
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 leading-7">
-              {seoPage.description} This entry uses the path &apos;{seoPage.slug}&apos; so indexed snippets can match
-              specific searches; the interactive {calculator.name} tool below uses the same engine, inputs,
-              validation, and formula behavior as the primary calculator page.
-            </p>
+            </h2>
+            {seoPage.content ? (
+              <div className="space-y-4 text-gray-600 dark:text-gray-400 leading-7">
+                {seoPage.content
+                  .trim()
+                  .split(/\n\n+/)
+                  .map((block) => block.trim())
+                  .filter(Boolean)
+                  .map((paragraph, index) => (
+                    <p key={index}>{paragraph}</p>
+                  ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 dark:text-gray-400 leading-7">
+                {seoPage.description} This entry uses the path &apos;{seoPage.slug}&apos; so indexed snippets can
+                match specific searches; the interactive {calculator.name} tool above uses the same engine, inputs,
+                validation, and formula behavior as the primary calculator page.
+              </p>
+            )}
           </div>
         </div>
       ) : null}
-
-      <CalculatorTemplate calculator={calculator} />
     </>
   );
 }

@@ -10,8 +10,6 @@ export type Calculator = {
   };
   formula: string;
   description: string;
-  seoTitle?: string;
-  seoDescription?: string;
   inputs: {
     name: string;
     label: string;
@@ -42,9 +40,6 @@ export const calculators: Calculator[] = [
     formula: 'A = P(1 + r/n)^{nt}',
     description:
       'Estimate investment growth with compounding using principal, rate, time, and compounding frequency.',
-    seoTitle: 'Compound Interest Calculator (Free Online)',
-    seoDescription:
-      'Use our free compound interest calculator to estimate investment growth with compounding frequency, rate, and time period.',
     inputs: [
       { name: 'principal', label: 'Principal', type: 'number' },
       { name: 'interestRate', label: 'Interest Rate (%)', type: 'number' },
@@ -61,9 +56,6 @@ export const calculators: Calculator[] = [
     formula: 'EMI = [P x r x (1+r)^n] / [(1+r)^n - 1]',
     description:
       'Calculate monthly EMI from principal amount, interest rate, and loan tenure.',
-    seoTitle: 'EMI Calculator (Loan EMI Online)',
-    seoDescription:
-      'Calculate monthly loan EMI instantly with principal, interest rate, and tenure using our free online EMI calculator.',
     inputs: [
       { name: 'principal', label: 'Principal', type: 'number' },
       { name: 'interestRate', label: 'Interest Rate (%)', type: 'number' },
@@ -78,9 +70,6 @@ export const calculators: Calculator[] = [
     formula: '(value / total) x 100',
     description:
       'Find percentage from value and total for marks, growth, discounts, and comparisons.',
-    seoTitle: 'Percentage Calculator (Free Online)',
-    seoDescription:
-      'Use our free percentage calculator to quickly calculate percentage from value and total for exams, discounts, and analytics.',
     inputs: [
       { name: 'value', label: 'Value', type: 'number' },
       { name: 'total', label: 'Total', type: 'number' },
@@ -91,15 +80,38 @@ export const calculators: Calculator[] = [
     name: 'BMI Calculator',
     slug: 'bmi-calculator',
     category: 'health',
-    formula: 'BMI = weight / height^2',
+    keywords: {
+      primary: 'bmi calculator',
+      secondary: ['body mass index calculator', 'calculate bmi online', 'bmi formula kg m'],
+    },
+    formula: 'BMI = weight (kg) ÷ height (m)²',
     description:
-      'Calculate Body Mass Index using weight in kilograms and height in meters.',
-    seoTitle: 'BMI Calculator (Body Mass Index)',
-    seoDescription:
-      'Calculate your Body Mass Index online using weight and height with our simple and accurate free BMI calculator.',
+      'Compute Body Mass Index from weight in kilograms and height in meters or centimeters. Educational screening metric only—not a diagnosis.',
     inputs: [
-      { name: 'weight', label: 'Weight (kg)', type: 'number' },
-      { name: 'height', label: 'Height (m)', type: 'number' },
+      {
+        name: 'weight',
+        label: 'Weight',
+        type: 'number',
+        hint: 'Kilograms',
+        validation: {
+          min: 30,
+          max: 300,
+          message: 'Weight must be between 30 and 300 kg',
+          placeholder: 'e.g. 70',
+        },
+      },
+      {
+        name: 'height',
+        label: 'Height (m or cm)',
+        type: 'number',
+        hint: 'e.g. 1.75 m or 175 cm',
+        validation: {
+          min: 1,
+          max: 2.5,
+          message: 'Use meters (1–2.5) or centimeters (100–250)',
+          placeholder: 'e.g. 1.75 or 175',
+        },
+      },
     ],
   },
   {
@@ -111,9 +123,6 @@ export const calculators: Calculator[] = [
     formula: 'SI = (P x R x T) / 100',
     description:
       'Compute simple interest using principal amount, annual rate, and time period.',
-    seoTitle: 'Simple Interest Calculator (Free Online)',
-    seoDescription:
-      'Use our simple interest calculator to find interest earned and total amount using principal, interest rate, and time period.',
     inputs: [
       { name: 'principal', label: 'Principal', type: 'number' },
       { name: 'interestRate', label: 'Interest Rate (%)', type: 'number' },
@@ -129,9 +138,6 @@ export const calculators: Calculator[] = [
     formula: '(profit / revenue) x 100',
     description:
       'Calculate profit margin percentage from cost and revenue values.',
-    seoTitle: 'Profit Margin Calculator (Free Online)',
-    seoDescription:
-      'Calculate business profit margin percentage online from cost and revenue using our free profit margin calculator.',
     inputs: [
       { name: 'cost', label: 'Cost', type: 'number' },
       { name: 'revenue', label: 'Revenue', type: 'number' },
@@ -146,9 +152,6 @@ export const calculators: Calculator[] = [
     formula: 'Monthly Payment = [P x r x (1+r)^n] / [(1+r)^n - 1]',
     description:
       'Estimate monthly loan payments from principal, interest rate, and tenure.',
-    seoTitle: 'Loan Calculator (Free Online)',
-    seoDescription:
-      'Use our free loan calculator to estimate monthly payments using principal, interest rate, and tenure.',
     inputs: [
       { name: 'principal', label: 'Principal', type: 'number' },
       { name: 'interestRate', label: 'Interest Rate (%)', type: 'number' },
@@ -164,9 +167,6 @@ export const calculators: Calculator[] = [
     formula: 'Future Value = P(1 + r)^t',
     description:
       'Calculate projected savings growth based on initial amount, rate, and time.',
-    seoTitle: 'Savings Calculator (Free Online)',
-    seoDescription:
-      'Project future savings value using our free savings calculator with interest rate and time period.',
     inputs: [
       { name: 'principal', label: 'Initial Savings', type: 'number' },
       { name: 'interestRate', label: 'Annual Interest Rate (%)', type: 'number' },
@@ -182,9 +182,6 @@ export const calculators: Calculator[] = [
     formula: 'ROI = [(Return - Investment) / Investment] x 100',
     description:
       'Measure return on investment percentage using gain and investment amount.',
-    seoTitle: 'ROI Calculator (Free Online)',
-    seoDescription:
-      'Calculate return on investment percentage quickly with this free ROI calculator.',
     inputs: [
       { name: 'investment', label: 'Investment', type: 'number' },
       { name: 'returnValue', label: 'Return Value', type: 'number' },
@@ -199,9 +196,6 @@ export const calculators: Calculator[] = [
     formula: 'Tax = Income x (Tax Rate / 100)',
     description:
       'Estimate tax amount from taxable income and tax rate percentage.',
-    seoTitle: 'Tax Calculator (Free Online)',
-    seoDescription:
-      'Estimate tax amount online using income and tax rate with our free tax calculator.',
     inputs: [
       { name: 'income', label: 'Taxable Income', type: 'number' },
       { name: 'taxRate', label: 'Tax Rate (%)', type: 'number' },
@@ -216,9 +210,6 @@ export const calculators: Calculator[] = [
     formula: 'Discounted Price = Original Price x (1 - Discount/100)',
     description:
       'Calculate final price after applying a percentage discount.',
-    seoTitle: 'Discount Calculator (Free Online)',
-    seoDescription:
-      'Find discounted price instantly using original price and discount percentage.',
     inputs: [
       { name: 'originalPrice', label: 'Original Price', type: 'number' },
       { name: 'discountRate', label: 'Discount Rate (%)', type: 'number' },
@@ -233,9 +224,6 @@ export const calculators: Calculator[] = [
     formula: 'Future Cost = Present Cost x (1 + Inflation Rate)^Years',
     description:
       'Estimate future purchasing cost using inflation rate and time.',
-    seoTitle: 'Inflation Calculator (Free Online)',
-    seoDescription:
-      'Calculate inflation-adjusted future costs using annual inflation rate and time period.',
     inputs: [
       { name: 'presentCost', label: 'Present Cost', type: 'number' },
       { name: 'inflationRate', label: 'Inflation Rate (%)', type: 'number' },
@@ -251,9 +239,6 @@ export const calculators: Calculator[] = [
     formula: 'Net Salary = Gross Salary - Deductions',
     description:
       'Estimate net salary from gross salary and total deductions.',
-    seoTitle: 'Salary Calculator (Free Online)',
-    seoDescription:
-      'Calculate take-home salary using gross salary and deductions with our free salary calculator.',
     inputs: [
       { name: 'grossSalary', label: 'Gross Salary', type: 'number' },
       { name: 'deductions', label: 'Deductions', type: 'number' },
@@ -267,9 +252,6 @@ export const calculators: Calculator[] = [
     formula: 'Area = Length x Width',
     description:
       'Calculate area of a rectangle using length and width.',
-    seoTitle: 'Area Calculator (Free Online)',
-    seoDescription:
-      'Use this free area calculator to find rectangular area from length and width instantly.',
     inputs: [
       { name: 'length', label: 'Length', type: 'number' },
       { name: 'width', label: 'Width', type: 'number' },
@@ -283,9 +265,6 @@ export const calculators: Calculator[] = [
     formula: 'Volume = Length x Width x Height',
     description:
       'Calculate volume of a cuboid using length, width, and height.',
-    seoTitle: 'Volume Calculator (Free Online)',
-    seoDescription:
-      'Find volume quickly with this free volume calculator using length, width, and height.',
     inputs: [
       { name: 'length', label: 'Length', type: 'number' },
       { name: 'width', label: 'Width', type: 'number' },
@@ -300,9 +279,6 @@ export const calculators: Calculator[] = [
     formula: 'Average = Sum of Values / Number of Values',
     description:
       'Compute average from total sum and count of values.',
-    seoTitle: 'Average Calculator (Free Online)',
-    seoDescription:
-      'Calculate average value instantly from sum and count using this free online average calculator.',
     inputs: [
       { name: 'sum', label: 'Sum of Values', type: 'number' },
       { name: 'count', label: 'Count of Values', type: 'number' },
@@ -316,9 +292,6 @@ export const calculators: Calculator[] = [
     formula: 'Ratio = a : b',
     description:
       'Calculate and compare ratio values from two numbers.',
-    seoTitle: 'Ratio Calculator (Free Online)',
-    seoDescription:
-      'Use our free ratio calculator to compare two values and understand proportion quickly.',
     inputs: [
       { name: 'a', label: 'Value A', type: 'number' },
       { name: 'b', label: 'Value B', type: 'number' },
@@ -332,9 +305,6 @@ export const calculators: Calculator[] = [
     formula: 'Decimal = Numerator / Denominator',
     description:
       'Convert fraction to decimal using numerator and denominator.',
-    seoTitle: 'Fraction Calculator (Free Online)',
-    seoDescription:
-      'Convert fractions to decimal instantly with this free fraction calculator.',
     inputs: [
       { name: 'numerator', label: 'Numerator', type: 'number' },
       { name: 'denominator', label: 'Denominator', type: 'number' },
@@ -348,9 +318,6 @@ export const calculators: Calculator[] = [
     formula: 'Square Root = sqrt(x)',
     description:
       'Find square root of a number instantly.',
-    seoTitle: 'Square Root Calculator (Free Online)',
-    seoDescription:
-      'Calculate square root quickly with this free square root calculator.',
     inputs: [{ name: 'value', label: 'Value', type: 'number' }],
   },
   {
@@ -361,9 +328,6 @@ export const calculators: Calculator[] = [
     formula: 'x = (c - b) / a',
     description:
       'Solve a basic linear algebra equation of form ax + b = c.',
-    seoTitle: 'Algebra Calculator (Free Online)',
-    seoDescription:
-      'Solve linear algebra equations quickly with this free algebra calculator.',
     inputs: [
       { name: 'a', label: 'Coefficient a', type: 'number' },
       { name: 'b', label: 'Coefficient b', type: 'number' },
@@ -378,9 +342,6 @@ export const calculators: Calculator[] = [
     formula: 'Perimeter = 2 x (Length + Width)',
     description:
       'Calculate perimeter of a rectangle from length and width.',
-    seoTitle: 'Perimeter Calculator (Free Online)',
-    seoDescription:
-      'Find rectangle perimeter instantly with this free perimeter calculator.',
     inputs: [
       { name: 'length', label: 'Length', type: 'number' },
       { name: 'width', label: 'Width', type: 'number' },
@@ -394,9 +355,6 @@ export const calculators: Calculator[] = [
     formula: 'Distance = Speed x Time',
     description:
       'Calculate distance using speed and time values.',
-    seoTitle: 'Distance Calculator (Free Online)',
-    seoDescription:
-      'Calculate travel distance quickly using speed and time with this free calculator.',
     inputs: [
       { name: 'speed', label: 'Speed', type: 'number' },
       { name: 'time', label: 'Time', type: 'number' },
@@ -410,9 +368,6 @@ export const calculators: Calculator[] = [
     formula: 'Velocity = Displacement / Time',
     description:
       'Compute velocity from displacement and time.',
-    seoTitle: 'Velocity Calculator (Free Online)',
-    seoDescription:
-      'Find velocity instantly using displacement and time with this free online calculator.',
     inputs: [
       { name: 'displacement', label: 'Displacement', type: 'number' },
       { name: 'time', label: 'Time', type: 'number' },
@@ -426,9 +381,6 @@ export const calculators: Calculator[] = [
     formula: 'Acceleration = (Final Velocity - Initial Velocity) / Time',
     description:
       'Calculate acceleration using initial velocity, final velocity, and time.',
-    seoTitle: 'Acceleration Calculator (Free Online)',
-    seoDescription:
-      'Use this free acceleration calculator to compute acceleration from velocity change over time.',
     inputs: [
       { name: 'initialVelocity', label: 'Initial Velocity', type: 'number' },
       { name: 'finalVelocity', label: 'Final Velocity', type: 'number' },
@@ -443,9 +395,6 @@ export const calculators: Calculator[] = [
     formula: 'Force = Mass x Acceleration',
     description:
       'Calculate force using mass and acceleration.',
-    seoTitle: 'Force Calculator (Free Online)',
-    seoDescription:
-      'Compute force instantly with our free force calculator using mass and acceleration.',
     inputs: [
       { name: 'mass', label: 'Mass', type: 'number' },
       { name: 'acceleration', label: 'Acceleration', type: 'number' },
@@ -459,9 +408,6 @@ export const calculators: Calculator[] = [
     formula: 'Kinetic Energy = 1/2 x m x v^2',
     description:
       'Estimate kinetic energy using mass and velocity.',
-    seoTitle: 'Energy Calculator (Free Online)',
-    seoDescription:
-      'Calculate kinetic energy quickly with this free online energy calculator.',
     inputs: [
       { name: 'mass', label: 'Mass', type: 'number' },
       { name: 'velocity', label: 'Velocity', type: 'number' },
@@ -475,9 +421,6 @@ export const calculators: Calculator[] = [
     formula: 'Power = Work / Time',
     description:
       'Calculate power from work done and time.',
-    seoTitle: 'Power Calculator (Free Online)',
-    seoDescription:
-      'Find power output using work and time with this free power calculator.',
     inputs: [
       { name: 'work', label: 'Work', type: 'number' },
       { name: 'time', label: 'Time', type: 'number' },
@@ -491,9 +434,6 @@ export const calculators: Calculator[] = [
     formula: 'Density = Mass / Volume',
     description:
       'Compute density from mass and volume.',
-    seoTitle: 'Density Calculator (Free Online)',
-    seoDescription:
-      'Calculate material density quickly with mass and volume using this free calculator.',
     inputs: [
       { name: 'mass', label: 'Mass', type: 'number' },
       { name: 'volume', label: 'Volume', type: 'number' },
@@ -507,9 +447,6 @@ export const calculators: Calculator[] = [
     formula: 'Pressure = Force / Area',
     description:
       'Calculate pressure using force and surface area.',
-    seoTitle: 'Pressure Calculator (Free Online)',
-    seoDescription:
-      'Compute pressure instantly from force and area with this free pressure calculator.',
     inputs: [
       { name: 'force', label: 'Force', type: 'number' },
       { name: 'area', label: 'Area', type: 'number' },
@@ -523,9 +460,6 @@ export const calculators: Calculator[] = [
     formula: 'Frequency = 1 / Time Period',
     description:
       'Calculate frequency from time period.',
-    seoTitle: 'Frequency Calculator (Free Online)',
-    seoDescription:
-      'Find wave or cycle frequency quickly with this free frequency calculator.',
     inputs: [{ name: 'timePeriod', label: 'Time Period', type: 'number' }],
   },
   {
@@ -536,9 +470,6 @@ export const calculators: Calculator[] = [
     formula: 'Momentum = Mass x Velocity',
     description:
       'Compute momentum from mass and velocity.',
-    seoTitle: 'Momentum Calculator (Free Online)',
-    seoDescription:
-      'Calculate momentum instantly using mass and velocity with this free calculator.',
     inputs: [
       { name: 'mass', label: 'Mass', type: 'number' },
       { name: 'velocity', label: 'Velocity', type: 'number' },
@@ -552,9 +483,6 @@ export const calculators: Calculator[] = [
     formula: 'Work = Force x Distance',
     description:
       'Calculate work done using force and distance.',
-    seoTitle: 'Work Calculator (Free Online)',
-    seoDescription:
-      'Compute work done quickly from force and distance with this free work calculator.',
     inputs: [
       { name: 'force', label: 'Force', type: 'number' },
       { name: 'distance', label: 'Distance', type: 'number' },
@@ -565,15 +493,72 @@ export const calculators: Calculator[] = [
     name: 'Calorie Calculator',
     slug: 'calorie-calculator',
     category: 'health',
-    formula: 'Calorie Needs = BMR x Activity Factor',
+    keywords: {
+      primary: 'calorie calculator',
+      secondary: ['tdee calculator', 'daily calories calculator', 'maintenance calories'],
+    },
+    formula:
+      'TDEE = BMR × activity factor. BMR (Mifflin–St Jeor): men 10w + 6.25h − 5a + 5; women 10w + 6.25h − 5a − 161 (w=kg, h=cm, a=age).',
     description:
-      'Estimate daily calorie requirements using BMR and activity level.',
-    seoTitle: 'Calorie Calculator (Free Online)',
-    seoDescription:
-      'Calculate daily calorie needs quickly with this free calorie calculator.',
+      'Estimate total daily energy expenditure (maintenance calories) from age, sex, height, weight, and typical activity—using Mifflin–St Jeor BMR × standard activity multipliers.',
     inputs: [
-      { name: 'bmr', label: 'BMR', type: 'number' },
-      { name: 'activityFactor', label: 'Activity Factor', type: 'number' },
+      {
+        name: 'gender',
+        label: 'Sex',
+        type: 'select',
+        options: [
+          { value: 'woman', label: 'Female' },
+          { value: 'man', label: 'Male' },
+        ],
+      },
+      {
+        name: 'age',
+        label: 'Age',
+        type: 'number',
+        hint: 'Years',
+        validation: {
+          min: 10,
+          max: 120,
+          message: 'Age must be between 10 and 120 years',
+          placeholder: 'e.g. 32',
+        },
+      },
+      {
+        name: 'heightCm',
+        label: 'Height',
+        type: 'number',
+        hint: 'Centimeters',
+        validation: {
+          min: 50,
+          max: 250,
+          message: 'Height must be between 50 and 250 cm',
+          placeholder: 'e.g. 170',
+        },
+      },
+      {
+        name: 'weight',
+        label: 'Weight',
+        type: 'number',
+        hint: 'Kilograms',
+        validation: {
+          min: 30,
+          max: 300,
+          message: 'Weight must be between 30 and 300 kg',
+          placeholder: 'e.g. 72',
+        },
+      },
+      {
+        name: 'activity',
+        label: 'Activity level',
+        type: 'select',
+        options: [
+          { value: 'sedentary', label: 'Sedentary (little or no exercise)' },
+          { value: 'light', label: 'Light (1–3 days/week)' },
+          { value: 'moderate', label: 'Moderate (3–5 days/week)' },
+          { value: 'active', label: 'Active (6–7 days/week)' },
+          { value: 'very_active', label: 'Very active (hard daily / physical job)' },
+        ],
+      },
     ],
   },
   {
@@ -581,17 +566,60 @@ export const calculators: Calculator[] = [
     name: 'BMR Calculator',
     slug: 'bmr-calculator',
     category: 'health',
-    formula: 'BMR = 10w + 6.25h - 5a + s',
+    keywords: {
+      primary: 'bmr calculator',
+      secondary: ['basal metabolic rate calculator', 'mifflin st jeor calculator', 'resting calories'],
+    },
+    formula:
+      'BMR (Mifflin–St Jeor): men = 10w + 6.25h − 5a + 5; women = 10w + 6.25h − 5a − 161 (w=kg, h=cm, a=age).',
     description:
-      'Estimate basal metabolic rate from weight, height, age, and sex factor.',
-    seoTitle: 'BMR Calculator (Free Online)',
-    seoDescription:
-      'Find your basal metabolic rate using this free BMR calculator.',
+      'Estimate basal metabolic rate (calories at rest) from weight, height, age, and sex using the Mifflin–St Jeor equation—common in apps and coaching tools.',
     inputs: [
-      { name: 'weight', label: 'Weight (kg)', type: 'number' },
-      { name: 'height', label: 'Height (cm)', type: 'number' },
-      { name: 'age', label: 'Age', type: 'number' },
-      { name: 'sexFactor', label: 'Sex Factor (+5 male / -161 female)', type: 'number' },
+      {
+        name: 'gender',
+        label: 'Sex',
+        type: 'select',
+        options: [
+          { value: 'woman', label: 'Female' },
+          { value: 'man', label: 'Male' },
+        ],
+      },
+      {
+        name: 'age',
+        label: 'Age',
+        type: 'number',
+        hint: 'Years',
+        validation: {
+          min: 10,
+          max: 120,
+          message: 'Age must be between 10 and 120 years',
+          placeholder: 'e.g. 32',
+        },
+      },
+      {
+        name: 'heightCm',
+        label: 'Height',
+        type: 'number',
+        hint: 'Centimeters',
+        validation: {
+          min: 50,
+          max: 250,
+          message: 'Height must be between 50 and 250 cm',
+          placeholder: 'e.g. 170',
+        },
+      },
+      {
+        name: 'weight',
+        label: 'Weight',
+        type: 'number',
+        hint: 'Kilograms',
+        validation: {
+          min: 30,
+          max: 300,
+          message: 'Weight must be between 30 and 300 kg',
+          placeholder: 'e.g. 72',
+        },
+      },
     ],
   },
   {
@@ -599,16 +627,60 @@ export const calculators: Calculator[] = [
     name: 'Body Fat Calculator',
     slug: 'body-fat-calculator',
     category: 'health',
-    formula: 'Body Fat % = 1.20 x BMI + 0.23 x Age - 10.8 x Sex - 5.4',
+    keywords: {
+      primary: 'body fat calculator',
+      secondary: ['body fat percentage calculator', 'fat percentage estimate', 'bmi body fat formula'],
+    },
+    formula:
+      'Body fat % ≈ 1.20×BMI + 0.23×age − 10.8×(male=1) − 5.4 (Deurenberg-style estimate; not DEXA).',
     description:
-      'Estimate body fat percentage using BMI, age, and sex.',
-    seoTitle: 'Body Fat Calculator (Free Online)',
-    seoDescription:
-      'Estimate body fat percentage with this free body fat calculator.',
+      'Estimate body fat percentage from weight, height, age, and sex using a BMI-based regression model—useful for trends, not a lab replacement.',
     inputs: [
-      { name: 'bmi', label: 'BMI', type: 'number' },
-      { name: 'age', label: 'Age', type: 'number' },
-      { name: 'sex', label: 'Sex (1 male / 0 female)', type: 'number' },
+      {
+        name: 'gender',
+        label: 'Sex',
+        type: 'select',
+        options: [
+          { value: 'woman', label: 'Female' },
+          { value: 'man', label: 'Male' },
+        ],
+      },
+      {
+        name: 'age',
+        label: 'Age',
+        type: 'number',
+        hint: 'Years',
+        validation: {
+          min: 10,
+          max: 120,
+          message: 'Age must be between 10 and 120 years',
+          placeholder: 'e.g. 32',
+        },
+      },
+      {
+        name: 'heightCm',
+        label: 'Height',
+        type: 'number',
+        hint: 'Centimeters',
+        validation: {
+          min: 50,
+          max: 250,
+          message: 'Height must be between 50 and 250 cm',
+          placeholder: 'e.g. 170',
+        },
+      },
+      {
+        name: 'weight',
+        label: 'Weight',
+        type: 'number',
+        hint: 'Kilograms',
+        validation: {
+          min: 30,
+          max: 300,
+          message: 'Weight must be between 30 and 300 kg',
+          placeholder: 'e.g. 72',
+        },
+      },
     ],
   },
   {
@@ -619,9 +691,6 @@ export const calculators: Calculator[] = [
     formula: 'Ideal Weight = 50 + 0.9 x (Height cm - 152)',
     description:
       'Estimate ideal body weight using height-based formula.',
-    seoTitle: 'Ideal Weight Calculator (Free Online)',
-    seoDescription:
-      'Find an estimated ideal weight from your height using this free calculator.',
     inputs: [{ name: 'height', label: 'Height (cm)', type: 'number' }],
   },
   {
@@ -632,9 +701,6 @@ export const calculators: Calculator[] = [
     formula: 'Water Intake (L) = Weight x 0.033',
     description:
       'Estimate daily water intake from body weight.',
-    seoTitle: 'Water Intake Calculator (Free Online)',
-    seoDescription:
-      'Calculate recommended daily water intake using this free water intake calculator.',
     inputs: [{ name: 'weight', label: 'Weight (kg)', type: 'number' }],
   },
   {
@@ -645,9 +711,6 @@ export const calculators: Calculator[] = [
     formula: 'Due Date = Last Menstrual Period + 280 days',
     description:
       'Estimate due date based on last menstrual period.',
-    seoTitle: 'Pregnancy Calculator (Due Date)',
-    seoDescription:
-      'Estimate pregnancy due date quickly with this free pregnancy calculator.',
     inputs: [{ name: 'lmpDaysAgo', label: 'Days Since Last Menstrual Period', type: 'number' }],
   },
   {
@@ -658,9 +721,6 @@ export const calculators: Calculator[] = [
     formula: 'Ovulation Day ≈ Cycle Length - 14',
     description:
       'Estimate ovulation day from average cycle length.',
-    seoTitle: 'Ovulation Calculator (Free Online)',
-    seoDescription:
-      'Estimate ovulation timing using your cycle length with this free ovulation calculator.',
     inputs: [{ name: 'cycleLength', label: 'Cycle Length (days)', type: 'number' }],
   },
   {
@@ -671,9 +731,6 @@ export const calculators: Calculator[] = [
     formula: 'Target Heart Rate = (220 - Age) x Intensity',
     description:
       'Estimate target heart rate using age and workout intensity.',
-    seoTitle: 'Heart Rate Calculator (Free Online)',
-    seoDescription:
-      'Find target workout heart rate quickly with this free heart rate calculator.',
     inputs: [
       { name: 'age', label: 'Age', type: 'number' },
       { name: 'intensity', label: 'Intensity (0-1)', type: 'number' },
@@ -687,9 +744,6 @@ export const calculators: Calculator[] = [
     formula: 'LBM = Weight x (1 - Body Fat % / 100)',
     description:
       'Estimate lean body mass using total weight and body fat percentage.',
-    seoTitle: 'Lean Body Mass Calculator (Free Online)',
-    seoDescription:
-      'Calculate lean body mass instantly from weight and body fat percentage.',
     inputs: [
       { name: 'weight', label: 'Weight (kg)', type: 'number' },
       { name: 'bodyFat', label: 'Body Fat (%)', type: 'number' },
@@ -703,9 +757,6 @@ export const calculators: Calculator[] = [
     formula: 'Waist to Hip Ratio = Waist / Hip',
     description:
       'Calculate waist-to-hip ratio from waist and hip measurements.',
-    seoTitle: 'Waist to Hip Ratio Calculator (Free Online)',
-    seoDescription:
-      'Compute waist-to-hip ratio quickly with this free online health calculator.',
     inputs: [
       { name: 'waist', label: 'Waist', type: 'number' },
       { name: 'hip', label: 'Hip', type: 'number' },
@@ -719,8 +770,6 @@ export const calculators: Calculator[] = [
     subcategory: 'general',
     formula: 'FV = P x [((1 + r)^n - 1) / r] x (1 + r)',
     description: 'Estimate future value of monthly SIP investments.',
-    seoTitle: 'SIP Calculator (Free Online)',
-    seoDescription: 'Calculate SIP maturity value online using monthly investment, return rate, and duration.',
     inputs: [
       { name: 'monthlyInvestment', label: 'Monthly Investment', type: 'number' },
       { name: 'annualReturn', label: 'Expected Annual Return (%)', type: 'number' },
@@ -735,8 +784,6 @@ export const calculators: Calculator[] = [
     subcategory: 'mortgage',
     formula: 'M = [P x r x (1+r)^n] / [(1+r)^n - 1]',
     description: 'Estimate monthly mortgage payment for home loans.',
-    seoTitle: 'Mortgage Calculator (Free Online)',
-    seoDescription: 'Estimate home loan mortgage payments with principal, interest rate, and loan term.',
     inputs: [
       { name: 'principal', label: 'Loan Principal', type: 'number' },
       { name: 'interestRate', label: 'Interest Rate (%)', type: 'number' },
@@ -751,8 +798,6 @@ export const calculators: Calculator[] = [
     subcategory: 'loans',
     formula: 'Interest = Total Repayment - Principal',
     description: 'Calculate total interest paid over the full loan term.',
-    seoTitle: 'Loan Interest Calculator (Free Online)',
-    seoDescription: 'Find total loan interest amount from principal, rate, and tenure with this free calculator.',
     inputs: [
       { name: 'principal', label: 'Principal', type: 'number' },
       { name: 'interestRate', label: 'Interest Rate (%)', type: 'number' },
@@ -767,8 +812,6 @@ export const calculators: Calculator[] = [
     subcategory: 'retirement',
     formula: 'Corpus = Current Savings x (1+r)^t + Contributions',
     description: 'Estimate retirement corpus using savings, contribution, and return assumptions.',
-    seoTitle: 'Retirement Calculator (Free Online)',
-    seoDescription: 'Plan your retirement corpus with current savings, monthly contribution, and expected return.',
     inputs: [
       { name: 'currentSavings', label: 'Current Savings', type: 'number' },
       { name: 'monthlyContribution', label: 'Monthly Contribution', type: 'number' },
@@ -784,8 +827,6 @@ export const calculators: Calculator[] = [
     subcategory: 'tax',
     formula: 'Tax = Taxable Income x Tax Rate',
     description: 'Estimate income tax from taxable income and tax slab rate.',
-    seoTitle: 'Income Tax Calculator (Free Online)',
-    seoDescription: 'Calculate estimated income tax instantly based on taxable income and tax rate.',
     inputs: [
       { name: 'taxableIncome', label: 'Taxable Income', type: 'number' },
       { name: 'taxRate', label: 'Tax Rate (%)', type: 'number' },
@@ -799,8 +840,6 @@ export const calculators: Calculator[] = [
     subcategory: 'loans',
     formula: 'Months = -log(1 - rB/P) / log(1 + r)',
     description: 'Estimate payoff time for credit card balances.',
-    seoTitle: 'Credit Card Payoff Calculator (Free Online)',
-    seoDescription: 'Calculate how long it takes to pay off credit card debt using balance, APR, and payment.',
     inputs: [
       { name: 'balance', label: 'Current Balance', type: 'number' },
       { name: 'apr', label: 'APR (%)', type: 'number' },
@@ -815,8 +854,6 @@ export const calculators: Calculator[] = [
     subcategory: 'general',
     formula: 'Maturity = P x (1 + r/n)^(nt)',
     description: 'Calculate fixed deposit maturity amount with compounding.',
-    seoTitle: 'Fixed Deposit Calculator (Free Online)',
-    seoDescription: 'Estimate FD maturity amount using principal, rate, tenure, and compounding frequency.',
     inputs: [
       { name: 'principal', label: 'Deposit Amount', type: 'number' },
       { name: 'interestRate', label: 'Interest Rate (%)', type: 'number' },
@@ -832,8 +869,6 @@ export const calculators: Calculator[] = [
     subcategory: 'general',
     formula: 'M = R x [(1+i)^n - 1] / [1 - (1+i)^(-1/3)]',
     description: 'Estimate recurring deposit maturity value from monthly deposits.',
-    seoTitle: 'Recurring Deposit Calculator (Free Online)',
-    seoDescription: 'Calculate RD maturity value using monthly deposit, tenure, and annual interest rate.',
     inputs: [
       { name: 'monthlyDeposit', label: 'Monthly Deposit', type: 'number' },
       { name: 'interestRate', label: 'Interest Rate (%)', type: 'number' },
@@ -848,8 +883,6 @@ export const calculators: Calculator[] = [
     subcategory: 'general',
     formula: 'Break-even Units = Fixed Cost / (Price - Variable Cost)',
     description: 'Find units required to break even on costs.',
-    seoTitle: 'Break Even Calculator (Free Online)',
-    seoDescription: 'Calculate break-even quantity using fixed cost, variable cost, and selling price.',
     inputs: [
       { name: 'fixedCost', label: 'Fixed Cost', type: 'number' },
       { name: 'pricePerUnit', label: 'Price per Unit', type: 'number' },
@@ -864,8 +897,6 @@ export const calculators: Calculator[] = [
     subcategory: 'general',
     formula: 'Depreciation = (Cost - Salvage Value) / Useful Life',
     description: 'Estimate annual depreciation using straight-line method.',
-    seoTitle: 'Depreciation Calculator (Free Online)',
-    seoDescription: 'Calculate annual asset depreciation with cost, salvage value, and useful life.',
     inputs: [
       { name: 'assetCost', label: 'Asset Cost', type: 'number' },
       { name: 'salvageValue', label: 'Salvage Value', type: 'number' },
@@ -880,8 +911,6 @@ export const calculators: Calculator[] = [
     subcategory: 'general',
     formula: 'Converted Amount = Amount x Exchange Rate',
     description: 'Convert one currency amount into another.',
-    seoTitle: 'Currency Converter Calculator (Free Online)',
-    seoDescription: 'Convert currency amounts quickly using amount and exchange rate inputs.',
     inputs: [
       { name: 'amount', label: 'Amount', type: 'number' },
       { name: 'exchangeRate', label: 'Exchange Rate', type: 'number' },
@@ -895,8 +924,6 @@ export const calculators: Calculator[] = [
     subcategory: 'investment',
     formula: 'CAGR = [(Ending / Beginning)^(1/n) - 1] x 100',
     description: 'Calculate compound annual growth rate over multiple years.',
-    seoTitle: 'CAGR Calculator (Free Online)',
-    seoDescription: 'Find CAGR using beginning value, ending value, and number of years.',
     inputs: [
       { name: 'beginningValue', label: 'Beginning Value', type: 'number' },
       { name: 'endingValue', label: 'Ending Value', type: 'number' },
@@ -911,8 +938,6 @@ export const calculators: Calculator[] = [
     subcategory: 'investment',
     formula: 'NPV = Sum[Cash Flow_t / (1+r)^t] - Initial Investment',
     description: 'Estimate net present value for investment cash flows.',
-    seoTitle: 'NPV Calculator (Free Online)',
-    seoDescription: 'Calculate net present value using discount rate, cash inflows, and initial investment.',
     inputs: [
       { name: 'initialInvestment', label: 'Initial Investment', type: 'number' },
       { name: 'cashFlow', label: 'Annual Cash Flow', type: 'number' },
@@ -928,8 +953,6 @@ export const calculators: Calculator[] = [
     subcategory: 'investment',
     formula: 'IRR ≈ Rate where NPV = 0',
     description: 'Estimate internal rate of return for project evaluation.',
-    seoTitle: 'IRR Calculator (Free Online)',
-    seoDescription: 'Estimate internal rate of return from investment and expected yearly cash flow.',
     inputs: [
       { name: 'initialInvestment', label: 'Initial Investment', type: 'number' },
       { name: 'annualCashFlow', label: 'Annual Cash Flow', type: 'number' },
@@ -944,8 +967,6 @@ export const calculators: Calculator[] = [
     subcategory: 'general',
     formula: 'Payback Period = Initial Investment / Annual Cash Flow',
     description: 'Find time required to recover an investment.',
-    seoTitle: 'Payback Period Calculator (Free Online)',
-    seoDescription: 'Calculate investment payback period from initial investment and annual cash flow.',
     inputs: [
       { name: 'initialInvestment', label: 'Initial Investment', type: 'number' },
       { name: 'annualCashFlow', label: 'Annual Cash Flow', type: 'number' },
@@ -958,8 +979,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Increase % = [(New - Old) / Old] x 100',
     description: 'Calculate percentage increase from old and new values.',
-    seoTitle: 'Percentage Increase Calculator (Free Online)',
-    seoDescription: 'Find percentage increase quickly using original and new values.',
     inputs: [
       { name: 'oldValue', label: 'Old Value', type: 'number' },
       { name: 'newValue', label: 'New Value', type: 'number' },
@@ -972,8 +991,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Decrease % = [(Old - New) / Old] x 100',
     description: 'Calculate percentage decrease between two values.',
-    seoTitle: 'Percentage Decrease Calculator (Free Online)',
-    seoDescription: 'Compute percentage decrease from original and final values.',
     inputs: [
       { name: 'oldValue', label: 'Old Value', type: 'number' },
       { name: 'newValue', label: 'New Value', type: 'number' },
@@ -986,8 +1003,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'LCM(a,b) = |a x b| / HCF(a,b)',
     description: 'Find least common multiple of two numbers.',
-    seoTitle: 'LCM Calculator (Free Online)',
-    seoDescription: 'Calculate least common multiple instantly for two input numbers.',
     inputs: [
       { name: 'a', label: 'Number A', type: 'number' },
       { name: 'b', label: 'Number B', type: 'number' },
@@ -1000,8 +1015,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'HCF = Greatest common divisor of a and b',
     description: 'Find highest common factor of two numbers.',
-    seoTitle: 'HCF Calculator (Free Online)',
-    seoDescription: 'Calculate highest common factor of two values quickly online.',
     inputs: [
       { name: 'a', label: 'Number A', type: 'number' },
       { name: 'b', label: 'Number B', type: 'number' },
@@ -1014,8 +1027,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'x = [-b ± sqrt(b^2 - 4ac)] / 2a',
     description: 'Solve quadratic equations using coefficients a, b, and c.',
-    seoTitle: 'Quadratic Calculator (Free Online)',
-    seoDescription: 'Solve quadratic equations and find roots from coefficients a, b, and c.',
     inputs: [
       { name: 'a', label: 'Coefficient a', type: 'number' },
       { name: 'b', label: 'Coefficient b', type: 'number' },
@@ -1029,8 +1040,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'x = (c - b) / a',
     description: 'Solve linear equation of form ax + b = c.',
-    seoTitle: 'Linear Equation Calculator (Free Online)',
-    seoDescription: 'Find x in a linear equation quickly using coefficients and constants.',
     inputs: [
       { name: 'a', label: 'Coefficient a', type: 'number' },
       { name: 'b', label: 'Constant b', type: 'number' },
@@ -1044,8 +1053,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Result = base^exponent',
     description: 'Calculate powers with base and exponent.',
-    seoTitle: 'Exponent Calculator (Free Online)',
-    seoDescription: 'Compute exponent values instantly using base and exponent inputs.',
     inputs: [
       { name: 'base', label: 'Base', type: 'number' },
       { name: 'exponent', label: 'Exponent', type: 'number' },
@@ -1058,8 +1065,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'log_b(x) = ln(x) / ln(b)',
     description: 'Calculate logarithm value using number and base.',
-    seoTitle: 'Logarithm Calculator (Free Online)',
-    seoDescription: 'Find logarithm quickly from value and log base.',
     inputs: [
       { name: 'value', label: 'Value', type: 'number' },
       { name: 'base', label: 'Base', type: 'number' },
@@ -1072,8 +1077,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'nPr = n! / (n-r)!',
     description: 'Calculate number of permutations for n and r.',
-    seoTitle: 'Permutation Calculator (Free Online)',
-    seoDescription: 'Compute nPr values online for combinations with order.',
     inputs: [
       { name: 'n', label: 'n', type: 'number' },
       { name: 'r', label: 'r', type: 'number' },
@@ -1086,8 +1089,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'nCr = n! / [r! x (n-r)!]',
     description: 'Calculate number of combinations for n and r.',
-    seoTitle: 'Combination Calculator (Free Online)',
-    seoDescription: 'Calculate nCr values quickly for selection problems.',
     inputs: [
       { name: 'n', label: 'n', type: 'number' },
       { name: 'r', label: 'r', type: 'number' },
@@ -1100,8 +1101,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'SD = sqrt(sum((x - mean)^2) / n)',
     description: 'Estimate standard deviation from variance inputs.',
-    seoTitle: 'Standard Deviation Calculator (Free Online)',
-    seoDescription: 'Calculate standard deviation using sum of squares and count values.',
     inputs: [
       { name: 'sumSquaredDiff', label: 'Sum of Squared Differences', type: 'number' },
       { name: 'count', label: 'Count of Values', type: 'number' },
@@ -1114,8 +1113,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Median = Middle value of ordered dataset',
     description: 'Estimate median from two middle values for even datasets.',
-    seoTitle: 'Median Calculator (Free Online)',
-    seoDescription: 'Find median quickly using middle values from sorted data.',
     inputs: [
       { name: 'middleLow', label: 'Middle Value 1', type: 'number' },
       { name: 'middleHigh', label: 'Middle Value 2', type: 'number' },
@@ -1128,8 +1125,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Mode = Most frequently occurring value',
     description: 'Check mode candidate using highest frequency count.',
-    seoTitle: 'Mode Calculator (Free Online)',
-    seoDescription: 'Estimate mode candidate from value and frequency count.',
     inputs: [
       { name: 'modeValue', label: 'Mode Candidate Value', type: 'number' },
       { name: 'frequency', label: 'Frequency', type: 'number' },
@@ -1142,8 +1137,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'P(E) = Favorable Outcomes / Total Outcomes',
     description: 'Calculate event probability from favorable and total outcomes.',
-    seoTitle: 'Probability Calculator (Free Online)',
-    seoDescription: 'Compute probability using favorable and total possible outcomes.',
     inputs: [
       { name: 'favorable', label: 'Favorable Outcomes', type: 'number' },
       { name: 'total', label: 'Total Outcomes', type: 'number' },
@@ -1156,8 +1149,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'sin(theta) = opposite / hypotenuse',
     description: 'Calculate sine ratio from opposite and hypotenuse.',
-    seoTitle: 'Trigonometry Calculator (Free Online)',
-    seoDescription: 'Find trigonometric ratio values from triangle side lengths.',
     inputs: [
       { name: 'opposite', label: 'Opposite Side', type: 'number' },
       { name: 'hypotenuse', label: 'Hypotenuse', type: 'number' },
@@ -1170,8 +1161,6 @@ export const calculators: Calculator[] = [
     category: 'physics',
     formula: 'KE = 1/2 x m x v^2',
     description: 'Compute kinetic energy from mass and velocity.',
-    seoTitle: 'Kinetic Energy Calculator (Free Online)',
-    seoDescription: 'Calculate kinetic energy quickly using mass and velocity.',
     inputs: [
       { name: 'mass', label: 'Mass', type: 'number' },
       { name: 'velocity', label: 'Velocity', type: 'number' },
@@ -1184,8 +1173,6 @@ export const calculators: Calculator[] = [
     category: 'physics',
     formula: 'PE = m x g x h',
     description: 'Calculate gravitational potential energy.',
-    seoTitle: 'Potential Energy Calculator (Free Online)',
-    seoDescription: 'Find potential energy using mass, gravity, and height.',
     inputs: [
       { name: 'mass', label: 'Mass', type: 'number' },
       { name: 'gravity', label: 'Gravity', type: 'number' },
@@ -1199,8 +1186,6 @@ export const calculators: Calculator[] = [
     category: 'physics',
     formula: 'F = G x (m1 x m2) / r^2',
     description: 'Estimate gravitational force between two masses.',
-    seoTitle: 'Gravitational Force Calculator (Free Online)',
-    seoDescription: 'Calculate gravitational force using two masses and distance.',
     inputs: [
       { name: 'mass1', label: 'Mass 1', type: 'number' },
       { name: 'mass2', label: 'Mass 2', type: 'number' },
@@ -1214,8 +1199,6 @@ export const calculators: Calculator[] = [
     category: 'physics',
     formula: 'V = I x R',
     description: 'Calculate voltage from current and resistance.',
-    seoTitle: "Ohm's Law Calculator (Free Online)",
-    seoDescription: 'Use Ohm’s law to find voltage, current, or resistance values.',
     inputs: [
       { name: 'current', label: 'Current (A)', type: 'number' },
       { name: 'resistance', label: 'Resistance (Ohm)', type: 'number' },
@@ -1228,8 +1211,6 @@ export const calculators: Calculator[] = [
     category: 'physics',
     formula: 'v = f x lambda',
     description: 'Calculate wave speed from frequency and wavelength.',
-    seoTitle: 'Wave Speed Calculator (Free Online)',
-    seoDescription: 'Find wave speed instantly using frequency and wavelength.',
     inputs: [
       { name: 'frequency', label: 'Frequency', type: 'number' },
       { name: 'wavelength', label: 'Wavelength', type: 'number' },
@@ -1242,8 +1223,6 @@ export const calculators: Calculator[] = [
     category: 'physics',
     formula: 'Torque = Force x Distance',
     description: 'Compute torque from force and lever arm distance.',
-    seoTitle: 'Torque Calculator (Free Online)',
-    seoDescription: 'Calculate torque quickly using force and perpendicular distance.',
     inputs: [
       { name: 'force', label: 'Force', type: 'number' },
       { name: 'distance', label: 'Distance', type: 'number' },
@@ -1256,8 +1235,6 @@ export const calculators: Calculator[] = [
     category: 'physics',
     formula: 'omega = theta / t',
     description: 'Calculate angular velocity from angular displacement and time.',
-    seoTitle: 'Angular Velocity Calculator (Free Online)',
-    seoDescription: 'Find angular velocity using angular displacement and elapsed time.',
     inputs: [
       { name: 'angularDisplacement', label: 'Angular Displacement', type: 'number' },
       { name: 'time', label: 'Time', type: 'number' },
@@ -1270,8 +1247,6 @@ export const calculators: Calculator[] = [
     category: 'physics',
     formula: 'F = m x v^2 / r',
     description: 'Compute centripetal force for circular motion.',
-    seoTitle: 'Centripetal Force Calculator (Free Online)',
-    seoDescription: 'Calculate centripetal force using mass, velocity, and radius.',
     inputs: [
       { name: 'mass', label: 'Mass', type: 'number' },
       { name: 'velocity', label: 'Velocity', type: 'number' },
@@ -1285,8 +1260,6 @@ export const calculators: Calculator[] = [
     category: 'physics',
     formula: 'Range = (v^2 x sin(2theta)) / g',
     description: 'Estimate horizontal range of a projectile.',
-    seoTitle: 'Projectile Range Calculator (Free Online)',
-    seoDescription: 'Find projectile range from launch speed, angle, and gravity.',
     inputs: [
       { name: 'velocity', label: 'Initial Velocity', type: 'number' },
       { name: 'angle', label: 'Launch Angle (degrees)', type: 'number' },
@@ -1300,8 +1273,6 @@ export const calculators: Calculator[] = [
     category: 'physics',
     formula: 'n = c / v',
     description: 'Calculate refractive index from light speeds.',
-    seoTitle: 'Refractive Index Calculator (Free Online)',
-    seoDescription: 'Compute refractive index using speed of light and medium velocity.',
     inputs: [
       { name: 'speedInVacuum', label: 'Speed in Vacuum', type: 'number' },
       { name: 'speedInMedium', label: 'Speed in Medium', type: 'number' },
@@ -1314,8 +1285,6 @@ export const calculators: Calculator[] = [
     category: 'physics',
     formula: 'F = k x q1 x q2 / r^2',
     description: 'Estimate electric force between two charges.',
-    seoTitle: "Coulomb's Law Calculator (Free Online)",
-    seoDescription: 'Calculate electric force using charge values and separation distance.',
     inputs: [
       { name: 'charge1', label: 'Charge 1', type: 'number' },
       { name: 'charge2', label: 'Charge 2', type: 'number' },
@@ -1329,8 +1298,6 @@ export const calculators: Calculator[] = [
     category: 'physics',
     formula: 'C = Q / V',
     description: 'Compute capacitance from charge and voltage.',
-    seoTitle: 'Capacitance Calculator (Free Online)',
-    seoDescription: 'Find capacitance using charge and potential difference.',
     inputs: [
       { name: 'charge', label: 'Charge', type: 'number' },
       { name: 'voltage', label: 'Voltage', type: 'number' },
@@ -1343,8 +1310,6 @@ export const calculators: Calculator[] = [
     category: 'physics',
     formula: 'L = (N x Phi) / I',
     description: 'Estimate inductance from turns, flux, and current.',
-    seoTitle: 'Inductance Calculator (Free Online)',
-    seoDescription: 'Calculate inductance quickly from turns, magnetic flux, and current.',
     inputs: [
       { name: 'turns', label: 'Number of Turns', type: 'number' },
       { name: 'flux', label: 'Magnetic Flux', type: 'number' },
@@ -1358,8 +1323,6 @@ export const calculators: Calculator[] = [
     category: 'physics',
     formula: 'Q = m x c x DeltaT',
     description: 'Calculate heat transfer from mass, specific heat, and temperature change.',
-    seoTitle: 'Heat Transfer Calculator (Free Online)',
-    seoDescription: 'Compute heat transfer using mass, specific heat capacity, and temperature change.',
     inputs: [
       { name: 'mass', label: 'Mass', type: 'number' },
       { name: 'specificHeat', label: 'Specific Heat', type: 'number' },
@@ -1373,8 +1336,6 @@ export const calculators: Calculator[] = [
     category: 'health',
     formula: 'Calories = (Protein x 4) + (Carbs x 4) + (Fat x 9)',
     description: 'Estimate daily macro calorie totals from protein, carbs, and fats.',
-    seoTitle: 'Macro Calculator (Free Online)',
-    seoDescription: 'Calculate macro nutrition calories from protein, carbohydrates, and fat intake.',
     inputs: [
       { name: 'protein', label: 'Protein (g)', type: 'number' },
       { name: 'carbs', label: 'Carbs (g)', type: 'number' },
@@ -1388,8 +1349,6 @@ export const calculators: Calculator[] = [
     category: 'health',
     formula: 'TDEE = BMR x Activity Factor',
     description: 'Estimate total daily energy expenditure.',
-    seoTitle: 'TDEE Calculator (Free Online)',
-    seoDescription: 'Calculate total daily energy expenditure from BMR and activity factor.',
     inputs: [
       { name: 'bmr', label: 'BMR', type: 'number' },
       { name: 'activityFactor', label: 'Activity Factor', type: 'number' },
@@ -1402,8 +1361,6 @@ export const calculators: Calculator[] = [
     category: 'health',
     formula: 'Protein (g) = Weight x Multiplier',
     description: 'Estimate daily protein needs based on body weight.',
-    seoTitle: 'Protein Intake Calculator (Free Online)',
-    seoDescription: 'Find daily protein requirement from body weight and activity multiplier.',
     inputs: [
       { name: 'weight', label: 'Weight (kg)', type: 'number' },
       { name: 'multiplier', label: 'Protein Multiplier (g/kg)', type: 'number' },
@@ -1416,8 +1373,6 @@ export const calculators: Calculator[] = [
     category: 'health',
     formula: 'BMI Prime = BMI / 25',
     description: 'Calculate BMI prime score from BMI value.',
-    seoTitle: 'BMI Prime Calculator (Free Online)',
-    seoDescription: 'Compute BMI Prime using BMI divided by upper normal BMI threshold.',
     inputs: [{ name: 'bmi', label: 'BMI', type: 'number' }],
   },
   {
@@ -1427,8 +1382,6 @@ export const calculators: Calculator[] = [
     category: 'health',
     formula: 'Risk Score = Age + Cholesterol Factor + Smoking Factor',
     description: 'Estimate a simple heart risk score from core markers.',
-    seoTitle: 'Heart Risk Score Calculator (Free Online)',
-    seoDescription: 'Estimate heart risk score from age, cholesterol factor, and lifestyle values.',
     inputs: [
       { name: 'age', label: 'Age', type: 'number' },
       { name: 'cholesterolFactor', label: 'Cholesterol Factor', type: 'number' },
@@ -1442,8 +1395,6 @@ export const calculators: Calculator[] = [
     category: 'health',
     formula: 'TBW = Weight x Water Percentage',
     description: 'Estimate total body water from body weight.',
-    seoTitle: 'Body Water Calculator (Free Online)',
-    seoDescription: 'Calculate total body water estimate using body weight and water percentage.',
     inputs: [
       { name: 'weight', label: 'Weight (kg)', type: 'number' },
       { name: 'waterPercent', label: 'Water Percentage (%)', type: 'number' },
@@ -1458,9 +1409,6 @@ export const calculators: Calculator[] = [
       'Visceral fat estimate = (Waist ÷ Height) + (Weight ÷ Height) − (Thigh ÷ 10). Waist/thigh in cm, height in m, weight in kg (educational only).',
     description:
       'Estimate an abdominal adiposity proxy score from gender, age, weight, height, waist, and thigh circumferences. For education only; not a medical diagnosis.',
-    seoTitle: 'Visceral Fat Calculator (Free Online)',
-    seoDescription:
-      'Estimate a visceral-fat-style proxy using gender, age, weight, height, waist, and thigh measurements.',
     inputs: [
       {
         name: 'gender',
@@ -1540,8 +1488,6 @@ export const calculators: Calculator[] = [
     category: 'health',
     formula: '1RM = Weight x (1 + Reps/30)',
     description: 'Estimate one-rep max from lifted weight and repetitions.',
-    seoTitle: 'One Rep Max Calculator (Free Online)',
-    seoDescription: 'Calculate estimated one-rep max using workout weight and repetitions.',
     inputs: [
       { name: 'weight', label: 'Weight Lifted', type: 'number' },
       { name: 'reps', label: 'Repetitions', type: 'number' },
@@ -1554,8 +1500,6 @@ export const calculators: Calculator[] = [
     category: 'health',
     formula: 'Pace = Time / Distance',
     description: 'Calculate running or walking pace.',
-    seoTitle: 'Pace Calculator (Free Online)',
-    seoDescription: 'Find running pace using total time and distance covered.',
     inputs: [
       { name: 'time', label: 'Time (minutes)', type: 'number' },
       { name: 'distance', label: 'Distance (km)', type: 'number' },
@@ -1568,8 +1512,6 @@ export const calculators: Calculator[] = [
     category: 'health',
     formula: 'VO2 Max = (Distance - 504.9) / 44.73',
     description: 'Estimate VO2 max from 12-minute test distance.',
-    seoTitle: 'VO2 Max Calculator (Free Online)',
-    seoDescription: 'Estimate VO2 max quickly using Cooper test distance input.',
     inputs: [{ name: 'distance', label: 'Distance in 12 Minutes (m)', type: 'number' }],
   },
   {
@@ -1579,8 +1521,6 @@ export const calculators: Calculator[] = [
     category: 'health',
     formula: 'MAP = (SBP + 2 x DBP) / 3',
     description: 'Calculate mean arterial pressure from blood pressure values.',
-    seoTitle: 'MAP Calculator (Free Online)',
-    seoDescription: 'Compute mean arterial pressure using systolic and diastolic values.',
     inputs: [
       { name: 'systolic', label: 'Systolic BP', type: 'number' },
       { name: 'diastolic', label: 'Diastolic BP', type: 'number' },
@@ -1593,8 +1533,6 @@ export const calculators: Calculator[] = [
     category: 'health',
     formula: 'GL = (GI x Carbs) / 100',
     description: 'Estimate glycemic load from GI and carbohydrate grams.',
-    seoTitle: 'Glycemic Load Calculator (Free Online)',
-    seoDescription: 'Calculate glycemic load using glycemic index and carbohydrate content.',
     inputs: [
       { name: 'glycemicIndex', label: 'Glycemic Index', type: 'number' },
       { name: 'carbs', label: 'Available Carbs (g)', type: 'number' },
@@ -1607,8 +1545,6 @@ export const calculators: Calculator[] = [
     category: 'health',
     formula: 'Wake Time = Sleep Time + (90 x Cycles) + 15',
     description: 'Estimate optimal wake time using sleep cycles.',
-    seoTitle: 'Sleep Cycle Calculator (Free Online)',
-    seoDescription: 'Plan wake-up time based on sleep start time and 90-minute sleep cycles.',
     inputs: [
       { name: 'sleepTimeMinutes', label: 'Sleep Start (minutes from midnight)', type: 'number' },
       { name: 'cycles', label: 'Number of Cycles', type: 'number' },
@@ -1621,8 +1557,6 @@ export const calculators: Calculator[] = [
     category: 'health',
     formula: 'Weeks = Weight Change / Weekly Change',
     description: 'Estimate time needed to reach target body weight.',
-    seoTitle: 'Target Weight Calculator (Free Online)',
-    seoDescription: 'Estimate weeks to target weight using current, target, and weekly change values.',
     inputs: [
       { name: 'currentWeight', label: 'Current Weight (kg)', type: 'number' },
       { name: 'targetWeight', label: 'Target Weight (kg)', type: 'number' },
@@ -1637,8 +1571,6 @@ export const calculators: Calculator[] = [
     subcategory: 'mortgage',
     formula: 'Monthly Payment = [P x r x (1+r)^n] / [(1+r)^n - 1]',
     description: 'Estimate amortized monthly mortgage payment.',
-    seoTitle: 'Amortization Calculator (Free Online)',
-    seoDescription: 'Calculate monthly amortized payment using principal, interest rate, and term.',
     inputs: [
       { name: 'principal', label: 'Principal', type: 'number' },
       { name: 'interestRate', label: 'Interest Rate (%)', type: 'number' },
@@ -1653,8 +1585,6 @@ export const calculators: Calculator[] = [
     subcategory: 'mortgage',
     formula: 'Payoff Months ≈ -log(1-rP/M) / log(1+r)',
     description: 'Estimate months to pay off mortgage with monthly payment.',
-    seoTitle: 'Mortgage Payoff Calculator (Free Online)',
-    seoDescription: 'Estimate mortgage payoff timeline using balance, rate, and monthly payment.',
     inputs: [
       { name: 'principal', label: 'Outstanding Principal', type: 'number' },
       { name: 'interestRate', label: 'Interest Rate (%)', type: 'number' },
@@ -1669,8 +1599,6 @@ export const calculators: Calculator[] = [
     subcategory: 'mortgage',
     formula: 'Affordable Loan ≈ Monthly Budget x Affordability Multiplier',
     description: 'Estimate home affordability from income and expenses.',
-    seoTitle: 'House Affordability Calculator (Free Online)',
-    seoDescription: 'Find affordable home budget using monthly income, expenses, and down payment.',
     inputs: [
       { name: 'monthlyIncome', label: 'Monthly Income', type: 'number' },
       { name: 'monthlyExpenses', label: 'Monthly Expenses', type: 'number' },
@@ -1685,8 +1613,6 @@ export const calculators: Calculator[] = [
     subcategory: 'mortgage',
     formula: 'Savings = Old EMI - New EMI',
     description: 'Compare old and new mortgage monthly payment.',
-    seoTitle: 'Refinance Calculator (Free Online)',
-    seoDescription: 'Estimate refinance savings using old and new loan rates and tenure.',
     inputs: [
       { name: 'principal', label: 'Principal', type: 'number' },
       { name: 'oldRate', label: 'Old Rate (%)', type: 'number' },
@@ -1702,8 +1628,6 @@ export const calculators: Calculator[] = [
     subcategory: 'mortgage',
     formula: 'Difference = Total Buy Cost - Total Rent Cost',
     description: 'Compare estimated rent and buy costs over a period.',
-    seoTitle: 'Rent vs Buy Calculator (Free Online)',
-    seoDescription: 'Compare total renting and home-buying costs using monthly values and duration.',
     inputs: [
       { name: 'monthlyRent', label: 'Monthly Rent', type: 'number' },
       { name: 'monthlyMortgage', label: 'Monthly Mortgage', type: 'number' },
@@ -1718,8 +1642,6 @@ export const calculators: Calculator[] = [
     subcategory: 'auto',
     formula: 'EMI = [P x r x (1+r)^n] / [(1+r)^n - 1]',
     description: 'Estimate monthly payment for vehicle financing.',
-    seoTitle: 'Auto Loan Calculator (Free Online)',
-    seoDescription: 'Calculate monthly auto loan payment using price, rate, and loan term.',
     inputs: [
       { name: 'principal', label: 'Loan Amount', type: 'number' },
       { name: 'interestRate', label: 'Interest Rate (%)', type: 'number' },
@@ -1734,8 +1656,6 @@ export const calculators: Calculator[] = [
     subcategory: 'auto',
     formula: 'Lease Payment ≈ Depreciation + Finance Charge',
     description: 'Estimate monthly auto lease cost.',
-    seoTitle: 'Auto Lease Calculator (Free Online)',
-    seoDescription: 'Estimate vehicle lease payment from price, residual value, and lease term.',
     inputs: [
       { name: 'vehiclePrice', label: 'Vehicle Price', type: 'number' },
       { name: 'residualValue', label: 'Residual Value', type: 'number' },
@@ -1750,8 +1670,6 @@ export const calculators: Calculator[] = [
     subcategory: 'investment',
     formula: 'Future Value = Principal x (1 + r)^t',
     description: 'Estimate future investment value with annual growth.',
-    seoTitle: 'Investment Calculator (Free Online)',
-    seoDescription: 'Calculate investment growth using principal, annual return rate, and time.',
     inputs: [
       { name: 'principal', label: 'Principal', type: 'number' },
       { name: 'interestRate', label: 'Annual Return (%)', type: 'number' },
@@ -1766,8 +1684,6 @@ export const calculators: Calculator[] = [
     subcategory: 'investment',
     formula: 'Interest = Principal x Rate x Time',
     description: 'Calculate interest amount from principal, rate, and time.',
-    seoTitle: 'Interest Calculator (Free Online)',
-    seoDescription: 'Find interest amount quickly using principal, annual rate, and duration.',
     inputs: [
       { name: 'principal', label: 'Principal', type: 'number' },
       { name: 'interestRate', label: 'Interest Rate (%)', type: 'number' },
@@ -1782,8 +1698,6 @@ export const calculators: Calculator[] = [
     subcategory: 'investment',
     formula: 'PV = FV / (1 + r)^t',
     description: 'Discount future value to present value.',
-    seoTitle: 'Present Value Calculator (Free Online)',
-    seoDescription: 'Calculate present value from future value, discount rate, and time.',
     inputs: [
       { name: 'futureValue', label: 'Future Value', type: 'number' },
       { name: 'interestRate', label: 'Discount Rate (%)', type: 'number' },
@@ -1798,8 +1712,6 @@ export const calculators: Calculator[] = [
     subcategory: 'investment',
     formula: 'FV = PV x (1 + r)^t',
     description: 'Project future value from present amount.',
-    seoTitle: 'Future Value Calculator (Free Online)',
-    seoDescription: 'Calculate future value using present value, growth rate, and time.',
     inputs: [
       { name: 'presentValue', label: 'Present Value', type: 'number' },
       { name: 'interestRate', label: 'Growth Rate (%)', type: 'number' },
@@ -1814,8 +1726,6 @@ export const calculators: Calculator[] = [
     subcategory: 'retirement',
     formula: 'FV = P x [((1+r)^n - 1) / r]',
     description: 'Estimate annuity future value from recurring payments.',
-    seoTitle: 'Annuity Calculator (Free Online)',
-    seoDescription: 'Calculate annuity future value using periodic payment, rate, and periods.',
     inputs: [
       { name: 'payment', label: 'Periodic Payment', type: 'number' },
       { name: 'interestRate', label: 'Interest Rate (%)', type: 'number' },
@@ -1830,8 +1740,6 @@ export const calculators: Calculator[] = [
     subcategory: 'retirement',
     formula: 'Pension Corpus = Contribution x Growth Factor',
     description: 'Estimate pension corpus from contribution and growth assumptions.',
-    seoTitle: 'Pension Calculator (Free Online)',
-    seoDescription: 'Estimate pension savings using annual contribution, growth rate, and years.',
     inputs: [
       { name: 'annualContribution', label: 'Annual Contribution', type: 'number' },
       { name: 'interestRate', label: 'Expected Return (%)', type: 'number' },
@@ -1846,8 +1754,6 @@ export const calculators: Calculator[] = [
     subcategory: 'tax',
     formula: 'Tax = Price x (Rate/100)',
     description: 'Calculate sales tax and total payable amount.',
-    seoTitle: 'Sales Tax Calculator (Free Online)',
-    seoDescription: 'Compute sales tax amount from item price and sales tax rate.',
     inputs: [
       { name: 'price', label: 'Price', type: 'number' },
       { name: 'taxRate', label: 'Sales Tax Rate (%)', type: 'number' },
@@ -1861,8 +1767,6 @@ export const calculators: Calculator[] = [
     subcategory: 'tax',
     formula: 'VAT = Amount x (VAT Rate/100)',
     description: 'Calculate VAT amount and VAT-inclusive total.',
-    seoTitle: 'VAT Calculator (Free Online)',
-    seoDescription: 'Estimate VAT value from amount and VAT percentage.',
     inputs: [
       { name: 'amount', label: 'Amount', type: 'number' },
       { name: 'vatRate', label: 'VAT Rate (%)', type: 'number' },
@@ -1876,8 +1780,6 @@ export const calculators: Calculator[] = [
     subcategory: 'loans',
     formula: 'Payment = Loan Formula Based Installment',
     description: 'Estimate periodic payment from principal, rate, and term.',
-    seoTitle: 'Payment Calculator (Free Online)',
-    seoDescription: 'Calculate periodic loan payment using principal, interest rate, and term.',
     inputs: [
       { name: 'principal', label: 'Principal', type: 'number' },
       { name: 'interestRate', label: 'Interest Rate (%)', type: 'number' },
@@ -1892,8 +1794,6 @@ export const calculators: Calculator[] = [
     subcategory: 'loans',
     formula: 'Interest = Balance x APR / 12',
     description: 'Estimate monthly credit card interest and payment impact.',
-    seoTitle: 'Credit Card Calculator (Free Online)',
-    seoDescription: 'Calculate credit card monthly interest from balance and APR.',
     inputs: [
       { name: 'balance', label: 'Outstanding Balance', type: 'number' },
       { name: 'apr', label: 'APR (%)', type: 'number' },
@@ -1908,8 +1808,6 @@ export const calculators: Calculator[] = [
     subcategory: 'loans',
     formula: 'Payoff Time depends on Debt, APR, and Payment',
     description: 'Estimate debt payoff timeline from payment strategy.',
-    seoTitle: 'Debt Payoff Calculator (Free Online)',
-    seoDescription: 'Find debt payoff duration using debt amount, APR, and monthly payment.',
     inputs: [
       { name: 'debt', label: 'Total Debt', type: 'number' },
       { name: 'apr', label: 'APR (%)', type: 'number' },
@@ -1924,8 +1822,6 @@ export const calculators: Calculator[] = [
     subcategory: 'loans',
     formula: 'EMI = [P x r x (1+r)^n] / [(1+r)^n - 1]',
     description: 'Calculate monthly payment for student loans.',
-    seoTitle: 'Student Loan Calculator (Free Online)',
-    seoDescription: 'Estimate student loan monthly payment using principal, rate, and repayment term.',
     inputs: [
       { name: 'principal', label: 'Loan Amount', type: 'number' },
       { name: 'interestRate', label: 'Interest Rate (%)', type: 'number' },
@@ -1940,8 +1836,6 @@ export const calculators: Calculator[] = [
     subcategory: 'general',
     formula: 'Margin % = (Selling Price - Cost) / Selling Price x 100',
     description: 'Calculate margin percentage from cost and selling price.',
-    seoTitle: 'Margin Calculator (Free Online)',
-    seoDescription: 'Compute margin percentage using cost and selling price values.',
     inputs: [
       { name: 'cost', label: 'Cost', type: 'number' },
       { name: 'sellingPrice', label: 'Selling Price', type: 'number' },
@@ -1955,8 +1849,6 @@ export const calculators: Calculator[] = [
     subcategory: 'general',
     formula: 'Commission = Sales x Commission Rate',
     description: 'Calculate commission earned from sales amount.',
-    seoTitle: 'Commission Calculator (Free Online)',
-    seoDescription: 'Estimate commission using total sales and commission rate percentage.',
     inputs: [
       { name: 'sales', label: 'Total Sales', type: 'number' },
       { name: 'commissionRate', label: 'Commission Rate (%)', type: 'number' },
@@ -1970,8 +1862,6 @@ export const calculators: Calculator[] = [
     subcategory: 'general',
     formula: 'Budget Balance = Income - Expenses',
     description: 'Find remaining budget after subtracting expenses from income.',
-    seoTitle: 'Budget Calculator (Free Online)',
-    seoDescription: 'Calculate monthly budget balance using total income and expenses.',
     inputs: [
       { name: 'income', label: 'Income', type: 'number' },
       { name: 'expenses', label: 'Expenses', type: 'number' },
@@ -1982,15 +1872,40 @@ export const calculators: Calculator[] = [
     name: 'Scientific Calculator',
     slug: 'scientific-calculator',
     category: 'math',
-    formula: 'Result depends on selected operation',
-    description: 'Perform basic scientific-style arithmetic operations quickly.',
-    seoTitle: 'Scientific Calculator (Free Online)',
-    seoDescription: 'Use this free scientific calculator for quick arithmetic operations and fast math checks.',
-    inputs: [
-      { name: 'a', label: 'Value A', type: 'number' },
-      { name: 'b', label: 'Value B', type: 'number' },
-      { name: 'operationCode', label: 'Operation (1:+, 2:-, 3:*, 4:/)', type: 'number' },
-    ],
+    keywords: {
+      primary: 'scientific calculator online',
+      secondary: [
+        'free scientific calculator',
+        'advanced calculator',
+        'scientific calculator',
+        'online scientific calculator',
+        'trig calculator',
+      ],
+    },
+    formula: 'Expression evaluation (arithmetic, trig, log, ln, sqrt, powers, factorial, parentheses)',
+    description:
+      'Free scientific calculator online with sin, cos, tan, log, ln, powers, memory, history, and keyboard shortcuts.',
+    inputs: [],
+  },
+  {
+    id: 'graph_calculator',
+    name: 'Graph Calculator',
+    slug: 'graph-calculator',
+    category: 'math',
+    keywords: {
+      primary: 'graph calculator online',
+      secondary: [
+        'free graph calculator',
+        'plot functions online',
+        'function grapher',
+        'graphing calculator',
+        'y = f(x) plotter',
+      ],
+    },
+    formula: 'y = f(x) — plotted with function-plot (zoom, pan, grid)',
+    description:
+      'Free graph calculator online: plot y = f(x), zoom and pan, multiple equations, plus a 3D z = f(x, y) surface.',
+    inputs: [],
   },
   {
     id: 'random_number',
@@ -1999,8 +1914,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Random = min + rand() x (max - min)',
     description: 'Generate random numbers between a minimum and maximum range.',
-    seoTitle: 'Random Number Generator (Free Online)',
-    seoDescription: 'Generate random numbers instantly with min and max values using this free tool.',
     inputs: [
       { name: 'min', label: 'Minimum', type: 'number' },
       { name: 'max', label: 'Maximum', type: 'number' },
@@ -2013,8 +1926,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Percent Error = |(Experimental - Theoretical) / Theoretical| x 100',
     description: 'Calculate percent error between experimental and theoretical values.',
-    seoTitle: 'Percent Error Calculator (Free Online)',
-    seoDescription: 'Compute percent error quickly using theoretical and experimental values.',
     inputs: [
       { name: 'experimentalValue', label: 'Experimental Value', type: 'number' },
       { name: 'theoreticalValue', label: 'Theoretical Value', type: 'number' },
@@ -2027,8 +1938,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Binary arithmetic using selected operation',
     description: 'Perform binary-based arithmetic calculations.',
-    seoTitle: 'Binary Calculator (Free Online)',
-    seoDescription: 'Calculate binary arithmetic with two values and operation selection.',
     inputs: [
       { name: 'a', label: 'Binary Value A', type: 'number' },
       { name: 'b', label: 'Binary Value B', type: 'number' },
@@ -2042,8 +1951,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Hex arithmetic using selected operation',
     description: 'Calculate hexadecimal-style operations from numeric input.',
-    seoTitle: 'Hex Calculator (Free Online)',
-    seoDescription: 'Use this free hex calculator to perform operation-based calculations quickly.',
     inputs: [
       { name: 'a', label: 'Hex Value A', type: 'number' },
       { name: 'b', label: 'Hex Value B', type: 'number' },
@@ -2057,8 +1964,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'x = [-b ± sqrt(b^2 - 4ac)] / 2a',
     description: 'Solve quadratic equations using the quadratic formula.',
-    seoTitle: 'Quadratic Formula Calculator (Free Online)',
-    seoDescription: 'Find roots of quadratic equations from coefficients a, b, and c.',
     inputs: [
       { name: 'a', label: 'Coefficient a', type: 'number' },
       { name: 'b', label: 'Coefficient b', type: 'number' },
@@ -2072,8 +1977,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'log_b(x) = ln(x) / ln(b)',
     description: 'Calculate logarithm using value and base.',
-    seoTitle: 'Log Calculator (Free Online)',
-    seoDescription: 'Compute logarithm values online with number and base inputs.',
     inputs: [
       { name: 'value', label: 'Value', type: 'number' },
       { name: 'base', label: 'Base', type: 'number' },
@@ -2086,8 +1989,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Root = value^(1/degree)',
     description: 'Find nth root using value and root degree.',
-    seoTitle: 'Root Calculator (Free Online)',
-    seoDescription: 'Calculate square roots and nth roots instantly with this free root calculator.',
     inputs: [
       { name: 'value', label: 'Value', type: 'number' },
       { name: 'degree', label: 'Root Degree', type: 'number' },
@@ -2100,8 +2001,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'GCF = greatest common divisor(a,b)',
     description: 'Find greatest common factor of two numbers.',
-    seoTitle: 'GCF Calculator (Free Online)',
-    seoDescription: 'Calculate greatest common factor quickly for two input numbers.',
     inputs: [
       { name: 'a', label: 'Number A', type: 'number' },
       { name: 'b', label: 'Number B', type: 'number' },
@@ -2114,8 +2013,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Factors are numbers that divide n exactly',
     description: 'Estimate factors for an integer value.',
-    seoTitle: 'Factor Calculator (Free Online)',
-    seoDescription: 'Find factors of a number quickly with this free factor calculator.',
     inputs: [{ name: 'value', label: 'Number', type: 'number' }],
   },
   {
@@ -2125,8 +2022,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Rounded = round(value, decimals)',
     description: 'Round numbers to selected decimal places.',
-    seoTitle: 'Rounding Calculator (Free Online)',
-    seoDescription: 'Round decimals to fixed precision using this free rounding calculator.',
     inputs: [
       { name: 'value', label: 'Value', type: 'number' },
       { name: 'decimals', label: 'Decimal Places', type: 'number' },
@@ -2139,8 +2034,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Matrix operation based on selected method',
     description: 'Perform matrix operation placeholders for quick setup.',
-    seoTitle: 'Matrix Calculator (Free Online)',
-    seoDescription: 'Use matrix calculator inputs for matrix operation workflows.',
     inputs: [
       { name: 'a11', label: 'A11', type: 'number' },
       { name: 'a12', label: 'A12', type: 'number' },
@@ -2155,8 +2048,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Value = coefficient x 10^exponent',
     description: 'Convert between scientific notation and decimal.',
-    seoTitle: 'Scientific Notation Calculator (Free Online)',
-    seoDescription: 'Convert scientific notation values using coefficient and exponent inputs.',
     inputs: [
       { name: 'coefficient', label: 'Coefficient', type: 'number' },
       { name: 'exponent', label: 'Exponent', type: 'number' },
@@ -2169,8 +2060,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Operation over large numeric values',
     description: 'Calculate large numbers with operation-based input.',
-    seoTitle: 'Big Number Calculator (Free Online)',
-    seoDescription: 'Compute large-number arithmetic online with easy operation controls.',
     inputs: [
       { name: 'a', label: 'Large Number A', type: 'number' },
       { name: 'b', label: 'Large Number B', type: 'number' },
@@ -2184,8 +2073,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'nth Term = a + (n-1)d',
     description: 'Calculate nth term of arithmetic sequence.',
-    seoTitle: 'Number Sequence Calculator (Free Online)',
-    seoDescription: 'Find arithmetic sequence terms from first term, difference, and term index.',
     inputs: [
       { name: 'firstTerm', label: 'First Term', type: 'number' },
       { name: 'difference', label: 'Common Difference', type: 'number' },
@@ -2199,8 +2086,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'n = (Z^2 x p(1-p)) / e^2',
     description: 'Estimate sample size for surveys and studies.',
-    seoTitle: 'Sample Size Calculator (Free Online)',
-    seoDescription: 'Calculate sample size using confidence level, margin of error, and proportion.',
     inputs: [
       { name: 'zScore', label: 'Z Score', type: 'number' },
       { name: 'proportion', label: 'Estimated Proportion', type: 'number' },
@@ -2214,8 +2099,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Mean = Sum / Count',
     description: 'Calculate basic statistics from summary values.',
-    seoTitle: 'Statistics Calculator (Free Online)',
-    seoDescription: 'Compute core statistics quickly using sum and count values.',
     inputs: [
       { name: 'sum', label: 'Sum of Values', type: 'number' },
       { name: 'count', label: 'Count of Values', type: 'number' },
@@ -2228,8 +2111,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Mean = Sum/Count, Median = Midpoint, Mode = Most frequent, Range = Max-Min',
     description: 'Get key descriptive statistics from summary inputs.',
-    seoTitle: 'Mean Median Mode Range Calculator (Free Online)',
-    seoDescription: 'Calculate mean, median, mode, and range from summary dataset values.',
     inputs: [
       { name: 'sum', label: 'Sum of Values', type: 'number' },
       { name: 'count', label: 'Count of Values', type: 'number' },
@@ -2247,8 +2128,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'nPr = n!/(n-r)!, nCr = n!/[r!(n-r)!]',
     description: 'Calculate permutation and combination counts.',
-    seoTitle: 'Permutation Combination Calculator (Free Online)',
-    seoDescription: 'Compute permutation and combination values using n and r inputs.',
     inputs: [
       { name: 'n', label: 'n', type: 'number' },
       { name: 'r', label: 'r', type: 'number' },
@@ -2262,8 +2141,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'z = (x - mean) / sd',
     description: 'Calculate z-score from value, mean, and standard deviation.',
-    seoTitle: 'Z Score Calculator (Free Online)',
-    seoDescription: 'Find z-score quickly using value, mean, and standard deviation.',
     inputs: [
       { name: 'value', label: 'Value', type: 'number' },
       { name: 'mean', label: 'Mean', type: 'number' },
@@ -2277,8 +2154,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'CI = mean ± z x (sd / sqrt(n))',
     description: 'Estimate confidence interval from sample statistics.',
-    seoTitle: 'Confidence Interval Calculator (Free Online)',
-    seoDescription: 'Calculate confidence interval bounds using mean, sd, sample size, and z-score.',
     inputs: [
       { name: 'mean', label: 'Mean', type: 'number' },
       { name: 'standardDeviation', label: 'Standard Deviation', type: 'number' },
@@ -2293,8 +2168,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Area = 1/2 x base x height',
     description: 'Calculate triangle area using base and height.',
-    seoTitle: 'Triangle Calculator (Free Online)',
-    seoDescription: 'Find triangle area quickly using base and height values.',
     inputs: [
       { name: 'base', label: 'Base', type: 'number' },
       { name: 'height', label: 'Height', type: 'number' },
@@ -2307,8 +2180,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Slope = (y2 - y1) / (x2 - x1)',
     description: 'Calculate slope between two coordinate points.',
-    seoTitle: 'Slope Calculator (Free Online)',
-    seoDescription: 'Compute line slope quickly using x1, y1, x2, and y2 values.',
     inputs: [
       { name: 'x1', label: 'x1', type: 'number' },
       { name: 'y1', label: 'y1', type: 'number' },
@@ -2323,8 +2194,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Area = pi r^2, Circumference = 2 pi r',
     description: 'Calculate circle area and circumference from radius.',
-    seoTitle: 'Circle Calculator (Free Online)',
-    seoDescription: 'Find circle area and circumference using radius input.',
     inputs: [{ name: 'radius', label: 'Radius', type: 'number' }],
   },
   {
@@ -2334,8 +2203,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Surface Area = 2(lw + lh + wh)',
     description: 'Calculate cuboid surface area.',
-    seoTitle: 'Surface Area Calculator (Free Online)',
-    seoDescription: 'Compute cuboid surface area from length, width, and height.',
     inputs: [
       { name: 'length', label: 'Length', type: 'number' },
       { name: 'width', label: 'Width', type: 'number' },
@@ -2349,8 +2216,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'c = sqrt(a^2 + b^2)',
     description: 'Calculate hypotenuse from right triangle sides.',
-    seoTitle: 'Pythagorean Theorem Calculator (Free Online)',
-    seoDescription: 'Find hypotenuse length using Pythagorean theorem and side values.',
     inputs: [
       { name: 'a', label: 'Side a', type: 'number' },
       { name: 'b', label: 'Side b', type: 'number' },
@@ -2363,8 +2228,6 @@ export const calculators: Calculator[] = [
     category: 'math',
     formula: 'Area = 1/2 x base x height',
     description: 'Calculate right triangle area from base and height.',
-    seoTitle: 'Right Triangle Calculator (Free Online)',
-    seoDescription: 'Compute right triangle area quickly with base and height.',
     inputs: [
       { name: 'base', label: 'Base', type: 'number' },
       { name: 'height', label: 'Height', type: 'number' },
@@ -2380,30 +2243,46 @@ export function getCalculatorsByCategory(category: Calculator['category']) {
   return calculators.filter((calculator) => calculator.category === category);
 }
 
+/** Curated order for internal linking / “popular tools” (not the full catalog). */
+export const POPULAR_CALCULATOR_SLUGS: readonly string[] = [
+  'compound-interest-calculator',
+  'emi-calculator',
+  'percentage-calculator',
+  'bmi-calculator',
+  'calorie-calculator',
+  'bmr-calculator',
+  'body-fat-calculator',
+  'scientific-calculator',
+  'graph-calculator',
+  'visceral-fat-calculator',
+  'velocity-calculator',
+  'simple-interest-calculator',
+  'profit-margin-calculator',
+  'loan-calculator',
+  'mortgage-calculator',
+  'tax-calculator',
+  'retirement-calculator',
+];
+
+function mapCalculatorToHref(calculator: Calculator) {
+  return {
+    name: calculator.name,
+    description: calculator.description,
+    slug: calculator.slug,
+    href: `/${calculator.slug}`,
+  };
+}
+
 export function getTopCalculators(): Array<{
   name: string;
   description: string;
   slug: string;
   href: string;
 }> {
-  const topSlugs = [
-    'compound-interest-calculator',
-    'emi-calculator',
-    'percentage-calculator',
-    'bmi-calculator',
-    'simple-interest-calculator',
-    'profit-margin-calculator',
-  ] as const;
-
-  return topSlugs
+  return POPULAR_CALCULATOR_SLUGS.slice(0, 6)
     .map((slug) => getCalculatorBySlug(slug))
     .filter((calculator): calculator is Calculator => Boolean(calculator))
-    .map((calculator) => ({
-      name: calculator.name,
-      description: calculator.description,
-      slug: calculator.slug,
-      href: `/${calculator.slug}`,
-    }));
+    .map(mapCalculatorToHref);
 }
 
 export function getPopularCalculators(): Array<{
@@ -2412,12 +2291,9 @@ export function getPopularCalculators(): Array<{
   slug: string;
   href: string;
 }> {
-  return calculators.map((calculator) => ({
-    name: calculator.name,
-    description: calculator.description,
-    slug: calculator.slug,
-    href: `/${calculator.slug}`,
-  }));
+  return POPULAR_CALCULATOR_SLUGS.map((slug) => getCalculatorBySlug(slug))
+    .filter((calculator): calculator is Calculator => Boolean(calculator))
+    .map(mapCalculatorToHref);
 }
 
 function normalizeBaseKeyword(name: string) {

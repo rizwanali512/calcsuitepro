@@ -15,6 +15,7 @@ export default function MathCalculatorsPage() {
   const tools = getToolsByCategory('math');
   const mathTopics = [
     { name: 'Scientific Calculator', href: '/scientific-calculator' },
+    { name: 'Graph Calculator', href: '/graph-calculator' },
     { name: 'Fraction Calculator', href: '/fraction-calculator' },
     { name: 'Probability Calculator', href: '/probability-calculator' },
     { name: 'Quadratic Formula Calculator', href: '/quadratic-formula-calculator' },

@@ -1,3 +1,5 @@
+import { evaluateScientificExpression } from '@/lib/scientificEvaluate';
+
 type InputValues = Record<string, unknown>;
 
 export type CalculationResult =
@@ -49,6 +51,33 @@ function getNumbers(values: InputValues, keys: string[]): Record<string, number>
   }
   return result;
 }
+
+/** Male = true, female = false; null if missing/invalid. */
+function parseGenderIsMale(values: InputValues): boolean | null {
+  const raw = values.gender;
+  const g = typeof raw === 'string' ? raw.trim().toLowerCase() : '';
+  if (g === 'man' || g === 'male' || g === 'm') return true;
+  if (g === 'woman' || g === 'female' || g === 'f' || g === 'w') return false;
+  return null;
+}
+
+function mifflinStJeorBmr(weightKg: number, heightCm: number, age: number, isMale: boolean): number {
+  const sexAdj = isMale ? 5 : -161;
+  return 10 * weightKg + 6.25 * heightCm - 5 * age + sexAdj;
+}
+
+function normalizeHeightMeters(heightRaw: number): number {
+  if (heightRaw >= 100 && heightRaw <= 250) return heightRaw / 100;
+  return heightRaw;
+}
+
+const CALORIE_ACTIVITY_FACTORS: Record<string, number> = {
+  sedentary: 1.2,
+  light: 1.375,
+  moderate: 1.55,
+  active: 1.725,
+  very_active: 1.9,
+};
 
 function gcd(a: number, b: number): number {
   let x = Math.abs(Math.trunc(a));
@@ -150,18 +179,10 @@ const handlers: Record<string, Handler> = {
   'scientific-calculator': (values) => {
     const expression = values.expression;
     if (typeof expression !== 'string') return null;
-    const safeExpression = expression.trim();
-    if (!safeExpression) return null;
-
-    // Allow digits, operators, decimal points, spaces, and parentheses.
-    if (!/^[\d+\-*/().\s*]+$/.test(safeExpression)) return null;
-
-    // Prevent unsupported tokens and consecutive unsafe operators.
-    if (/([A-Za-z]|[=,;:{}[\]])/.test(safeExpression)) return null;
-
-    const result = Function(`"use strict"; return (${safeExpression});`)();
-    return typeof result === 'number' && Number.isFinite(result) ? result : null;
+    const result = evaluateScientificExpression(expression, 'DEG', null);
+    return result === 'INVALID' ? null : result;
   },
+  'graph-calculator': () => null,
   'mean-median-mode-range-calculator': (values) => {
     const numbers = parseNumberList(values);
     if (!numbers) return null;
@@ -295,6 +316,67 @@ const handlers: Record<string, Handler> = {
     const nums = getNumbers(values, ['income', 'expenses']);
     if (!nums) return null;
     return nums.income - nums.expenses;
+  },
+  'bmi-calculator': (values) => {
+    const nums = getNumbers(values, ['weight', 'height']);
+    if (!nums) return null;
+    const heightM = normalizeHeightMeters(nums.height);
+    if (heightM < 1 || heightM > 2.5 || nums.weight < 30 || nums.weight > 300) return null;
+    const bmi = nums.weight / (heightM * heightM);
+    if (!Number.isFinite(bmi)) return null;
+    return Number(bmi.toFixed(1));
+  },
+  'bmr-calculator': (values) => {
+    const isMale = parseGenderIsMale(values);
+    if (isMale === null) return null;
+    const nums = getNumbers(values, ['weight', 'heightCm', 'age']);
+    if (!nums) return null;
+    const { weight, heightCm, age } = nums;
+    if (weight < 30 || weight > 300 || heightCm < 50 || heightCm > 250 || age < 10 || age > 120) {
+      return null;
+    }
+    const bmr = mifflinStJeorBmr(weight, heightCm, age, isMale);
+    if (!Number.isFinite(bmr) || bmr <= 0 || bmr > 8000) return null;
+    return Math.round(bmr);
+  },
+  'calorie-calculator': (values) => {
+    const isMale = parseGenderIsMale(values);
+    if (isMale === null) return null;
+    const activityRaw = values.activity;
+    const activityKey =
+      typeof activityRaw === 'string' ? activityRaw.trim().toLowerCase() : '';
+    const factor = CALORIE_ACTIVITY_FACTORS[activityKey];
+    if (factor == null) return null;
+
+    const nums = getNumbers(values, ['weight', 'heightCm', 'age']);
+    if (!nums) return null;
+    const { weight, heightCm, age } = nums;
+    if (weight < 30 || weight > 300 || heightCm < 50 || heightCm > 250 || age < 10 || age > 120) {
+      return null;
+    }
+    const bmr = mifflinStJeorBmr(weight, heightCm, age, isMale);
+    if (!Number.isFinite(bmr) || bmr <= 0 || bmr > 8000) return null;
+    const tdee = bmr * factor;
+    if (!Number.isFinite(tdee)) return null;
+    return Math.round(tdee);
+  },
+  'body-fat-calculator': (values) => {
+    const isMale = parseGenderIsMale(values);
+    if (isMale === null) return null;
+    const nums = getNumbers(values, ['weight', 'heightCm', 'age']);
+    if (!nums) return null;
+    const { weight, heightCm, age } = nums;
+    if (weight < 30 || weight > 300 || heightCm < 50 || heightCm > 250 || age < 10 || age > 120) {
+      return null;
+    }
+    const heightM = heightCm / 100;
+    const bmi = weight / (heightM * heightM);
+    if (!Number.isFinite(bmi) || bmi < 10 || bmi > 60) return null;
+    const sexCoeff = isMale ? 1 : 0;
+    const bodyFat = 1.2 * bmi + 0.23 * age - 10.8 * sexCoeff - 5.4;
+    if (!Number.isFinite(bodyFat)) return null;
+    const clamped = Math.max(0, Math.min(60, bodyFat));
+    return Number(clamped.toFixed(1));
   },
   /**
    * Simple educational estimate (not clinical). Waist/thigh in cm, height in m, weight in kg.
