@@ -12,7 +12,7 @@ type PageProps = {
   params: Promise<{ university: string }>;
 };
 
-export const revalidate = 60 * 60 * 24;
+export const revalidate = 86400;
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
