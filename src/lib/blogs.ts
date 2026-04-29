@@ -306,6 +306,48 @@ const blogSeeds: BlogSeed[] = [
     ],
     audience: 'households and professionals planning long-term goals',
   },
+  {
+    slug: 'how-to-calculate-gpa-in-pakistan-universities',
+    title: 'How to Calculate GPA in Pakistan Universities (Step-by-Step)',
+    description:
+      'Learn the GPA formula, credit-hour weighting, and how to calculate GPA from grades for Pakistani universities.',
+    focusKeyword: 'how to calculate GPA in Pakistan universities',
+    supportingKeywords: ['GPA formula credit hours', 'university grade points Pakistan', 'GPA percentage conversion'],
+    primaryCalculator: { label: 'Pakistan University GPA & CGPA Calculator', href: '/gpa-calculator' },
+    secondaryCalculators: [
+      { label: 'IIUI GPA Calculator', href: '/gpa-calculator/iiui' },
+      { label: 'NUST GPA Calculator', href: '/gpa-calculator/nust' },
+    ],
+    audience: 'Pakistani university students',
+  },
+  {
+    slug: 'how-to-calculate-cgpa-semester-wise-pakistan',
+    title: 'How to Calculate CGPA Semester-wise in Pakistan (Credits + GPA)',
+    description:
+      'A clear CGPA guide: combine multiple semesters using credit-weighted average and avoid common mistakes.',
+    focusKeyword: 'how to calculate CGPA semester wise Pakistan',
+    supportingKeywords: ['CGPA formula with credits', 'semester wise CGPA calculation', 'CGPA vs GPA difference'],
+    primaryCalculator: { label: 'Pakistan University GPA & CGPA Calculator', href: '/gpa-calculator' },
+    secondaryCalculators: [
+      { label: 'Punjab University CGPA Calculator', href: '/gpa-calculator/pu' },
+      { label: 'UET Lahore CGPA Calculator', href: '/gpa-calculator/uet-lahore' },
+    ],
+    audience: 'Pakistani university students tracking multiple semesters',
+  },
+  {
+    slug: 'grading-scale-4-0-explained-pakistan',
+    title: '4.0 Grading Scale Explained (Pakistan): Grade Points, GPA, and CGPA',
+    description:
+      'Understand the 4.0 grading scale, grade points mapping, and how it affects GPA/CGPA in Pakistani universities.',
+    focusKeyword: '4.0 grading scale Pakistan',
+    supportingKeywords: ['grade points A to F', 'GPA grade points table', 'CGPA grading scale Pakistan'],
+    primaryCalculator: { label: 'Pakistan University GPA & CGPA Calculator', href: '/gpa-calculator' },
+    secondaryCalculators: [
+      { label: 'University of Karachi GPA Calculator', href: '/gpa-calculator/uok' },
+      { label: 'All Universities Directory', href: '/gpa-calculator' },
+    ],
+    audience: 'students comparing grading policies',
+  },
 ];
 
 export const blogs: Blog[] = [

@@ -30,6 +30,11 @@ export const navItems: NavItem[] = [
   },
   {
     type: 'link',
+    label: 'GPA Calculator',
+    href: '/gpa-calculator',
+  },
+  {
+    type: 'link',
     label: 'Blog',
     href: '/blog',
   },
