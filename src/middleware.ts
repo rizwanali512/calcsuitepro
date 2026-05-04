@@ -28,7 +28,13 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // Avoid redirecting Next.js internals and static assets.
-  matcher: ['/((?!_next|.*\\..*).*)'],
+  /**
+   * Skip middleware for Next internals, API routes, and typical static files.
+   * Matches the pattern recommended in the Next.js docs so dev HMR / chunks
+   * (`/_next/static/...`, `/_next/webpack-hmr`, etc.) never touch this layer.
+   */
+  matcher: [
+    '/((?!api|_next|favicon\\.ico|.*\\..*).*)',
+  ],
 };
 

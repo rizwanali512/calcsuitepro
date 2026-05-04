@@ -43,9 +43,11 @@ import {
 } from '@/lib/internalLinking';
 import { Calculator, getPopularCalculators } from '@/lib/calculators';
 import { buildCalculatorFaqPageJsonLd } from '@/lib/calculatorFaqSchema';
+import { getCalculatorQuickAnswerParagraphs } from '@/lib/calculatorQuickAnswers';
 import { getCalculatorSeoTitle } from '@/lib/calculatorSeoMeta';
 import { siteConfig } from '@/lib/seo';
 import { getFieldPlaceholder, validateCalculatorForm } from '@/lib/validateInputs';
+import { QuickAnswerBlock } from '@/components/seo/QuickAnswerBlock';
 import { cn } from '@/lib/utils';
 
 type Props = {
@@ -355,6 +357,11 @@ export default function CalculatorTemplate({ calculator, embed = false }: Props)
     return buildCalculatorFaqPageJsonLd(faqItems);
   }, [calculator.slug, faqItems]);
 
+  const quickAnswerParagraphs = useMemo(
+    () => getCalculatorQuickAnswerParagraphs(calculator),
+    [calculator]
+  );
+
   return (
     <div className={cn('wrapper', embed ? 'py-4 md:py-6' : 'py-8 md:py-12')}>
       <div className="max-w-5xl mx-auto space-y-6">
@@ -405,6 +412,10 @@ export default function CalculatorTemplate({ calculator, embed = false }: Props)
             </>
           )}
         </header>
+
+        {!embed ? (
+          <QuickAnswerBlock paragraphs={quickAnswerParagraphs} className="max-w-3xl" />
+        ) : null}
 
         {!embed && calculator.slug === 'scientific-calculator' ? (
           <ScientificCalculatorIntro />

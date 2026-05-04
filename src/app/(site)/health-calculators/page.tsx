@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
+import { QuickAnswerBlock } from '@/components/seo/QuickAnswerBlock';
 import SearchBar from '@/components/SearchBar';
+import { getHubQuickAnswerParagraphs } from '@/lib/siteQuickAnswers';
 import { getToolsByCategory } from '@/lib/categories';
 import { siteConfig } from '@/lib/seo';
 import { getBaseUrl } from '@/lib/site-url';
@@ -30,6 +32,9 @@ export default function HealthCalculatorsPage() {
         <p className="max-w-2xl mx-auto leading-6 text-gray-500 dark:text-gray-400 mb-8">
           Use wellness and fitness formulas to make better health decisions quickly.
         </p>
+        <div className="max-w-2xl mx-auto text-left">
+          <QuickAnswerBlock paragraphs={getHubQuickAnswerParagraphs('health')} />
+        </div>
       </div>
       <div className="max-w-6xl mx-auto mb-8">
         <SearchBar calculators={tools} />

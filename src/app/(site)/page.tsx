@@ -11,12 +11,26 @@ import { RecentlyUsedTools } from '@/components/tools/RecentlyUsedTools';
 import { getBaseUrl } from '@/lib/site-url';
 import { features } from '@/config/features';
 import Link from 'next/link';
+import { QuickAnswerBlock } from '@/components/seo/QuickAnswerBlock';
 import { getTopCalculators } from '@/lib/calculators';
+import { HOME_QUICK_ANSWER } from '@/lib/siteQuickAnswers';
 
 export const metadata: Metadata = {
-  title: 'Free Online Calculators - CalcSuite Pro',
+  title: 'Free Online Calculators & Formula Tools | CalcSuite Pro',
   description:
-    'CalcSuite Pro provides free calculators and formulas for finance, math, physics, and health with fast, accurate, easy-to-use tools.',
+    'CalcSuite Pro is a free online calculator platform: EMI, mortgage, compound interest, percentage, BMI, scientific calculator, graphing, physics formulas, and more. Browse finance, math, physics, and health hubs with SEO-friendly tool pages.',
+  keywords: [
+    'online calculator',
+    'free calculator',
+    'finance calculator',
+    'EMI calculator',
+    'mortgage calculator',
+    'BMI calculator',
+    'scientific calculator',
+    'graph calculator',
+    'math calculator',
+    'physics calculator',
+  ],
   alternates: { canonical: getBaseUrl() + '/' },
 };
 
@@ -29,6 +43,11 @@ export default async function Home() {
   return (
     <>
       <HeroSection />
+      <div className="wrapper pt-2 pb-6 md:pb-10">
+        <div className="max-w-3xl mx-auto">
+          <QuickAnswerBlock paragraphs={HOME_QUICK_ANSWER} />
+        </div>
+      </div>
       <CoreFeatures />
       {features.homepageToolsTabEnabled && <ToolsTab />}
       <BenefitsGrid />

@@ -4,12 +4,14 @@ import { CATEGORY_META, getToolsByCategory } from '@/lib/categories';
 import SearchBar from '@/components/SearchBar';
 import { calculators } from '@/lib/calculators';
 import { siteConfig } from '@/lib/seo';
+import { QuickAnswerBlock } from '@/components/seo/QuickAnswerBlock';
+import { ALL_CALCULATORS_QUICK_ANSWER } from '@/lib/siteQuickAnswers';
 import { getBaseUrl } from '@/lib/site-url';
 
 export const metadata: Metadata = {
   title: `All Calculators | ${siteConfig.name}`,
   description:
-    'Browse all finance, math, and physics calculators with formulas and instant results.',
+    'Browse all finance, math, physics, and health calculators with formulas and instant browser results.',
   alternates: { canonical: getBaseUrl() + '/all-calculators' },
 };
 
@@ -21,9 +23,13 @@ export default function AllCalculatorsPage() {
           All Calculators
         </h1>
         <p className="text-lg text-gray-500 dark:text-gray-400 leading-6">
-          Discover formula-based calculators across finance, math, and physics.
+          Discover formula-based calculators across finance, math, physics, and health.
         </p>
       </header>
+
+      <div className="max-w-3xl mx-auto mb-10">
+        <QuickAnswerBlock paragraphs={ALL_CALCULATORS_QUICK_ANSWER} />
+      </div>
 
       <div className="max-w-4xl mx-auto mb-10">
         <SearchBar calculators={calculators} />

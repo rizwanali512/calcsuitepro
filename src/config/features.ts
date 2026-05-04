@@ -5,6 +5,6 @@
 export const features = {
   authEnabled: false,
   pricingEnabled: false,
-  /** "Developer tools at your fingertips" tools-tab section on homepage */
+  /** Homepage “calculators at a glance” tab strip (`ToolsTab`); enable when screenshots/copy are ready. */
   homepageToolsTabEnabled: false,
 } as const;

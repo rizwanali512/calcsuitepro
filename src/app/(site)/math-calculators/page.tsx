@@ -3,7 +3,9 @@ import Link from 'next/link';
 import { siteConfig } from '@/lib/seo';
 import { getBaseUrl } from '@/lib/site-url';
 import { getToolsByCategory } from '@/lib/categories';
+import { QuickAnswerBlock } from '@/components/seo/QuickAnswerBlock';
 import SearchBar from '@/components/SearchBar';
+import { getHubQuickAnswerParagraphs } from '@/lib/siteQuickAnswers';
 
 export const metadata: Metadata = {
   title: `Math Calculators | ${siteConfig.name}`,
@@ -29,6 +31,9 @@ export default function MathCalculatorsPage() {
         <p className="max-w-2xl mx-auto leading-6 text-gray-500 dark:text-gray-400 mb-8">
           Solve common math formulas with instant results and clean outputs.
         </p>
+        <div className="max-w-2xl mx-auto text-left">
+          <QuickAnswerBlock paragraphs={getHubQuickAnswerParagraphs('math')} />
+        </div>
       </div>
       <div className="max-w-6xl mx-auto mb-8">
         <SearchBar calculators={tools} />

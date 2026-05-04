@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import type { ReactNode } from 'react';
 
 import BlogCalculatorEmbed from '@/components/BlogCalculatorEmbed';
+import { BlogArticleBody } from '@/components/blog/BlogArticleBody';
 import { blogs, getBlogBySlug } from '@/lib/blogs';
+import { estimateReadingMinutes } from '@/lib/blogReadingTime';
 import { getCalculatorBySlug, getPopularCalculators } from '@/lib/calculators';
 import { resolveSlugToCalculatorSlug } from '@/lib/internalLinking';
 import { siteConfig } from '@/lib/seo';
@@ -16,91 +17,6 @@ type Params = {
 type BlogPageProps = {
   params: Promise<Params>;
 };
-
-function renderParagraphWithLinks(paragraph: string) {
-  const regex = /\[([^\]]+)\]\((\/[^)]+)\)/g;
-  const nodes: ReactNode[] = [];
-  let lastIndex = 0;
-  let match: RegExpExecArray | null = regex.exec(paragraph);
-
-  while (match) {
-    const [fullMatch, text, href] = match;
-    const start = match.index;
-
-    if (start > lastIndex) {
-      nodes.push(paragraph.slice(lastIndex, start));
-    }
-
-    nodes.push(
-      <Link key={`${href}-${start}`} href={href} className="text-primary hover:underline">
-        {text}
-      </Link>,
-    );
-
-    lastIndex = start + fullMatch.length;
-    match = regex.exec(paragraph);
-  }
-
-  if (lastIndex < paragraph.length) {
-    nodes.push(paragraph.slice(lastIndex));
-  }
-
-  return nodes;
-}
-
-const heading2Class =
-  'scroll-mt-24 text-2xl font-bold text-gray-800 dark:text-white/90 md:text-3xl';
-const heading3Class = 'text-xl font-semibold text-gray-800 dark:text-white/90';
-
-function renderBlogBlocks(content: string, blogSlug: string) {
-  const blocks = content
-    .split(/\n\n+/)
-    .map((b) => b.trim())
-    .filter(Boolean);
-
-  return blocks.map((block, index) => {
-    const lines = block.split('\n');
-    const first = lines[0]?.trim() ?? '';
-
-    if (first.startsWith('## ') && !first.startsWith('###')) {
-      const title = first.replace(/^##\s+/, '').trim();
-      const rest = lines.slice(1).join('\n').trim();
-      const subParas = rest ? rest.split(/\n\n+/).map((p) => p.trim()).filter(Boolean) : [];
-      return (
-        <div key={`${blogSlug}-block-${index}`} className="space-y-4">
-          <h2 className={heading2Class}>{title}</h2>
-          {subParas.map((p, j) => (
-            <p key={j} className="leading-8">
-              {renderParagraphWithLinks(p)}
-            </p>
-          ))}
-        </div>
-      );
-    }
-
-    if (first.startsWith('### ')) {
-      const title = first.replace(/^###\s+/, '').trim();
-      const rest = lines.slice(1).join('\n').trim();
-      const subParas = rest ? rest.split(/\n\n+/).map((p) => p.trim()).filter(Boolean) : [];
-      return (
-        <div key={`${blogSlug}-block-${index}`} className="space-y-3">
-          <h3 className={heading3Class}>{title}</h3>
-          {subParas.map((p, j) => (
-            <p key={j} className="leading-8">
-              {renderParagraphWithLinks(p)}
-            </p>
-          ))}
-        </div>
-      );
-    }
-
-    return (
-      <p key={`${blogSlug}-block-${index}`} className="leading-8">
-        {renderParagraphWithLinks(block)}
-      </p>
-    );
-  });
-}
 
 export async function generateStaticParams() {
   return blogs.map((blog) => ({
@@ -135,6 +51,36 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
   };
 }
 
+function CalculatorCardLink({
+  href,
+  name,
+  description,
+}: {
+  href: string;
+  name: string;
+  description: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group flex flex-col rounded-xl border border-gray-200/90 bg-white p-4 shadow-sm transition hover:border-primary-300 hover:shadow-md dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-primary-500/40"
+    >
+      <p className="font-semibold text-gray-900 transition group-hover:text-primary-600 dark:text-white dark:group-hover:text-primary-300">
+        {name}
+      </p>
+      <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+        {description}
+      </p>
+      <span className="mt-3 inline-flex items-center text-sm font-medium text-primary-600 dark:text-primary-400">
+        Open calculator
+        <span className="ml-1 transition group-hover:translate-x-0.5" aria-hidden>
+          →
+        </span>
+      </span>
+    </Link>
+  );
+}
+
 export default async function BlogDetailPage({ params }: BlogPageProps) {
   const { slug } = await params;
   const blog = getBlogBySlug(slug);
@@ -143,6 +89,7 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
     notFound();
   }
 
+  const readTime = estimateReadingMinutes(blog.content);
   const popularCalculators = getPopularCalculators().slice(0, 6);
   const linkedPaths = Array.from(blog.content.matchAll(/\]\(\/([a-z0-9-]+)\)/g)).map((m) => m[1]);
   const relatedCalculatorSlugs = Array.from(
@@ -160,85 +107,102 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
     blog.embedCalculatorSlug != null ? getCalculatorBySlug(blog.embedCalculatorSlug) : null;
 
   return (
-    <main className="wrapper py-14 md:py-24">
-      <article className="mx-auto max-w-5xl">
-        <header className="mb-8 text-center">
-          <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
-            <Link href="/blog" className="transition hover:text-primary-500">
-              Blog
-            </Link>{' '}
-            / {blog.title}
-          </p>
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-white/90 md:text-title-lg">
+    <main className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50/80 py-14 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 md:py-20">
+      <div
+        className="pointer-events-none absolute inset-x-0 -top-40 h-80 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(99,102,241,0.18),transparent)] dark:bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(99,102,241,0.12),transparent)]"
+        aria-hidden
+      />
+      <article className="wrapper relative mx-auto max-w-5xl">
+        <nav className="mb-8 flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+          <Link
+            href="/blog"
+            className="rounded-full border border-gray-200 bg-white px-3 py-1 font-medium text-gray-700 transition hover:border-primary-200 hover:text-primary-600 dark:border-white/10 dark:bg-white/5 dark:text-gray-300 dark:hover:border-primary-500/30 dark:hover:text-primary-300"
+          >
+            Blog
+          </Link>
+          <span className="text-gray-300 dark:text-gray-600" aria-hidden>
+            /
+          </span>
+          <span className="line-clamp-1 text-gray-600 dark:text-gray-300">{blog.title}</span>
+        </nav>
+
+        <header className="mb-10 border-b border-gray-200/80 pb-10 dark:border-white/10">
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-800 dark:bg-indigo-500/20 dark:text-indigo-200">
+              Guide
+            </span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">{readTime} min read</span>
+          </div>
+          <h1 className="max-w-4xl text-3xl font-bold tracking-tight text-gray-900 dark:text-white md:text-4xl md:leading-tight lg:text-[2.5rem]">
             {blog.title}
           </h1>
-          <p className="mx-auto mt-4 max-w-3xl leading-7 text-gray-600 dark:text-gray-300">
+          <p className="mt-5 max-w-3xl text-lg leading-relaxed text-gray-600 dark:text-gray-300">
             {blog.description}
           </p>
         </header>
 
-        <div className="rounded-[20px] border border-gray-200 bg-white p-6 shadow-[0px_30px_50px_-32px_rgba(107,110,148,0.06)] dark:border-white/10 dark:bg-white/5 md:p-8">
-          {embedCalculator ? <BlogCalculatorEmbed calculator={embedCalculator} /> : null}
-          <section className="space-y-8 text-base text-gray-700 dark:text-gray-200">
-            {renderBlogBlocks(blog.content, blog.slug)}
-          </section>
+        <div className="overflow-hidden rounded-2xl border border-gray-200/90 bg-white shadow-[0_24px_80px_-40px_rgba(15,23,42,0.12)] dark:border-white/10 dark:bg-slate-900/60 dark:shadow-[0_24px_80px_-40px_rgba(0,0,0,0.45)]">
+          {embedCalculator ? (
+            <div className="border-b border-gray-100 bg-slate-50/80 dark:border-white/5 dark:bg-slate-950/40">
+              <BlogCalculatorEmbed calculator={embedCalculator} />
+            </div>
+          ) : null}
 
-          {relatedCalculators.length > 0 && (
-            <section className="mt-10 border-t border-gray-200 pt-8 dark:border-white/10">
-              <h2 className="mb-3 text-xl font-bold text-gray-800 dark:text-white/90">
-                Related Calculators
+          <section className="p-6 md:p-10 lg:p-12">
+            <div className="mx-auto max-w-[42rem]">
+              <BlogArticleBody content={blog.content} blogSlug={blog.slug} />
+            </div>
+
+            {relatedCalculators.length > 0 && (
+              <div className="mx-auto mt-14 max-w-[56rem] border-t border-gray-100 pt-10 dark:border-white/10">
+                <h2 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white md:text-2xl">
+                  Related calculators
+                </h2>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                  Tools referenced in this article, including URLs that map to the same calculator
+                  experience.
+                </p>
+                <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                  {relatedCalculators.map((calculator) => (
+                    <CalculatorCardLink
+                      key={calculator.slug}
+                      href={`/${calculator.slug}`}
+                      name={calculator.name}
+                      description={calculator.description}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="mx-auto mt-14 max-w-[56rem] border-t border-gray-100 pt-10 dark:border-white/10">
+              <h2 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white md:text-2xl">
+                Popular calculators
               </h2>
-              <p className="mb-5 text-sm text-gray-500 dark:text-gray-400">
-                Tools referenced in this article (including programmatic landing URLs mapped to the same
-                calculator engine).
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                Continue with practical tools after reading this guide.
               </p>
-              <div className="grid gap-3 sm:grid-cols-2">
-                {relatedCalculators.map((calculator) => (
-                  <Link
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                {popularCalculators.map((calculator) => (
+                  <CalculatorCardLink
                     key={calculator.slug}
-                    href={`/${calculator.slug}`}
-                    className="rounded-xl border border-gray-200 bg-white p-4 transition hover:border-primary-200 dark:border-white/10 dark:bg-white/5 dark:hover:border-primary-500/30"
-                  >
-                    <p className="font-medium text-gray-800 dark:text-white/90">{calculator.name}</p>
-                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                      {calculator.description}
-                    </p>
-                  </Link>
+                    href={calculator.href}
+                    name={calculator.name}
+                    description={calculator.description}
+                  />
                 ))}
               </div>
-            </section>
-          )}
+            </div>
 
-          <section className="mt-10 border-t border-gray-200 pt-8 dark:border-white/10">
-            <h2 className="mb-3 text-xl font-bold text-gray-800 dark:text-white/90">
-              Popular Calculators
-            </h2>
-            <p className="mb-5 text-sm text-gray-500 dark:text-gray-400">
-              Continue with practical tools after reading this guide.
-            </p>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {popularCalculators.map((calculator) => (
-                <Link
-                  key={calculator.slug}
-                  href={calculator.href}
-                  className="rounded-xl border border-gray-200 bg-white p-4 transition hover:border-primary-200 dark:border-white/10 dark:bg-white/5 dark:hover:border-primary-500/30"
-                >
-                  <p className="font-medium text-gray-800 dark:text-white/90">{calculator.name}</p>
-                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    {calculator.description}
-                  </p>
-                </Link>
-              ))}
+            <div className="mx-auto mt-12 max-w-[42rem]">
+              <Link
+                href="/blog"
+                className="inline-flex items-center justify-center rounded-full border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-800 shadow-sm transition hover:border-primary-300 hover:bg-gray-50 dark:border-white/15 dark:bg-white/5 dark:text-white dark:hover:border-primary-500/40 dark:hover:bg-white/10"
+              >
+                ← All articles
+              </Link>
             </div>
           </section>
-          <div className="mt-8">
-            <Link
-              href="/blog"
-              className="inline-flex items-center justify-center rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 transition hover:border-primary-200 dark:border-white/10 dark:bg-white/5 dark:text-white/90 dark:hover:border-primary-500/30"
-            >
-              Back to all blog posts
-            </Link>
-          </div>
         </div>
       </article>
     </main>

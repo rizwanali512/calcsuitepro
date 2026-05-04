@@ -27,12 +27,12 @@ export function RelatedTools({ toolSlug }: Props) {
   if (items.length === 0) return null;
 
   return (
-    <section className={cardClass} aria-label="Related developer tools">
+    <section className={cardClass} aria-label="Related calculators">
       <h2 className="mb-4 text-xl font-bold text-gray-800 dark:text-white/90">
-        Related tools
+        Related calculators
       </h2>
       <p className="mb-6 text-gray-500 dark:text-gray-400 leading-7">
-        Explore more free online developer tools that pair well with this page.
+        Explore more free online calculators in the same category—ideal for comparisons and follow-up checks.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map((t) => (

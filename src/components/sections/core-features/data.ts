@@ -2,39 +2,39 @@ import * as icons from "@/assets/homepage/core-features";
 
 export const CORE_FEATURES = [
   {
-    title: "JSON & Data Tools",
+    title: "Finance & loan calculators",
     description:
-      "Format, validate, and convert JSON data instantly using fast browser-based utilities.",
+      "Plan EMI, mortgage payments, compound interest, taxes, and retirement scenarios with clear formulas and instant results.",
     iconUrl: icons.pencil,
   },
   {
-    title: "Encoding & Security Tools",
+    title: "Math & statistics tools",
     description:
-      "Decode JWT tokens, generate hashes, encode URLs, and work with Base64 and security utilities.",
+      "Solve percentages, roots, probability, standard deviation, and everyday math problems in your browser—no spreadsheet required.",
     iconUrl: icons.bulb,
   },
   {
-    title: "Text & Regex Utilities",
+    title: "Physics & motion formulas",
     description:
-      "Test regex patterns, manipulate text, convert formats, and process strings easily.",
+      "Compute force, energy, velocity, and mechanics relationships for homework, labs, and quick engineering checks.",
     iconUrl: icons.robot,
   },
   {
-    title: "AI Developer Tools",
+    title: "Health & wellness metrics",
     description:
-      "Use AI-powered tools to generate code, write SQL queries, create commit messages, explain errors, and automate development workflows.",
+      "Estimate BMI, BMR, calories, body composition, and other wellness numbers with transparent, formula-based outputs.",
     iconUrl: icons.chat,
   },
   {
-    title: "Fast Browser-Based Tools",
+    title: "Scientific & graph calculators",
     description:
-      "All tools run in your browser. No sign-up required.",
+      "Evaluate expressions with trig and logs, or plot functions—advanced tools alongside our standard calculator library.",
     iconUrl: icons.crown,
   },
   {
-    title: "Free for Developers",
+    title: "Free online calculator hub",
     description:
-      "Use every utility without limits. Built for daily development workflows.",
+      "Hundreds of calculators, category hubs, and SEO-friendly tool pages—no sign-up required for core features.",
     iconUrl: icons.lightningBolt,
   },
 ];

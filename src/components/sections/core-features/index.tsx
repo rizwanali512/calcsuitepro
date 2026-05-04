@@ -7,11 +7,12 @@ export function CoreFeatures() {
       <div className="max-w-[72rem] mx-auto">
         <div className="mb-12 text-center">
           <h2 className="mb-3 font-bold text-gray-800 text-3xl dark:text-white/90 md:text-title-lg max-w-xl mx-auto">
-            Core Features of our Tools
+            Why people choose CalcSuite Pro
           </h2>
 
           <p className="max-w-xl mx-auto leading-6 text-gray-500 dark:text-gray-400">
-            Developer utilities for JSON, encoding, security, text, and AI-powered tasks. All run in your browser.
+            A focused calculator platform for finance, math, physics, and health—transparent formulas, category hubs, and
+            fast results in your browser. Built for search-friendly tool pages and everyday number work.
           </p>
         </div>
 

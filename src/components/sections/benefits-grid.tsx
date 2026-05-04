@@ -8,10 +8,12 @@ export default function BenefitsGrid() {
       <div className="wrapper">
         <div className="max-w-2xl mx-auto mb-12 text-center">
           <h2 className="max-w-lg mx-auto mb-3 font-bold text-center text-white dark:text-white/90 text-3xl md:text-title-lg">
-            Browse tools by category.
+            Browse calculators by category
           </h2>
-          <p className="max-w-2xl mx-auto text-base dark: font-normal leading-6 text-white/50">
-            Browse tools organized into categories to quickly find the utility you need. JSON Tools, Encoding Tools, Security Tools, Text Tools, File Converters, Date & Time Tools, Color Tools, URL Tools, AI Developer Tools, and more.
+          <p className="max-w-2xl mx-auto text-base dark:font-normal leading-6 text-white/50">
+            Jump straight to finance, math, physics, or health hubs—each calculator shows the underlying formula, accepts
+            realistic inputs, and returns results in your browser. Find EMI, mortgage, percentage, BMI, scientific, and
+            hundreds more free online calculators in one place.
           </p>
         </div>
         <div className="max-w-[1008px] mx-auto">
@@ -20,10 +22,11 @@ export default function BenefitsGrid() {
               <div className="relative flex flex-col justify-between bg-primary-500 rounded-[20px] p-9 md:p-13">
                 <div className="max-w-sm mb-32">
                   <h3 className="font-bold text-white text-2xl md:text-3xl mb-4">
-                    Developer tools that run in your browser
+                    Calculator tools that run in your browser
                   </h3>
                   <p className="text-base text-white/70">
-                    Format JSON, decode JWTs, test regex, and use AI to generate code—all without leaving the page.
+                    Run loan, tax, percentage, BMI, and physics formulas instantly—no install, no command line. Every tool
+                    is built for quick what-if checks and homework-friendly transparency.
                   </p>
                 </div>
                 <div>
@@ -161,7 +164,7 @@ export default function BenefitsGrid() {
                   <Image
                     src="/images/benefits/bn-1.svg"
                     className="-mb-8 md:-mb-13 w-full"
-                    alt="Developer productivity illustration - free utilities"
+                    alt="Illustration: free online calculators and formula tools"
                     width={488}
                     height={288}
                     sizes="100vw"
@@ -174,17 +177,18 @@ export default function BenefitsGrid() {
                 <div>
                   <Image
                     src="/images/benefits/bn-2.svg"
-                    alt="Boost productivity with developer utilities"
+                    alt="Illustration: fast finance and math calculator workflows"
                     width={306}
                     height={279}
                   />
                 </div>
                 <div>
                   <h3 className="font-bold max-w-xs text-white text-2xl md:text-3xl mb-4">
-                    Boost your productivity with free developer utilities.
+                    Plan faster with free finance &amp; math calculators
                   </h3>
                   <p className="text-base max-w-sm text-white/70">
-                    No login, no limits. Use JSON formatter, Base64, JWT decoder, and more every day.
+                    Compare EMI scenarios, compound growth, taxes, and percentages in seconds. Bookmark the hubs you use
+                    most—no account required for standard calculator pages.
                   </p>
                 </div>
               </div>
@@ -193,23 +197,25 @@ export default function BenefitsGrid() {
               <div className="lg:px-12 p-8 bg-[#2D0B70]   lg:p-12 relative rounded-[20px] h-full lg:flex lg:flex-row justify-between bg-cover flex-col gap-5">
                 <div className="max-w-sm relative z-10">
                   <h3 className="font-bold text-white text-2xl md:text-3xl mb-4">
-                    AI developer tools when you need them
+                    Scientific &amp; graph calculators for deeper work
                   </h3>
                   <p className="text-base text-white/70 mb-8">
-                    AI-powered utilities designed to help developers generate code, automate tasks, and improve productivity. Text Generator, Code Generator, Image Generator, Email Generator, SQL Generator, Regex Generator, Commit Message Generator, API Documentation Generator, Error Explainer, Code Refactor Tool, and more.
+                    When a single-field calculator is not enough, open the scientific calculator for full expressions or the
+                    graph calculator to visualize functions. Same site, same focus: accurate, formula-forward math for
+                    students, tutors, and professionals.
                   </p>
                   <Link
-                    href="/finance-calculators"
+                    href="/all-calculators"
                     className="font-medium inline-block text-sm text-white rounded-full bg-primary-500 hover:bg-primary-600 transition py-3 px-6"
                   >
-                    Open Calculators
+                    Browse all calculators
                   </Link>
                 </div>
                 <div>
                   <Image
                     src="/images/benefits/bn-3.svg"
                     className="hidden lg:block relative z-10"
-                    alt="AI developer tools illustration"
+                    alt="Illustration: scientific and graph calculator experience"
                     width={359}
                     height={318}
                   />

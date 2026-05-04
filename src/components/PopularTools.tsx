@@ -15,7 +15,7 @@ type Props = {
 };
 
 /**
- * Static popular tools list from `lib/popularTools.ts` (via getPopularTools).
+ * Popular calculators from `getPopularCalculators` in `lib/calculators.ts` (homepage and hub sections).
  */
 export function PopularTools({ excludeSlug, max = 24 }: Props) {
   const popular = getPopularTools()
@@ -25,9 +25,9 @@ export function PopularTools({ excludeSlug, max = 24 }: Props) {
   if (popular.length === 0) return null;
 
   return (
-    <section className={`${cardClass} max-w-5xl mx-auto w-full`} aria-label="Popular developer tools">
+    <section className={`${cardClass} max-w-5xl mx-auto w-full`} aria-label="Popular free online calculators">
       <h2 className="mb-6 text-xl font-bold text-gray-800 dark:text-white/90">
-        Popular tools
+        Popular calculators
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {popular.map((tool) => (

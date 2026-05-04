@@ -1,166 +1,152 @@
 "use client";
 
-import Image from 'next/image';
-import { useState } from 'react';
+import Image from "next/image";
+import { useState } from "react";
 
-  const testimonials = [
-    {
-      id: 1,
-      name: 'Ralph Edwards',
-      company: 'Big Kahuna Burger Ltd',
-      image: '/images/users/user-1.png',
-      testimonial:
-        'This platform saves me hours when debugging JSON and working with APIs.',
-    },
-    {
-      id: 2,
-      name: 'Albert Flores',
-      company: 'Biffco Enterprises Ltd.',
-      image: '/images/users/user-2.png',
-      testimonial:
-        'Having all developer tools and AI utilities in one place makes my workflow much faster.',
-    },
-    {
-      id: 3,
-      name: 'Jenny Wilson',
-      company: 'Acme Co.',
-      image: '/images/users/user-3.png',
-      testimonial:
-        'The regex tester and JSON formatter are exactly what I needed. Clean UI and they just work.',
-    },
-    {
-      id: 4,
-      name: 'Esther Howard',
-      company: 'Barone LLC.',
-      image: '/images/users/user-4.png',
-      testimonial:
-        'Finally a place with all the small utilities in one spot. Base64 and UUID generator are bookmarked.',
-    },
-    {
-      id: 5,
-      name: 'Darlene Robertson',
-      company: 'Abstergo Ltd.',
-      image: '/images/users/user-1.png',
-      testimonial:
-        'The AI tools for regex and code explanation are surprisingly good. Saves me a lot of searching.',
-    },
-    {
-      id: 6,
-      name: 'Devon Lane',
-      company: 'Binford Ltd.',
-      image: '/images/users/user-2.png',
-      testimonial:
-        'Free, fast, and no account required. This is how developer tools should be.',
-    },
-    {
-      id: 7,
-      name: 'Ralph Edwards',
-      company: 'Big Kahuna Burger Ltd',
-      image: '/images/users/user-1.png',
-      testimonial:
-        'This platform saves me time when debugging APIs and working with JSON.',
-    },
-    {
-      id: 8,
-      name: 'Darlene Robertson',
-      company: 'Abstergo Ltd.',
-      image: '/images/users/user-2.png',
-      testimonial:
-        'As a developer I use these tools daily. Fast and simple.',
-    },
-    {
-      id: 9,
-      name: 'Devon Lane',
-      company: 'Binford Ltd.',
-      image: '/images/users/user-3.png',
-      testimonial:
-        'Clean utilities, no fluff. Exactly what I need for quick encoding and decoding.',
-    },
-  ];
+const testimonials = [
+  {
+    id: 1,
+    name: "Ralph Edwards",
+    company: "Big Kahuna Burger Ltd",
+    image: "/images/users/user-1.png",
+    testimonial:
+      "I use the EMI and compound interest calculators before every major purchase. Clear formulas and fast results.",
+  },
+  {
+    id: 2,
+    name: "Albert Flores",
+    company: "Biffco Enterprises Ltd.",
+    image: "/images/users/user-2.png",
+    testimonial:
+      "Having finance, math, and health calculators in one hub saves me from juggling random spreadsheet templates.",
+  },
+  {
+    id: 3,
+    name: "Jenny Wilson",
+    company: "Acme Co.",
+    image: "/images/users/user-3.png",
+    testimonial:
+      "The BMI and calorie tools are simple but honest about what they estimate. Clean UI and they just work.",
+  },
+  {
+    id: 4,
+    name: "Esther Howard",
+    company: "Barone LLC.",
+    image: "/images/users/user-4.png",
+    testimonial:
+      "Finally a site where I can sanity-check percentage and tax math without signing up. Bookmarked for tax season.",
+  },
+  {
+    id: 5,
+    name: "Darlene Robertson",
+    company: "Abstergo Ltd.",
+    image: "/images/users/user-1.png",
+    testimonial:
+      "The scientific calculator handles the expressions I need for intro physics. Nice complement to the formula pages.",
+  },
+  {
+    id: 6,
+    name: "Devon Lane",
+    company: "Binford Ltd.",
+    image: "/images/users/user-2.png",
+    testimonial:
+      "Free, fast, and no account required. This is how online calculator sites should feel.",
+  },
+  {
+    id: 7,
+    name: "Ralph Edwards",
+    company: "Big Kahuna Burger Ltd",
+    image: "/images/users/user-1.png",
+    testimonial:
+      "Mortgage and loan calculators helped us compare two refinance offers side by side with the same assumptions.",
+  },
+  {
+    id: 8,
+    name: "Darlene Robertson",
+    company: "Abstergo Ltd.",
+    image: "/images/users/user-2.png",
+    testimonial:
+      "I tutor high school math—the graph calculator and percentage tools get a lot of use during sessions.",
+  },
+  {
+    id: 9,
+    name: "Devon Lane",
+    company: "Binford Ltd.",
+    image: "/images/users/user-3.png",
+    testimonial:
+      "Straightforward inputs and readable outputs. Exactly what I need for quick homework verification.",
+  },
+];
 
-  export default function TestimonialsSection() {
-    const [showAll, setShowAll] = useState(false);
+export default function TestimonialsSection() {
+  const [showAll, setShowAll] = useState(false);
 
-    // Determine which testimonials to display
-    const visibleTestimonials = showAll
-      ? testimonials
-      : testimonials.slice(0, 6);
+  const visibleTestimonials = showAll ? testimonials : testimonials.slice(0, 6);
 
-    return (
-      <section className="md:py-28 py-14 relative">
-        <div className="wrapper">
-          <div>
-            <div className="max-w-2xl mx-auto mb-12 text-center">
-              <h2 className="mb-3 font-bold text-center text-gray-800 text-3xl dark:text-white/90 md:text-title-lg">
-                What our users say
-              </h2>
-              <p className="max-w-xl mx-auto leading-6 text-gray-500 dark:text-gray-400">
-                Developers use our tools for JSON, JWT, Base64, regex, and more. Fast and free.
-              </p>
-            </div>
-
-            {/* Testimonials Grid */}
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 max-w-[72rem] mx-auto">
-              {visibleTestimonials.map((testimonial) => (
-                <TestimonialCard
-                  key={testimonial.id}
-                  testimonial={testimonial}
-                />
-              ))}
-            </div>
-
-            {/* Show More Button */}
-            <div className="mt-8 text-center relative z-10">
-              <button
-                onClick={() => setShowAll(!showAll)}
-                className="inline-flex items-center dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 px-6 py-3.5 text-sm font-medium text-gray-800 bg-white border border-gray-200 dark:hover:bg-gray-900 rounded-full shadow-theme-xs hover:bg-gray-50 focus:outline-none"
-              >
-                <span>{showAll ? 'Show less...' : 'Show more...'}</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Gradient overlay when collapsed */}
-        {!showAll && (
-          <div className="white-gradient h-[264px]  w-full absolute bottom-0"></div>
-        )}
-      </section>
-    );
-  }
-
-  // Testimonial Card Component
-  function TestimonialCard({
-    testimonial,
-  }: {
-    testimonial: (typeof testimonials)[number];
-  }) {
-    return (
-      <div className="p-2 bg-gray-50 dark:bg-white/5 dark:border-gray-800 dark:hover:border-white/10 border rounded-[20px] border-gray-100 hover:border-primary-200 transition">
-        <div className="flex items-center p-3 mb-3 bg-white/90 dark:bg-white/[0.03] rounded-2xl">
-          <div>
-            <Image
-              src={testimonial.image || '/placeholder.svg'}
-              alt={testimonial.name}
-              width={52}
-              height={52}
-              className="size-13 object-cover ring-2 ring-white dark:ring-gray-700 mr-4 rounded-full drop-shadow-[0_8px_20px_rgba(0,0,0,0.08)]"
-            />
-          </div>
-          <div>
-            <h3 className="text-gray-800 font-base dark:text-white/90">
-              {testimonial.name}
-            </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              {testimonial.company}
+  return (
+    <section className="md:py-28 py-14 relative">
+      <div className="wrapper">
+        <div>
+          <div className="max-w-2xl mx-auto mb-12 text-center">
+            <h2 className="mb-3 font-bold text-center text-gray-800 text-3xl dark:text-white/90 md:text-title-lg">
+              What our users say
+            </h2>
+            <p className="max-w-xl mx-auto leading-6 text-gray-500 dark:text-gray-400">
+              Students, tutors, and professionals use CalcSuite Pro for finance planning, STEM homework, and wellness
+              estimates—free online calculators with transparent formulas.
             </p>
           </div>
-        </div>
-        <div className="p-5 rounded-2xl bg-white/90 dark:bg-white/[0.03]">
-          <p className="text-base leading-6 text-gray-700 dark:text-gray-400">
-            {testimonial.testimonial}
-          </p>
+
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 max-w-[72rem] mx-auto">
+            {visibleTestimonials.map((testimonial) => (
+              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+            ))}
+          </div>
+
+          <div className="mt-8 text-center relative z-10">
+            <button
+              type="button"
+              onClick={() => setShowAll(!showAll)}
+              className="inline-flex items-center dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 px-6 py-3.5 text-sm font-medium text-gray-800 bg-white border border-gray-200 dark:hover:bg-gray-900 rounded-full shadow-theme-xs hover:bg-gray-50 focus:outline-none"
+            >
+              <span>{showAll ? "Show less..." : "Show more..."}</span>
+            </button>
+          </div>
         </div>
       </div>
-    );
-  }
+
+      {!showAll ? (
+        <div className="white-gradient h-[264px]  w-full absolute bottom-0"></div>
+      ) : null}
+    </section>
+  );
+}
+
+function TestimonialCard({
+  testimonial,
+}: {
+  testimonial: (typeof testimonials)[number];
+}) {
+  return (
+    <div className="p-2 bg-gray-50 dark:bg-white/5 dark:border-gray-800 dark:hover:border-white/10 border rounded-[20px] border-gray-100 hover:border-primary-200 transition">
+      <div className="flex items-center p-3 mb-3 bg-white/90 dark:bg-white/[0.03] rounded-2xl">
+        <div>
+          <Image
+            src={testimonial.image || "/placeholder.svg"}
+            alt={testimonial.name}
+            width={52}
+            height={52}
+            className="size-13 object-cover ring-2 ring-white dark:ring-gray-700 mr-4 rounded-full drop-shadow-[0_8px_20px_rgba(0,0,0,0.08)]"
+          />
+        </div>
+        <div>
+          <h3 className="text-gray-800 font-base dark:text-white/90">{testimonial.name}</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{testimonial.company}</p>
+        </div>
+      </div>
+      <div className="p-5 rounded-2xl bg-white/90 dark:bg-white/[0.03]">
+        <p className="text-base leading-6 text-gray-700 dark:text-gray-400">{testimonial.testimonial}</p>
+      </div>
+    </div>
+  );
+}

@@ -1,9 +1,9 @@
 "use client";
 
 import { MinusIcon, PlusIcon } from "@/icons/icons";
+import Link from "next/link";
 import { useState } from "react";
 
-// Define the FAQ item type
 interface FAQItem {
   id: number;
   question: string;
@@ -13,37 +13,36 @@ interface FAQItem {
 export default function FaqAccordion() {
   const [activeItem, setActiveItem] = useState<number | null>(1);
 
-  // FAQ data
   const faqItems: FAQItem[] = [
     {
       id: 1,
-      question: "Are these developer tools free to use?",
+      question: "Are CalcSuite Pro calculators free to use?",
       answer:
-        "Yes. All developer tools on this platform are free to use. There are no usage limits for tools like JSON formatter, JWT decoder, Base64 encoder, regex tester, UUID generator, and the rest of the collection.",
+        "Yes. The core calculator library is free to use in your browser. You can open finance, math, physics, and health tools, run formulas, and compare scenarios without paying for basic access.",
     },
     {
       id: 2,
-      question: "Do the tools run in the browser?",
+      question: "Do calculators run locally in my browser?",
       answer:
-        "Yes. Most tools run entirely in your browser. Your data is not sent to our servers when you use the JSON formatter, JWT decoder, Base64 encoder, regex tester, or UUID generator. AI tools may process input to generate results.",
+        "Most calculators evaluate inputs directly in your browser for speed and privacy. Your numbers typically stay on your device unless a specific tool clearly states otherwise (for example, a feature that sends data to a server).",
     },
     {
       id: 3,
-      question: "Is my data sent to a server?",
+      question: "How accurate are the results?",
       answer:
-        "For most developer tools (JSON, JWT, Base64, regex, UUID, etc.), processing happens in your browser and your data is not sent to our servers. AI-powered tools may send input to generate responses.",
+        "Each page documents the formula it implements. Accuracy depends on correct inputs, consistent units, and the limits of standard numeric math in the browser. For financial or health decisions, use results as a planning aid alongside professional advice when appropriate.",
     },
     {
       id: 4,
-      question: "What AI tools are available on this platform?",
+      question: "Which calculator categories do you cover?",
       answer:
-        "We offer AI-powered tools including Text Generator, Code Generator, Image Generator, Email Generator, SQL Generator, Regex Generator, Commit Message Generator, API Documentation Generator, Error Explainer, and Code Refactor Tool. Access them from the AI Tools page.",
+        "We organize tools into finance (loans, tax, investment, retirement), math, physics, health, and more. Use category hubs such as Finance Calculators, Math Calculators, and Physics Calculators—or search with the command palette (Cmd+K / Ctrl+K) on supported pages.",
     },
     {
       id: 5,
-      question: "Can I use these tools without creating an account?",
+      question: "Do I need an account to use the calculators?",
       answer:
-        "Yes. You can use all developer tools without signing up or logging in. No account is required for JSON formatting, JWT decoding, Base64 encoding, regex testing, UUID generation, or any other utility on the platform.",
+        "No account is required for standard calculator pages. Open any tool, enter values, and get results immediately. Optional features like accounts or billing, if enabled on your deployment, are separate from everyday calculator use.",
     },
   ];
 
@@ -59,7 +58,12 @@ export default function FaqAccordion() {
             Frequently Asked Questions
           </h2>
           <p className="max-w-md mx-auto leading-6 text-gray-500 dark:text-gray-400">
-            Common questions about our developer tools and AI utilities. Still confused? Feel free to contact us.
+            Common questions about our free online calculators and how CalcSuite Pro fits homework, budgeting, and
+            technical checks. Still need help?{" "}
+            <Link href="/contact" className="font-medium text-primary-500 hover:underline">
+              Contact us
+            </Link>
+            .
           </p>
         </div>
         <div className="max-w-[600px] mx-auto">
@@ -79,7 +83,6 @@ export default function FaqAccordion() {
   );
 }
 
-// FAQ Item Component
 function FAQItem({
   item,
   isActive,
