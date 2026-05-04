@@ -183,6 +183,21 @@ const handlers: Record<string, Handler> = {
     return result === 'INVALID' ? null : result;
   },
   'graph-calculator': () => null,
+  'logarithm-calculator': (values) => {
+    const value = asNumber(values.value);
+    const base = asNumber(values.base);
+    if (value == null || base == null) return null;
+    if (value <= 0 || base <= 0 || base === 1) return null;
+    const result = Math.log(value) / Math.log(base);
+    return Number.isFinite(result) ? result : null;
+  },
+  'force-calculator': (values) => {
+    const mass = asNumber(values.mass);
+    const acceleration = asNumber(values.acceleration);
+    if (mass == null || acceleration == null) return null;
+    const result = mass * acceleration;
+    return Number.isFinite(result) ? result : null;
+  },
   'mean-median-mode-range-calculator': (values) => {
     const numbers = parseNumberList(values);
     if (!numbers) return null;

@@ -32,6 +32,9 @@ import {
   VelocityCalculatorArticle,
   VelocityCalculatorIntro,
 } from '@/components/VelocityCalculatorPageContent';
+import ForceCalculatorPro from '@/components/calculators/pro/ForceCalculatorPro';
+import LogarithmCalculatorPro from '@/components/calculators/pro/LogarithmCalculatorPro';
+import StudentLoanCalculatorPro from '@/components/calculators/pro/StudentLoanCalculatorPro';
 import { Input } from '@/components/ui/inputs';
 import { calculate, type CalculationResult } from '@/lib/calculatorEngine';
 import {
@@ -427,6 +430,42 @@ export default function CalculatorTemplate({ calculator, embed = false }: Props)
           ) : calculator.slug === 'graph-calculator' ? (
             <>
               <GraphCalculator />
+              <div className="mt-6">
+                <Link
+                  href={embed ? `/${calculator.slug}` : '/all-calculators'}
+                  className="inline-flex text-sm font-medium text-primary-500 hover:text-primary-600 hover:underline transition"
+                >
+                  {embed ? 'Open full calculator page' : 'Try another calculator'}
+                </Link>
+              </div>
+            </>
+          ) : calculator.slug === 'student-loan-calculator' ? (
+            <>
+              <StudentLoanCalculatorPro />
+              <div className="mt-6">
+                <Link
+                  href={embed ? `/${calculator.slug}` : '/all-calculators'}
+                  className="inline-flex text-sm font-medium text-primary-500 hover:text-primary-600 hover:underline transition"
+                >
+                  {embed ? 'Open full calculator page' : 'Try another calculator'}
+                </Link>
+              </div>
+            </>
+          ) : calculator.slug === 'force-calculator' ? (
+            <>
+              <ForceCalculatorPro />
+              <div className="mt-6">
+                <Link
+                  href={embed ? `/${calculator.slug}` : '/all-calculators'}
+                  className="inline-flex text-sm font-medium text-primary-500 hover:text-primary-600 hover:underline transition"
+                >
+                  {embed ? 'Open full calculator page' : 'Try another calculator'}
+                </Link>
+              </div>
+            </>
+          ) : calculator.slug === 'logarithm-calculator' ? (
+            <>
+              <LogarithmCalculatorPro />
               <div className="mt-6">
                 <Link
                   href={embed ? `/${calculator.slug}` : '/all-calculators'}

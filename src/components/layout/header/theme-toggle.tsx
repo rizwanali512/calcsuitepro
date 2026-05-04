@@ -1,17 +1,36 @@
 "use client";
 
 import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
 const ThemeToggle = () => {
   const { setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const isDark = resolvedTheme === 'dark';
 
   return (
     <button
+      type="button"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      aria-label={
+        mounted
+          ? isDark
+            ? 'Switch to light mode'
+            : 'Switch to dark mode'
+          : 'Toggle color theme'
+      }
+      title={
+        mounted
+          ? isDark
+            ? 'Switch to light mode'
+            : 'Switch to dark mode'
+          : 'Toggle color theme'
+      }
       className="inline-flex items-center justify-center size-11 rounded-full border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-200 hover:text-slate-800 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700 transition"
     >
       <svg
