@@ -92,6 +92,17 @@ export default function RootLayout({
     name: siteConfig.name,
     url: siteConfig.url,
   };
+  const websiteJsonLd = {
+    '@context': 'https://schema.org/',
+    '@type': 'WebSite',
+    name: 'calcsuitepro',
+    url: 'https://calcsuitepro.com/',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: '{search_term_string}',
+      'query-input': 'required name=search_term_string',
+    },
+  };
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -103,6 +114,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd),
           }}
         />
         <ThemeProvider disableTransitionOnChange>
