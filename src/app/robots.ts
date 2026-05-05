@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { siteConfig } from '@/lib/seo';
+import { getBaseUrl } from '@/lib/site-url';
 
 /** Paths that should not be crawled (auth, payments, server APIs). */
 const DISALLOW = ['/api/', '/dashboard/', '/billing/'] as const;
@@ -20,9 +20,10 @@ const AI_AND_DEFAULT_RULES: MetadataRoute.Robots['rules'] = [
 ];
 
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = getBaseUrl();
   return {
     rules: AI_AND_DEFAULT_RULES,
-    sitemap: `${siteConfig.url}/sitemap.xml`,
-    host: siteConfig.url,
+    sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   };
 }

@@ -4,12 +4,12 @@ import { blogs } from '@/lib/blogs';
 import { calculators } from '@/lib/calculators';
 import { CATEGORY_META } from '@/lib/categories';
 import { COMPARE_PAGE_SLUGS } from '@/lib/compare-pages';
-import { siteConfig } from '@/lib/seo';
+import { getBaseUrl } from '@/lib/site-url';
 import { SEO_PAGE_SLUGS } from '@/lib/seo-pages';
 import { seoPages } from '@/lib/seoPages';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = siteConfig.url;
+  const baseUrl = getBaseUrl();
   const lastModified = new Date();
 
   const staticPaths = [
