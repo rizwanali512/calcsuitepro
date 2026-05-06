@@ -13,63 +13,256 @@ export const metadata: Metadata = {
   alternates: { canonical: getBaseUrl() + '/physics-calculators' },
 };
 
+function getPhysicsCardMeta(slug: string): { title: string; icon: string; accent: string } {
+  const s = slug.toLowerCase();
+
+  if (s.includes('velocity') || s.includes('speed') || s.includes('distance') || s.includes('acceleration')) {
+    return { title: 'Motion', icon: '🏃', accent: 'from-sky-500 to-blue-600' };
+  }
+  if (s.includes('force') || s.includes('pressure') || s.includes('torque')) {
+    return { title: 'Forces', icon: '🧲', accent: 'from-indigo-500 to-purple-500' };
+  }
+  if (s.includes('kinetic-energy') || s.includes('potential-energy') || s === 'work-calculator' || s.includes('power')) {
+    return { title: 'Energy', icon: '⚡', accent: 'from-amber-500 to-orange-600' };
+  }
+  if (s.includes('momentum') || s.includes('impulse')) {
+    return { title: 'Momentum', icon: '💥', accent: 'from-rose-500 to-pink-600' };
+  }
+  if (s.includes('frequency') || s.includes('wave') || s.includes('wavelength')) {
+    return { title: 'Waves', icon: '🌊', accent: 'from-emerald-500 to-teal-600' };
+  }
+  if (s.includes('ohms') || s.includes('voltage') || s.includes('current') || s.includes('resistance')) {
+    return { title: 'Electricity', icon: '🔌', accent: 'from-fuchsia-500 to-purple-600' };
+  }
+  if (s.includes('gravity') || s.includes('gravitational')) {
+    return { title: 'Gravity', icon: '🪐', accent: 'from-slate-500 to-gray-600' };
+  }
+  return { title: 'Physics', icon: '🧪', accent: 'from-indigo-500 to-purple-600' };
+}
+
 export default function PhysicsCalculatorsPage() {
   const tools = getToolsByCategory('physics');
+
   const physicsTopics = [
-    { name: 'Velocity Calculator', href: '/velocity-calculator' },
-    { name: 'Force Calculator', href: '/force-calculator' },
-    { name: 'Kinetic Energy Calculator', href: '/kinetic-energy-calculator' },
-    { name: 'Momentum Calculator', href: '/momentum-calculator' },
-  ];
+    {
+      key: 'motion',
+      title: 'Motion',
+      href: '/velocity-calculator',
+      description: 'Velocity, acceleration, distance.',
+      icon: '🏃',
+      accent: 'from-sky-500 to-blue-600',
+    },
+    {
+      key: 'forces',
+      title: 'Forces',
+      href: '/force-calculator',
+      description: 'Force, pressure, torque.',
+      icon: '🧲',
+      accent: 'from-indigo-500 to-purple-500',
+    },
+    {
+      key: 'energy',
+      title: 'Energy',
+      href: '/kinetic-energy-calculator',
+      description: 'Work, energy, power.',
+      icon: '⚡',
+      accent: 'from-amber-500 to-orange-600',
+    },
+    {
+      key: 'momentum',
+      title: 'Momentum',
+      href: '/momentum-calculator',
+      description: 'p = m·v and collisions.',
+      icon: '💥',
+      accent: 'from-rose-500 to-pink-600',
+    },
+    {
+      key: 'waves',
+      title: 'Waves',
+      href: '/wave-speed-calculator',
+      description: 'f, λ, and wave speed.',
+      icon: '🌊',
+      accent: 'from-emerald-500 to-teal-600',
+    },
+    {
+      key: 'electricity',
+      title: 'Electricity',
+      href: '/ohms-law-calculator',
+      description: 'V, I, R relationships.',
+      icon: '🔌',
+      accent: 'from-fuchsia-500 to-purple-600',
+    },
+    {
+      key: 'gravity',
+      title: 'Gravity',
+      href: '/gravitational-force-calculator',
+      description: 'Newton’s gravitation.',
+      icon: '🪐',
+      accent: 'from-slate-500 to-gray-600',
+    },
+  ] as const;
+
   return (
-    <div className="wrapper py-14 md:py-28">
-      <div className="max-w-2xl mx-auto mb-10 text-center">
-        <h1 className="mb-3 font-bold text-center text-gray-800 dark:text-white/90 text-3xl md:text-title-lg">
-          Physics Calculators
-        </h1>
-        <p className="max-w-2xl mx-auto leading-6 text-gray-500 dark:text-gray-400 mb-8">
-          Apply standard physics equations for motion and mechanics in seconds.
-        </p>
-        <div className="max-w-2xl mx-auto text-left">
-          <QuickAnswerBlock paragraphs={getHubQuickAnswerParagraphs('physics')} />
-        </div>
-      </div>
-      <div className="max-w-6xl mx-auto mb-8">
-        <SearchBar calculators={tools} />
-      </div>
-      <section className="max-w-6xl mx-auto mb-10">
-        <h2 className="mb-3 text-2xl font-bold text-gray-800 dark:text-white/90">
-          Explore Physics Calculator Topics
-        </h2>
-        <p className="mb-5 text-sm leading-6 text-gray-500 dark:text-gray-400">
-          Browse motion, force, energy, and mechanics calculator topics.
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {physicsTopics.map((topic) => (
-            <Link
-              key={topic.href}
-              href={topic.href}
-              className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white/90 bg-white dark:bg-white/5 hover:border-primary-200 dark:hover:border-primary-500/30 transition"
-            >
-              {topic.name}
-            </Link>
-          ))}
+    <div className="relative">
+      {/* ===== HERO ===================================================== */}
+      <section className="relative overflow-hidden border-b border-gray-200/60 dark:border-white/10">
+        <div className="pointer-events-none absolute inset-0 -z-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.18),transparent_55%),radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.14),transparent_55%)]" />
+        <div className="pointer-events-none absolute inset-0 -z-0 opacity-[0.18] [background-image:linear-gradient(currentColor_1px,transparent_1px),linear-gradient(90deg,currentColor_1px,transparent_1px)] [background-size:42px_42px] text-indigo-300 dark:text-indigo-500/30" />
+
+        <div className="wrapper py-14 md:py-20">
+          <div className="max-w-3xl mx-auto text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-indigo-200/70 bg-white/70 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-indigo-700 backdrop-blur dark:border-indigo-500/30 dark:bg-white/5 dark:text-indigo-300">
+              <span className="h-1.5 w-1.5 rounded-full bg-indigo-500" />
+              Physics hub
+            </span>
+            <h1 className="mt-4 font-bold text-gray-900 dark:text-white text-3xl md:text-4xl lg:text-5xl tracking-tight">
+              Physics Calculators
+            </h1>
+            <p className="mx-auto mt-4 max-w-2xl text-gray-600 dark:text-gray-300 leading-7">
+              Apply motion, force, energy, and gravity equations — fast, free, and explained.
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs font-semibold text-gray-600 dark:text-gray-300">
+              <span className="rounded-full bg-white/80 px-3 py-1.5 shadow-sm ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">
+                <span className="text-indigo-600 dark:text-indigo-300">{tools.length}+</span> tools
+              </span>
+              <span className="rounded-full bg-white/80 px-3 py-1.5 shadow-sm ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">
+                {physicsTopics.length} topics
+              </span>
+              <span className="rounded-full bg-white/80 px-3 py-1.5 shadow-sm ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">
+                Free · No signup
+              </span>
+            </div>
+
+            <div className="mx-auto mt-8 max-w-xl text-left">
+              <SearchBar calculators={tools} />
+            </div>
+          </div>
+
+          <div className="mx-auto mt-8 max-w-3xl">
+            <QuickAnswerBlock paragraphs={getHubQuickAnswerParagraphs('physics')} />
+          </div>
         </div>
       </section>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {tools.map((tool) => (
-          <article
-            key={tool.slug}
-            className="bg-white p-6 border border-gray-200 dark:bg-white/5 dark:border-white/10 rounded-[20px] shadow-[0px_30px_50px_-32px_rgba(107,110,148,0.04)] hover:border-primary-200 dark:hover:border-primary-500/30 transition flex flex-col"
-          >
-            <h2 className="mb-2 text-lg font-bold text-gray-800 dark:text-white/90">{tool.name}</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 leading-6 flex-1">{tool.description}</p>
-            <Link href={`/${tool.slug}`} className="mt-4 inline-flex items-center justify-center px-5 py-3 text-sm font-medium text-white rounded-full bg-primary-500 hover:bg-primary-600 transition w-fit">
-              Open Calculator
-            </Link>
-          </article>
-        ))}
-      </div>
+
+      {/* ===== MAIN: Sidebar + Calculators =============================== */}
+      <section className="wrapper py-10 md:py-14">
+        <div className="max-w-6xl mx-auto grid gap-10 lg:grid-cols-[300px_1fr] lg:gap-10">
+          {/* Sidebar */}
+          <aside className="lg:sticky lg:top-24 h-fit">
+            <div className="rounded-2xl border border-gray-200 bg-white/80 p-4 backdrop-blur dark:border-white/10 dark:bg-white/5">
+              <div className="mb-3 flex items-center justify-between">
+                <h2 className="text-sm font-bold uppercase tracking-wider text-gray-700 dark:text-gray-200">
+                  Topics
+                </h2>
+                <Link
+                  href="/categories"
+                  className="text-[11px] font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-300"
+                >
+                  All hubs →
+                </Link>
+              </div>
+
+              <nav aria-label="Physics topics">
+                <ul className="space-y-1.5">
+                  {physicsTopics.map((t) => (
+                    <li key={t.key}>
+                      <Link
+                        href={t.href}
+                        className="group flex items-center gap-3 rounded-xl border border-transparent px-2.5 py-2 transition hover:border-gray-200 hover:bg-gray-50 dark:hover:border-white/10 dark:hover:bg-white/5"
+                      >
+                        <span
+                          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${t.accent} text-base shadow-sm`}
+                          aria-hidden
+                        >
+                          {t.icon}
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate text-sm font-semibold text-gray-800 dark:text-white/90 group-hover:text-indigo-700 dark:group-hover:text-indigo-300">
+                            {t.title}
+                          </span>
+                          <span className="mt-0.5 block truncate text-[11px] leading-4 text-gray-500 dark:text-gray-400">
+                            {t.description}
+                          </span>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
+
+            <div className="mt-4 rounded-2xl border border-emerald-200/70 bg-emerald-50 p-4 text-xs leading-5 text-emerald-900 dark:border-emerald-500/30 dark:bg-emerald-950/30 dark:text-emerald-100">
+              <p className="font-semibold">Study tip</p>
+              <p className="mt-1">
+                Write the formula first, then plug in units. If the magnitude looks impossible,
+                the model or unit conversion is usually the issue.
+              </p>
+            </div>
+          </aside>
+
+          {/* Calculators */}
+          <main className="min-w-0">
+            <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-indigo-600 dark:text-indigo-300">
+                  All physics calculators
+                </p>
+                <h2 className="mt-1 text-xl font-bold text-gray-800 dark:text-white/90">
+                  {tools.length} tools for fast checks and clean answers
+                </h2>
+              </div>
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+              {tools.map((tool) => {
+                const meta = getPhysicsCardMeta(tool.slug);
+                return (
+                  <article
+                    key={tool.slug}
+                    className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg dark:border-white/10 dark:bg-white/5 dark:hover:border-indigo-500/40"
+                  >
+                    <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-rose-500 opacity-0 transition group-hover:opacity-100" />
+
+                    <div className="flex items-start justify-between gap-3">
+                      <div
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${meta.accent} text-lg shadow`}
+                        aria-hidden
+                      >
+                        {meta.icon}
+                      </div>
+                      <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-gray-600 dark:bg-white/10 dark:text-gray-300">
+                        {meta.title}
+                      </span>
+                    </div>
+
+                    <h3 className="mt-3 text-base font-bold text-gray-900 dark:text-white">{tool.name}</h3>
+                    <p className="mt-1 line-clamp-3 text-sm leading-6 text-gray-500 dark:text-gray-400 flex-1">
+                      {tool.description}
+                    </p>
+
+                    <div className="mt-4 flex items-center justify-between gap-3">
+                      <Link
+                        href={`/${tool.slug}`}
+                        className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-4 py-2 text-xs font-semibold text-white shadow hover:opacity-95 active:scale-[0.98] transition"
+                      >
+                        Open calculator →
+                      </Link>
+                      <Link
+                        href={`/${tool.slug}`}
+                        className="text-xs font-semibold text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-300"
+                        aria-label={`Learn more about ${tool.name}`}
+                      >
+                        Details
+                      </Link>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </main>
+        </div>
+      </section>
     </div>
   );
 }
