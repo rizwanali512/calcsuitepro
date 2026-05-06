@@ -699,4 +699,44 @@ Free access supports households with multiple kids sharing devices—bookmark ho
 
 Teachers can link this slug in review packets; identical outputs with the main percentage page prevent answer-key drift across URLs.`,
   },
+  {
+    slug: 'velocity-calculator-online',
+    calculatorSlug: 'velocity-calculator',
+    title: 'Online Velocity Calculator (v = Δx ÷ Δt) – Free, Fast',
+    metaDescription:
+      'Online velocity calculator: solve v = displacement ÷ time instantly in your browser. Free, no install—built for physics homework, exam prep, and quick motion checks.',
+    description:
+      'Browser-based velocity calculator: enter displacement and time to compute average velocity in any consistent unit set (m/s, km/h, etc.) without installing software.',
+    content: `Searches for an online velocity calculator usually mean two specific things: someone needs an answer to v = Δx / Δt right now, and they need it without downloading an app or buying a graphing tool. This page meets both intents directly. The calculator embedded above is the same engine that powers the primary velocity tool on CalcSuite Pro—identical parsing, identical validation, identical numeric output—paired with copy that emphasises browser-first usage on phones, Chromebooks, and shared school computers.
+
+Average velocity is the cleanest relationship in early kinematics. Pick a positive direction for your problem, find the net change in position along that axis (displacement, not total path length), measure the elapsed time, and divide. The output naturally carries the same length-per-time dimension as your inputs: meters and seconds give meters per second, kilometres and hours give kilometres per hour. The calculator never silently changes your units, so the responsibility for consistency stays with the user—where it belongs in physics.
+
+A common search variant is "online velocity calculator with distance and time" or simply "velocity calculator online for physics". Both reduce to the same formula but reflect different syllabi: one treats displacement as a signed scalar along a chosen axis, the other treats distance as the magnitude of motion. If your worksheet asks for average velocity and includes a turnaround, use net displacement (which can be smaller than total distance, or even zero on a closed loop). If it asks for average speed, use total path length divided by time instead.
+
+Because this URL is a programmatic SEO landing page, the implementation is unified with the canonical /velocity-calculator route. Bookmarking either URL gives you the same arithmetic. The difference is purely rhetorical: this page foregrounds the "online" angle, which matters when you are switching between devices, working on a public Wi-Fi network at a library, or studying late at night when downloading anything new is friction you do not want.
+
+Use cases that map cleanly to this calculator include verifying homework answers, sanity-checking units before submitting a lab report, comparing scenarios where displacement or time changes by a known amount, and tutoring where two people on different screens can confirm the same number against the same formula. Pair it with the acceleration calculator when problems chain Δv and Δt, with the distance calculator when speed × time appears explicitly, and with the graph calculator when you need to visualise position-versus-time linearity.
+
+Online tools amplify good physics habits and expose sloppy ones quickly. Always state your positive direction before computing, write the formula before plugging numbers, and verify the order of magnitude (a person walking is ~1.4 m/s; a car at ~100 km/h is ~28 m/s; a spacecraft is far higher). If the calculator returns a number that conflicts with this rough mental check, the input is almost certainly the issue—not the formula.`,
+  },
+  {
+    slug: 'gravitational-force-calculator-free',
+    calculatorSlug: 'gravitational-force-calculator',
+    title: "Free Gravitational Force Calculator – Newton's Law of Gravity",
+    metaDescription:
+      "Free gravitational force calculator using Newton's universal law: F = G·m₁·m₂ ÷ r². Enter two masses (kg) and distance (m) for an instant force in newtons.",
+    description:
+      "Free, browser-based gravitational force calculator that applies Newton's law of universal gravitation. Built for physics homework, exam prep, and orbital estimates.",
+    content: `A free gravitational force calculator should do one thing well: take two masses and a separation, and return the magnitude of Newton's universal gravitational force without unit guessing. The tool embedded above does exactly that, using F = G · m₁ · m₂ / r² with G = 6.674 × 10⁻¹¹ N·m²/kg² (the CODATA-recommended value). Enter both masses in kilograms and the centre-to-centre distance in metres; the result emerges in newtons.
+
+The "free" framing on this URL matches a real search behaviour: students searching during homework or exam prep often add the word "free" to filter out paywalled or signup-gated tools. There is no sign-in here, no email capture, and no usage limit. The same engine runs on the canonical /gravitational-force-calculator route, so you can bookmark either URL based on how you naturally search.
+
+Two common conceptual traps deserve attention. First, distance is centre-to-centre, not surface-to-surface. For Earth and a satellite, that means the orbital radius, not the altitude above ground. Second, the formula treats both objects as point masses or as spherically symmetric bodies viewed from outside their surfaces. Inside a hollow shell, by the shell theorem, the net gravitational force from the shell is zero—a counter-intuitive but useful simplification for layered planet models.
+
+Numerical scale matters. The Earth-Moon attraction is on the order of 10²⁰ N; the Earth-Sun attraction is on the order of 10²² N; two one-kilogram balls one metre apart attract each other with about 6.674 × 10⁻¹¹ N, which is essentially undetectable without sensitive equipment like the historical Cavendish torsion balance. If your computed answer is wildly off by powers of ten, the most common error is forgetting the inverse-square term (using r instead of r²) or mixing kilometres with metres for r.
+
+This page is intentionally written for physics learners rather than astronomers. Newtonian gravity is a superb approximation across nearly every situation a high-school or early university physics course asks about. It only fails in regimes that demand general relativity—near black holes, in the early universe, or when speeds approach the speed of light. For everything else, the simple formula on this page is what your textbook is asking you to apply.
+
+Pair this calculator with the force calculator when a problem chains gravitational force into Newton's second law, the acceleration calculator for resulting motion, and the velocity or kinetic-energy calculators for follow-up questions about orbital speed and energy. The internal links in the article below map those connections explicitly so you do not have to leave the topic to keep working.`,
+  },
 ];

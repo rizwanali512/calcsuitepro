@@ -70,6 +70,16 @@ const BY_SLUG: Record<string, readonly [string, string, string]> = {
     'Enter mass and acceleration; the tool multiplies them to return force, often shown in newtons.',
     'Sign matters when acceleration opposes your reference direction; magnitude alone is not always the full physics story.',
   ],
+  'pressure-calculator': [
+    'This pressure calculator solves P = F / A: pressure equals the perpendicular force divided by the area it acts on, returning pascals (Pa) when force is in newtons and area in square metres.',
+    'Use it when force and area are already known—weight on a surface, hydraulic piston load, or a tyre footprint—rather than for fluid pressure (ρ·g·h) or gas pressure (PV = nRT), which require different inputs.',
+    'Keep units consistent: 1 N / 1 m² = 1 Pa; convert kPa, bar, or psi outside the tool so the formula stays unambiguous.',
+  ],
+  'gravitational-force-calculator': [
+    'A gravitational force calculator applies Newton’s law of universal gravitation: F = G · m₁ · m₂ / r², where G ≈ 6.674 × 10⁻¹¹ N·m²/kg² is the universal gravitational constant.',
+    'Enter both masses in kilograms and the centre-to-centre distance in metres to get the attractive force in newtons—valid for point masses or spherically symmetric bodies outside their surfaces.',
+    'It is a classical (non-relativistic) result; very small distances, very large masses near light speed, or strong gravity regimes need general relativity rather than this formula.',
+  ],
   'logarithm-calculator': [
     'A logarithm calculator returns log base b of x using the change-of-base rule: natural log of x divided by natural log of b.',
     'The argument x must be positive; the base b must be positive and not equal to one, or the logarithm is undefined in real numbers.',

@@ -17,11 +17,17 @@ const TITLE_OVERRIDES: Record<string, string> = {
     'Scientific Calculator Online – Free, Advanced & Easy to Use (2026)',
   'graph-calculator': 'Graph Calculator Online – Free, Instant & Easy to Use (2026)',
   'visceral-fat-calculator':
-    'Visceral Fat Calculator – Check Your Fat Level Instantly (Free Tool)',
+    'Visceral Fat Calculator – Score Your Belly Fat Level (Free)',
   'bmi-calculator': 'BMI Calculator – Free Body Mass Index (kg & m/cm) | 2026',
   'bmr-calculator': 'BMR Calculator – Mifflin–St Jeor Basal Metabolic Rate (Free)',
   'calorie-calculator': 'Calorie Calculator – TDEE & Daily Maintenance Calories (Free)',
   'body-fat-calculator': 'Body Fat Calculator – Estimate Body Fat % from BMI (Free)',
+  'velocity-calculator':
+    'Velocity Calculator – Find Speed, Distance & Time (Free)',
+  'pressure-calculator':
+    'Pressure Calculator – Solve P = F / A Online (Free)',
+  'gravitational-force-calculator':
+    'Gravitational Force Calculator – F = G·m₁m₂/r² (Free)',
 };
 
 const DESCRIPTION_OVERRIDES: Record<string, string> = {
@@ -30,7 +36,13 @@ const DESCRIPTION_OVERRIDES: Record<string, string> = {
   'graph-calculator':
     'Plot y = f(x) with zoom, pan, and multiple equations—plus optional 3D surfaces. Instant, accurate graphs—free and easy for algebra through calculus and quick checks.',
   'visceral-fat-calculator':
-    'Estimate an abdominal adiposity proxy from waist, thigh, height, weight, age, and gender. Instant, easy results—free wellness tool for education only (not medical advice).',
+    'Estimate your visceral fat level with our free calculator. Get a Low / Normal / High proxy score from waist, thigh, height, weight & age—education only, not a diagnosis.',
+  'velocity-calculator':
+    'Free velocity calculator: solve v = displacement ÷ time instantly with consistent units (m/s, km/h). Built for physics homework, exam prep, and quick motion checks.',
+  'pressure-calculator':
+    'Free pressure calculator: enter force (N) and area (m²) to compute pressure (Pa) using P = F / A. Instant, accurate physics results for students and engineers.',
+  'gravitational-force-calculator':
+    "Free gravitational force calculator using Newton's law: F = G·m₁·m₂ ÷ r². Enter two masses and distance for an instant force in newtons. Built for physics learners.",
   'bmi-calculator':
     'Calculate BMI from weight (kg) and height in meters or centimeters. Instant, accurate results—free screening-style math for wellness and coursework (not a diagnosis).',
   'bmr-calculator':

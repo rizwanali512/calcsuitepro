@@ -32,9 +32,22 @@ import {
   VelocityCalculatorArticle,
   VelocityCalculatorIntro,
 } from '@/components/VelocityCalculatorPageContent';
+import {
+  buildPressureFaqJsonLd,
+  PRESSURE_CALCULATOR_FAQ,
+  PressureCalculatorArticle,
+  PressureCalculatorIntro,
+} from '@/components/PressureCalculatorPageContent';
+import {
+  buildGravitationalForceFaqJsonLd,
+  GRAVITATIONAL_FORCE_CALCULATOR_FAQ,
+  GravitationalForceCalculatorArticle,
+  GravitationalForceCalculatorIntro,
+} from '@/components/GravitationalForceCalculatorPageContent';
 import ForceCalculatorPro from '@/components/calculators/pro/ForceCalculatorPro';
 import LogarithmCalculatorPro from '@/components/calculators/pro/LogarithmCalculatorPro';
 import StudentLoanCalculatorPro from '@/components/calculators/pro/StudentLoanCalculatorPro';
+import VisceralFatCalculatorPro from '@/components/calculators/pro/VisceralFatCalculatorPro';
 import { Input } from '@/components/ui/inputs';
 import { calculate, type CalculationResult } from '@/lib/calculatorEngine';
 import {
@@ -123,6 +136,20 @@ function explanationParagraphs(calculator: Calculator): string[] {
       `Because the page is free and browser-based, you can revisit it during study sessions without installing software. Pair it with careful unit conversion and dimensional analysis: velocity should always carry the same length-per-time dimension as your inputs. If time is zero or missing, the calculator surfaces an error instead of producing a meaningless value.`,
     ];
   }
+  if (calculator.slug === 'pressure-calculator') {
+    return [
+      `${calculator.name} solves the contact-pressure relationship P = F / A: the perpendicular force divided by the area it acts on. Enter force in newtons (N) and area in square metres (m²), and the result emerges in pascals (Pa), the SI base unit of pressure where 1 Pa = 1 N/m². Reduce kilonewtons, square centimetres, or square millimetres to the SI form before entering values so the calculation stays unambiguous.`,
+      `Use this tool when force and area are already known—an object resting on a surface, a piston load, a bolt pre-tension on a flange, or any contact-pressure problem in introductory mechanics. It is not designed for fluid pressure at depth (which uses ρ·g·h) or for ideal gas pressure (which uses PV = nRT); reach for the dedicated formulas in those cases instead of repurposing P = F/A.`,
+      `Pressure scales inversely with area: a fixed force concentrated on a smaller footprint produces a much higher pressure—exactly why a knife edge cuts and why snowshoes prevent sinking. Convert the final pascal value to kPa, bar, or psi only after the formula is solved, so unit handling never silently distorts the result.`,
+    ];
+  }
+  if (calculator.slug === 'gravitational-force-calculator') {
+    return [
+      `${calculator.name} applies Newton’s law of universal gravitation, F = G · m₁ · m₂ / r², with G ≈ 6.674 × 10⁻¹¹ N·m²/kg². Enter both masses in kilograms and the centre-to-centre distance in metres; the calculator returns the attractive force in newtons. The formula treats each body as a point mass or, equivalently, a spherically symmetric body viewed from outside its surface.`,
+      `Distance dominates the result because of the inverse-square term: doubling r divides the force by four, while doubling either mass only doubles the force. That single fact explains why orbital mechanics is so sensitive to radius and why surface gravity changes appreciably with altitude even though planetary masses are huge.`,
+      `Use this tool for homework, exam prep, and quick astrophysics estimates—Earth–Moon attraction, Earth–Sun attraction, satellites at orbital radius, and similar two-body setups. It is a classical (non-relativistic) result; very strong gravity regimes near compact objects or relativistic speeds require general relativity rather than Newtonian gravitation.`,
+    ];
+  }
   const inputLabels = calculator.inputs.map((input) => input.label.toLowerCase());
   const useCases = categoryUseCases[calculator.category] ?? [];
   const calculatorTerm = `${calculator.name.toLowerCase()} online`;
@@ -184,6 +211,12 @@ function buildExampleValues(calculator: Calculator): FormValues {
   }
   if (calculator.slug === 'velocity-calculator') {
     return { displacement: 100, time: 5 };
+  }
+  if (calculator.slug === 'pressure-calculator') {
+    return { force: 200, area: 0.5 };
+  }
+  if (calculator.slug === 'gravitational-force-calculator') {
+    return { mass1: 5.972e24, mass2: 7.342e22, distance: 3.844e8 };
   }
   return Object.fromEntries(
     calculator.inputs.map((input, index) => {
@@ -326,6 +359,12 @@ export default function CalculatorTemplate({ calculator, embed = false }: Props)
     if (calculator.slug === 'velocity-calculator') {
       return VELOCITY_CALCULATOR_FAQ.map((item) => ({ q: item.q, a: item.a }));
     }
+    if (calculator.slug === 'pressure-calculator') {
+      return PRESSURE_CALCULATOR_FAQ.map((item) => ({ q: item.q, a: item.a }));
+    }
+    if (calculator.slug === 'gravitational-force-calculator') {
+      return GRAVITATIONAL_FORCE_CALCULATOR_FAQ.map((item) => ({ q: item.q, a: item.a }));
+    }
     return [
       {
         q: `What is a ${calculator.name.toLowerCase()}?`,
@@ -354,6 +393,8 @@ export default function CalculatorTemplate({ calculator, embed = false }: Props)
     if (calculator.slug === 'scientific-calculator') return buildScientificFaqJsonLd();
     if (calculator.slug === 'graph-calculator') return buildGraphFaqJsonLd();
     if (calculator.slug === 'velocity-calculator') return buildVelocityFaqJsonLd();
+    if (calculator.slug === 'pressure-calculator') return buildPressureFaqJsonLd();
+    if (calculator.slug === 'gravitational-force-calculator') return buildGravitationalForceFaqJsonLd();
     return buildCalculatorFaqPageJsonLd(faqItems);
   }, [calculator.slug, faqItems]);
 
@@ -413,7 +454,7 @@ export default function CalculatorTemplate({ calculator, embed = false }: Props)
           )}
         </header>
 
-        {!embed ? (
+        {!embed && calculator.slug !== 'visceral-fat-calculator' ? (
           <QuickAnswerBlock paragraphs={quickAnswerParagraphs} className="max-w-3xl" />
         ) : null}
 
@@ -423,6 +464,10 @@ export default function CalculatorTemplate({ calculator, embed = false }: Props)
           <GraphCalculatorIntro />
         ) : !embed && calculator.slug === 'velocity-calculator' ? (
           <VelocityCalculatorIntro />
+        ) : !embed && calculator.slug === 'pressure-calculator' ? (
+          <PressureCalculatorIntro />
+        ) : !embed && calculator.slug === 'gravitational-force-calculator' ? (
+          <GravitationalForceCalculatorIntro />
         ) : null}
 
         <section className={cardClass}>
@@ -477,6 +522,18 @@ export default function CalculatorTemplate({ calculator, embed = false }: Props)
           ) : calculator.slug === 'logarithm-calculator' ? (
             <>
               <LogarithmCalculatorPro />
+              <div className="mt-6">
+                <Link
+                  href={embed ? `/${calculator.slug}` : '/all-calculators'}
+                  className="inline-flex text-sm font-medium text-primary-500 hover:text-primary-600 hover:underline transition"
+                >
+                  {embed ? 'Open full calculator page' : 'Try another calculator'}
+                </Link>
+              </div>
+            </>
+          ) : calculator.slug === 'visceral-fat-calculator' ? (
+            <>
+              <VisceralFatCalculatorPro />
               <div className="mt-6">
                 <Link
                   href={embed ? `/${calculator.slug}` : '/all-calculators'}
@@ -616,6 +673,10 @@ export default function CalculatorTemplate({ calculator, embed = false }: Props)
           )}
         </section>
 
+        {!embed && calculator.slug === 'visceral-fat-calculator' ? (
+          <QuickAnswerBlock paragraphs={quickAnswerParagraphs} className="max-w-3xl" />
+        ) : null}
+
         {!embed && calculator.slug === 'scientific-calculator' ? (
           <section className={cardClass}>
             <ScientificCalculatorArticle />
@@ -705,6 +766,16 @@ export default function CalculatorTemplate({ calculator, embed = false }: Props)
             {calculator.slug === 'velocity-calculator' ? (
               <section className={cardClass}>
                 <VelocityCalculatorArticle />
+              </section>
+            ) : null}
+            {calculator.slug === 'pressure-calculator' ? (
+              <section className={cardClass}>
+                <PressureCalculatorArticle />
+              </section>
+            ) : null}
+            {calculator.slug === 'gravitational-force-calculator' ? (
+              <section className={cardClass}>
+                <GravitationalForceCalculatorArticle />
               </section>
             ) : null}
           </>
