@@ -5,7 +5,6 @@ import { QuickAnswerBlock } from '@/components/seo/QuickAnswerBlock';
 import SearchBar from '@/components/SearchBar';
 import { getHubQuickAnswerParagraphs } from '@/lib/siteQuickAnswers';
 import { getToolsByCategory } from '@/lib/categories';
-import { siteConfig } from '@/lib/seo';
 import { buildAlternates, getBaseUrl } from '@/lib/site-url';
 
 export const metadata: Metadata = {

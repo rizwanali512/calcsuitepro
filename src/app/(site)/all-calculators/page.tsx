@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { CATEGORY_META, getToolsByCategory } from '@/lib/categories';
 import SearchBar from '@/components/SearchBar';
 import { calculators } from '@/lib/calculators';
-import { siteConfig } from '@/lib/seo';
 import { QuickAnswerBlock } from '@/components/seo/QuickAnswerBlock';
 import { ALL_CALCULATORS_QUICK_ANSWER } from '@/lib/siteQuickAnswers';
 import { buildAlternates, getBaseUrl } from '@/lib/site-url';

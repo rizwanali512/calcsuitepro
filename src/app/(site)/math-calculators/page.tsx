@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { siteConfig } from '@/lib/seo';
 import { buildAlternates, getBaseUrl } from '@/lib/site-url';
 import { getToolsByCategory } from '@/lib/categories';
 import { QuickAnswerBlock } from '@/components/seo/QuickAnswerBlock';

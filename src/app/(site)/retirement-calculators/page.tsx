@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 
 import FinanceSubcategoryLanding from '@/components/FinanceSubcategoryLanding';
-import { siteConfig } from '@/lib/seo';
 import { getBaseUrl } from '@/lib/site-url';
 
 export const metadata: Metadata = {

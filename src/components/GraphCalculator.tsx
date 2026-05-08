@@ -98,9 +98,9 @@ export default function GraphCalculator() {
   }, [equations, size.width, size.height]);
 
   useEffect(() => {
+    const container = containerRef.current;
     return () => {
-      const t = containerRef.current;
-      if (t) t.innerHTML = '';
+      if (container) container.innerHTML = '';
       chartRef.current = null;
     };
   }, []);
