@@ -4,10 +4,32 @@ import Link from 'next/link';
 import { blogs } from '@/lib/blogs';
 import { estimateReadingMinutes } from '@/lib/blogReadingTime';
 import { siteConfig } from '@/lib/seo';
+import { getBaseUrl } from '@/lib/site-url';
+
+const BLOG_DESCRIPTION =
+  'Practical guides on finance, math, physics, and health formulas. Learn how to use calculators for real-world decisions.';
+
+const BLOG_URL = `${getBaseUrl()}/blog`;
 
 export const metadata: Metadata = {
-  title: `Blog - ${siteConfig.name} Guides, Formulas, and Tips`,
-  description: `Read practical guides on calculators, formulas, finance, math, and physics from ${siteConfig.name} to improve everyday decision-making.`,
+  title: 'Calculator Guides, Formulas & Tips',
+  description: BLOG_DESCRIPTION,
+  alternates: {
+    canonical: BLOG_URL,
+    languages: { en: BLOG_URL, 'x-default': BLOG_URL },
+  },
+  openGraph: {
+    title: 'Calculator Guides, Formulas & Tips | CalcSuite Pro Blog',
+    description: BLOG_DESCRIPTION,
+    url: `${getBaseUrl()}/blog`,
+    siteName: siteConfig.name,
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Calculator Guides, Formulas & Tips | CalcSuite Pro Blog',
+    description: BLOG_DESCRIPTION,
+  },
 };
 
 export default function BlogListingPage() {

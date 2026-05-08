@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { siteConfig } from '@/lib/seo';
-import { getBaseUrl } from '@/lib/site-url';
+import { buildAlternates, getBaseUrl } from '@/lib/site-url';
 import { getToolsByCategory } from '@/lib/categories';
 import { QuickAnswerBlock } from '@/components/seo/QuickAnswerBlock';
 import SearchBar from '@/components/SearchBar';
@@ -9,9 +9,10 @@ import { getHubQuickAnswerParagraphs } from '@/lib/siteQuickAnswers';
 import { POPULAR_CALCULATOR_SLUGS, getCalculatorBySlug } from '@/lib/calculators';
 
 export const metadata: Metadata = {
-  title: `Math Calculators | ${siteConfig.name}`,
-  description: 'Math calculators for algebra, geometry, and percentage problems.',
-  alternates: { canonical: getBaseUrl() + '/math-calculators' },
+  title: 'Math Calculators',
+  description:
+    'Free math calculators for percentages, fractions, quadratic equations, probability, statistics, geometry, and scientific calculations with formulas shown.',
+  alternates: buildAlternates(getBaseUrl() + '/math-calculators'),
 };
 
 function getMathCardMeta(slug: string): {

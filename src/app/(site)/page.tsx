@@ -14,9 +14,10 @@ import Link from 'next/link';
 import { QuickAnswerBlock } from '@/components/seo/QuickAnswerBlock';
 import { getTopCalculators } from '@/lib/calculators';
 import { HOME_QUICK_ANSWER } from '@/lib/siteQuickAnswers';
+import { generateWebSiteSchema, jsonLdString } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: 'Free Online Calculators & Formula Tools | CalcSuite Pro',
+  title: 'Free Online Calculators & Formula Tools',
   description:
     'CalcSuite Pro is a free online calculator platform: EMI, mortgage, compound interest, percentage, BMI, scientific calculator, graphing, physics formulas, and more. Browse finance, math, physics, and health hubs with SEO-friendly tool pages.',
   keywords: [
@@ -31,7 +32,13 @@ export const metadata: Metadata = {
     'math calculator',
     'physics calculator',
   ],
-  alternates: { canonical: getBaseUrl() + '/' },
+  alternates: (() => {
+    const home = getBaseUrl() + '/';
+    return {
+      canonical: home,
+      languages: { en: home, 'x-default': home },
+    };
+  })(),
 };
 
 const cardClass =
@@ -39,9 +46,14 @@ const cardClass =
 
 export default async function Home() {
   const topTools = getTopCalculators();
+  const websiteSchema = generateWebSiteSchema();
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdString(websiteSchema) }}
+      />
       <HeroSection />
       <div className="wrapper pt-2 pb-6 md:pb-10">
         <div className="max-w-3xl mx-auto">

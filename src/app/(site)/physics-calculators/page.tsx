@@ -1,16 +1,17 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { siteConfig } from '@/lib/seo';
-import { getBaseUrl } from '@/lib/site-url';
+import { buildAlternates, getBaseUrl } from '@/lib/site-url';
 import { getToolsByCategory } from '@/lib/categories';
 import { QuickAnswerBlock } from '@/components/seo/QuickAnswerBlock';
 import SearchBar from '@/components/SearchBar';
 import { getHubQuickAnswerParagraphs } from '@/lib/siteQuickAnswers';
 
 export const metadata: Metadata = {
-  title: `Physics Calculators | ${siteConfig.name}`,
-  description: 'Physics calculators for speed, force, and energy formulas.',
-  alternates: { canonical: getBaseUrl() + '/physics-calculators' },
+  title: 'Physics Calculators',
+  description:
+    'Free physics calculators for velocity, acceleration, force, pressure, work, energy, momentum, gravitation, and waves with each formula clearly displayed.',
+  alternates: buildAlternates(getBaseUrl() + '/physics-calculators'),
 };
 
 function getPhysicsCardMeta(slug: string): { title: string; icon: string; accent: string } {

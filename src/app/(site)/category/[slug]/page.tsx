@@ -23,7 +23,7 @@ export async function generateMetadata({
   if (!meta) return { title: 'Category not found' };
   const canonical = getBaseUrl() + '/category/' + slug;
   return {
-    title: `${meta.name} | ${siteConfig.name}`,
+    title: meta.name,
     description: meta.description,
     keywords: `${meta.name}, calculators, ${slug}`,
     alternates: { canonical },

@@ -6,13 +6,13 @@ import { calculators } from '@/lib/calculators';
 import { siteConfig } from '@/lib/seo';
 import { QuickAnswerBlock } from '@/components/seo/QuickAnswerBlock';
 import { ALL_CALCULATORS_QUICK_ANSWER } from '@/lib/siteQuickAnswers';
-import { getBaseUrl } from '@/lib/site-url';
+import { buildAlternates, getBaseUrl } from '@/lib/site-url';
 
 export const metadata: Metadata = {
-  title: `All Calculators | ${siteConfig.name}`,
+  title: 'All Calculators',
   description:
     'Browse all finance, math, physics, and health calculators with formulas and instant browser results.',
-  alternates: { canonical: getBaseUrl() + '/all-calculators' },
+  alternates: buildAlternates(getBaseUrl() + '/all-calculators'),
 };
 
 function getCategoryMeta(slug: string): { icon: string; accent: string } {

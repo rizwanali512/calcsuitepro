@@ -224,6 +224,7 @@ export default function BenefitsGrid() {
                   src="/images/benefits/blur-shape.png"
                   alt=""
                   role="presentation"
+                  aria-hidden="true"
                   className="h-full w-full -z-0 absolute top-0 right-0"
                   width={399}
                   height={399}

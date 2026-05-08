@@ -6,12 +6,13 @@ import SearchBar from '@/components/SearchBar';
 import { getHubQuickAnswerParagraphs } from '@/lib/siteQuickAnswers';
 import { getToolsByCategory } from '@/lib/categories';
 import { siteConfig } from '@/lib/seo';
-import { getBaseUrl } from '@/lib/site-url';
+import { buildAlternates, getBaseUrl } from '@/lib/site-url';
 
 export const metadata: Metadata = {
-  title: `Health Calculators | ${siteConfig.name}`,
-  description: 'Health calculators for BMI, calorie, body fat, and wellness planning.',
-  alternates: { canonical: getBaseUrl() + '/health-calculators' },
+  title: 'Health Calculators',
+  description:
+    'Free health calculators for BMI, BMR, TDEE, body fat, calorie, water intake, and pregnancy planning—educational estimates with the formula behind every result.',
+  alternates: buildAlternates(getBaseUrl() + '/health-calculators'),
 };
 
 export default function HealthCalculatorsPage() {

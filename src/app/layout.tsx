@@ -23,6 +23,15 @@ export const metadata: Metadata = {
   },
   description: defaultDescription,
   keywords: DEFAULT_KEYWORDS,
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  applicationName: siteConfig.name,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   verification: {
     other: {
       'msvalidate.01': '06BF31386DCF08F2E422762118498706',
@@ -86,22 +95,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const gaId = process.env.NEXT_PUBLIC_GA_ID ?? 'G-6612RC4BCC';
+  // Organization schema is safe sitewide; WebSite schema is moved to the
+  // homepage only (see src/app/(site)/page.tsx) per Google's guidance that
+  // sitelinks search-box markup belongs on the canonical home page.
   const organizationJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: siteConfig.name,
     url: siteConfig.url,
-  };
-  const websiteJsonLd = {
-    '@context': 'https://schema.org/',
-    '@type': 'WebSite',
-    name: 'calcsuitepro',
-    url: 'https://calcsuitepro.com/',
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: '{search_term_string}',
-      'query-input': 'required name=search_term_string',
-    },
   };
 
   return (
@@ -114,12 +115,6 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteJsonLd),
           }}
         />
         <ThemeProvider disableTransitionOnChange>

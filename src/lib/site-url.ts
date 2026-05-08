@@ -11,3 +11,18 @@ export function getBaseUrl(): string {
   if (url) return url.replace(/\/$/, '');
   return siteConfig.url;
 }
+
+/**
+ * Builds the `alternates` block for `Metadata`. The site is English-only, so we
+ * declare both `en` and `x-default` pointing at the same URL—this prevents
+ * Google from interpreting the absence of hreflang as an unspecified locale.
+ */
+export function buildAlternates(canonical: string) {
+  return {
+    canonical,
+    languages: {
+      en: canonical,
+      'x-default': canonical,
+    },
+  };
+}

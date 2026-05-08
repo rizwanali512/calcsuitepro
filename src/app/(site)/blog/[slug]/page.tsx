@@ -9,6 +9,11 @@ import { estimateReadingMinutes } from '@/lib/blogReadingTime';
 import { getCalculatorBySlug, getPopularCalculators } from '@/lib/calculators';
 import { resolveSlugToCalculatorSlug } from '@/lib/internalLinking';
 import { siteConfig } from '@/lib/seo';
+import {
+  generateBlogPostingSchema,
+  generateBreadcrumbSchema,
+  jsonLdString,
+} from '@/lib/schema';
 
 type Params = {
   slug: string;
@@ -35,18 +40,25 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
     };
   }
 
+  const blogUrl = `${siteConfig.url}/blog/${blog.slug}`;
   return {
-    title: `${blog.title} | ${siteConfig.name}`,
-    description: `${blog.description} Read more on ${siteConfig.name}.`,
+    title: blog.title,
+    description: blog.description,
     alternates: {
-      canonical: `${siteConfig.url}/blog/${blog.slug}`,
+      canonical: blogUrl,
+      languages: { en: blogUrl, 'x-default': blogUrl },
     },
     openGraph: {
       title: `${blog.title} | ${siteConfig.name}`,
-      description: `${blog.description} Read more on ${siteConfig.name}.`,
+      description: blog.description,
       url: `${siteConfig.url}/blog/${blog.slug}`,
       siteName: siteConfig.name,
       type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: blog.title,
+      description: blog.description,
     },
   };
 }
@@ -106,8 +118,27 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
   const embedCalculator =
     blog.embedCalculatorSlug != null ? getCalculatorBySlug(blog.embedCalculatorSlug) : null;
 
+  const blogPostingSchema = generateBlogPostingSchema({
+    title: blog.title,
+    description: blog.description,
+    slug: blog.slug,
+  });
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' },
+    { name: blog.title, path: `/blog/${blog.slug}` },
+  ]);
+
   return (
     <main className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50/80 py-14 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 md:py-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdString(blogPostingSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdString(breadcrumbSchema) }}
+      />
       <div
         className="pointer-events-none absolute inset-x-0 -top-40 h-80 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(99,102,241,0.18),transparent)] dark:bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(99,102,241,0.12),transparent)]"
         aria-hidden

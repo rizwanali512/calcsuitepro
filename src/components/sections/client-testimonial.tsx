@@ -1,152 +1,95 @@
-"use client";
+/**
+ * Replaced fictional testimonials (Big Kahuna Burger Ltd, Abstergo Ltd,
+ * Biffco, Barone, Binford, Acme Co — all movie/game references) with three
+ * real, factual use-case cards. Fake testimonials damage E-E-A-T because
+ * Google's reviewers and most readers recognise these brand names.
+ */
 
-import Image from "next/image";
-import { useState } from "react";
+type UseCase = {
+  audience: string;
+  blurb: string;
+  icon: string;
+  examples: string[];
+  accent: string;
+};
 
-const testimonials = [
+const USE_CASES: UseCase[] = [
   {
-    id: 1,
-    name: "Ralph Edwards",
-    company: "Big Kahuna Burger Ltd",
-    image: "/images/users/user-1.png",
-    testimonial:
-      "I use the EMI and compound interest calculators before every major purchase. Clear formulas and fast results.",
+    audience: 'Students',
+    blurb:
+      'Verify physics, math, and statistics homework with the formula visible alongside every result.',
+    icon: '🎓',
+    examples: ['Velocity & acceleration', 'Quadratic equations', 'Probability & statistics'],
+    accent: 'from-indigo-500/15 to-purple-500/10',
   },
   {
-    id: 2,
-    name: "Albert Flores",
-    company: "Biffco Enterprises Ltd.",
-    image: "/images/users/user-2.png",
-    testimonial:
-      "Having finance, math, and health calculators in one hub saves me from juggling random spreadsheet templates.",
+    audience: 'Professionals',
+    blurb:
+      'Sanity-check finance scenarios in seconds—EMI offers, mortgage refinances, ROI projections.',
+    icon: '💼',
+    examples: ['EMI & loan comparison', 'Mortgage payoff', 'Investment ROI'],
+    accent: 'from-emerald-500/15 to-teal-500/10',
   },
   {
-    id: 3,
-    name: "Jenny Wilson",
-    company: "Acme Co.",
-    image: "/images/users/user-3.png",
-    testimonial:
-      "The BMI and calorie tools are simple but honest about what they estimate. Clean UI and they just work.",
-  },
-  {
-    id: 4,
-    name: "Esther Howard",
-    company: "Barone LLC.",
-    image: "/images/users/user-4.png",
-    testimonial:
-      "Finally a site where I can sanity-check percentage and tax math without signing up. Bookmarked for tax season.",
-  },
-  {
-    id: 5,
-    name: "Darlene Robertson",
-    company: "Abstergo Ltd.",
-    image: "/images/users/user-1.png",
-    testimonial:
-      "The scientific calculator handles the expressions I need for intro physics. Nice complement to the formula pages.",
-  },
-  {
-    id: 6,
-    name: "Devon Lane",
-    company: "Binford Ltd.",
-    image: "/images/users/user-2.png",
-    testimonial:
-      "Free, fast, and no account required. This is how online calculator sites should feel.",
-  },
-  {
-    id: 7,
-    name: "Ralph Edwards",
-    company: "Big Kahuna Burger Ltd",
-    image: "/images/users/user-1.png",
-    testimonial:
-      "Mortgage and loan calculators helped us compare two refinance offers side by side with the same assumptions.",
-  },
-  {
-    id: 8,
-    name: "Darlene Robertson",
-    company: "Abstergo Ltd.",
-    image: "/images/users/user-2.png",
-    testimonial:
-      "I tutor high school math—the graph calculator and percentage tools get a lot of use during sessions.",
-  },
-  {
-    id: 9,
-    name: "Devon Lane",
-    company: "Binford Ltd.",
-    image: "/images/users/user-3.png",
-    testimonial:
-      "Straightforward inputs and readable outputs. Exactly what I need for quick homework verification.",
+    audience: 'Educators',
+    blurb:
+      'Demonstrate formulas live in class with calculators that show the equation behind each answer.',
+    icon: '📚',
+    examples: ['Compound interest', 'Trigonometry', 'Body mass index'],
+    accent: 'from-orange-500/15 to-pink-500/10',
   },
 ];
 
 export default function TestimonialsSection() {
-  const [showAll, setShowAll] = useState(false);
-
-  const visibleTestimonials = showAll ? testimonials : testimonials.slice(0, 6);
-
   return (
     <section className="md:py-28 py-14 relative">
       <div className="wrapper">
-        <div>
-          <div className="max-w-2xl mx-auto mb-12 text-center">
-            <h2 className="mb-3 font-bold text-center text-gray-800 text-3xl dark:text-white/90 md:text-title-lg">
-              What our users say
-            </h2>
-            <p className="max-w-xl mx-auto leading-6 text-gray-500 dark:text-gray-400">
-              Students, tutors, and professionals use CalcSuite Pro for finance planning, STEM homework, and wellness
-              estimates—free online calculators with transparent formulas.
-            </p>
-          </div>
+        <div className="max-w-2xl mx-auto mb-12 text-center">
+          <p className="mb-3 inline-flex items-center rounded-full border border-indigo-200/80 bg-indigo-50/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-indigo-800 dark:border-indigo-500/30 dark:bg-indigo-500/15 dark:text-indigo-200">
+            Who uses CalcSuite Pro
+          </p>
+          <h2 className="mb-3 font-bold text-center text-gray-800 text-3xl dark:text-white/90 md:text-title-lg">
+            Built for everyday calculation work
+          </h2>
+          <p className="max-w-xl mx-auto leading-6 text-gray-500 dark:text-gray-400">
+            Free, no sign-up, formulas always shown. From classroom homework to refinance decisions,
+            our calculator suite covers the work people actually need to do.
+          </p>
+        </div>
 
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 max-w-[72rem] mx-auto">
-            {visibleTestimonials.map((testimonial) => (
-              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-            ))}
-          </div>
-
-          <div className="mt-8 text-center relative z-10">
-            <button
-              type="button"
-              onClick={() => setShowAll(!showAll)}
-              className="inline-flex items-center dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 px-6 py-3.5 text-sm font-medium text-gray-800 bg-white border border-gray-200 dark:hover:bg-gray-900 rounded-full shadow-theme-xs hover:bg-gray-50 focus:outline-none"
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 max-w-5xl mx-auto">
+          {USE_CASES.map((useCase) => (
+            <article
+              key={useCase.audience}
+              className="relative flex flex-col rounded-2xl border border-gray-200/90 bg-white p-6 shadow-sm transition hover:border-primary-200 hover:shadow-md dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-primary-500/30"
             >
-              <span>{showAll ? "Show less..." : "Show more..."}</span>
-            </button>
-          </div>
+              <div
+                className={`pointer-events-none absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br ${useCase.accent} opacity-60`}
+                aria-hidden
+              />
+              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-white/80 text-2xl shadow-sm dark:bg-white/10">
+                <span aria-hidden>{useCase.icon}</span>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                {useCase.audience}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+                {useCase.blurb}
+              </p>
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {useCase.examples.map((example) => (
+                  <li
+                    key={example}
+                    className="inline-flex items-center rounded-full border border-gray-200/80 bg-white px-2.5 py-1 text-xs font-medium text-gray-600 dark:border-white/10 dark:bg-white/[0.05] dark:text-gray-300"
+                  >
+                    {example}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
         </div>
       </div>
-
-      {!showAll ? (
-        <div className="white-gradient h-[264px]  w-full absolute bottom-0"></div>
-      ) : null}
     </section>
-  );
-}
-
-function TestimonialCard({
-  testimonial,
-}: {
-  testimonial: (typeof testimonials)[number];
-}) {
-  return (
-    <div className="p-2 bg-gray-50 dark:bg-white/5 dark:border-gray-800 dark:hover:border-white/10 border rounded-[20px] border-gray-100 hover:border-primary-200 transition">
-      <div className="flex items-center p-3 mb-3 bg-white/90 dark:bg-white/[0.03] rounded-2xl">
-        <div>
-          <Image
-            src={testimonial.image || "/placeholder.svg"}
-            alt={testimonial.name}
-            width={52}
-            height={52}
-            className="size-13 object-cover ring-2 ring-white dark:ring-gray-700 mr-4 rounded-full drop-shadow-[0_8px_20px_rgba(0,0,0,0.08)]"
-          />
-        </div>
-        <div>
-          <h3 className="text-gray-800 font-base dark:text-white/90">{testimonial.name}</h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400">{testimonial.company}</p>
-        </div>
-      </div>
-      <div className="p-5 rounded-2xl bg-white/90 dark:bg-white/[0.03]">
-        <p className="text-base leading-6 text-gray-700 dark:text-gray-400">{testimonial.testimonial}</p>
-      </div>
-    </div>
   );
 }

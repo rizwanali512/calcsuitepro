@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { siteConfig } from '@/lib/seo';
-import { getBaseUrl } from '@/lib/site-url';
+import { buildAlternates, getBaseUrl } from '@/lib/site-url';
 import { getToolsByCategory } from '@/lib/categories';
 import { QuickAnswerBlock } from '@/components/seo/QuickAnswerBlock';
 import SearchBar from '@/components/SearchBar';
@@ -9,9 +9,10 @@ import { getHubQuickAnswerParagraphs } from '@/lib/siteQuickAnswers';
 import { POPULAR_CALCULATOR_SLUGS, getCalculatorBySlug } from '@/lib/calculators';
 
 export const metadata: Metadata = {
-  title: `Finance Calculators | ${siteConfig.name}`,
-  description: 'Finance calculators for EMI, interest, and investment planning.',
-  alternates: { canonical: getBaseUrl() + '/finance-calculators' },
+  title: 'Finance Calculators',
+  description:
+    'Free finance calculators for EMI, mortgage, compound interest, ROI, retirement, tax, and budgeting—each with the underlying formula and instant browser-based results.',
+  alternates: buildAlternates(getBaseUrl() + '/finance-calculators'),
 };
 
 type Subcategory = {

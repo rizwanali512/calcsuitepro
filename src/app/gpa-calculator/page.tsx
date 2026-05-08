@@ -6,7 +6,7 @@ import { siteConfig } from '@/lib/seo';
 import { getBaseUrl } from '@/lib/site-url';
 
 export const metadata: Metadata = {
-  title: `Pakistan University GPA & CGPA Calculator | ${siteConfig.name}`,
+  title: 'Pakistan University GPA & CGPA Calculator',
   description:
     'Calculate GPA and CGPA for Pakistani universities with grading scales, semester tracking, and downloadable results.',
   keywords: [

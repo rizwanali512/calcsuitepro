@@ -18,6 +18,8 @@ export function UniversityCard({ university }: { university: University }) {
           <Image
             src={university.featuredImage}
             alt=""
+            role="presentation"
+            aria-hidden="true"
             fill
             className="object-cover opacity-90"
             sizes="(max-width: 1024px) 100vw, 33vw"

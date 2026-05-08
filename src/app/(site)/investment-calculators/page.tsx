@@ -5,7 +5,7 @@ import { siteConfig } from '@/lib/seo';
 import { getBaseUrl } from '@/lib/site-url';
 
 export const metadata: Metadata = {
-  title: `Investment Calculators - Free Online Tools | ${siteConfig.name}`,
+  title: 'Investment Calculators - Free Online Tools',
   description:
     'Explore investment calculators including compound interest, ROI, present value, and future value tools.',
   alternates: { canonical: `${getBaseUrl()}/investment-calculators` },

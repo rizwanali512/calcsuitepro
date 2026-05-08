@@ -5,7 +5,7 @@ import { siteConfig } from '@/lib/seo';
 import { getBaseUrl } from '@/lib/site-url';
 
 export const metadata: Metadata = {
-  title: `Auto Calculators - Free Online Tools | ${siteConfig.name}`,
+  title: 'Auto Calculators - Free Online Tools',
   description: 'Explore auto calculators including car loan and lease estimation tools.',
   alternates: { canonical: `${getBaseUrl()}/auto-calculators` },
 };

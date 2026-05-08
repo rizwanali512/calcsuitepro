@@ -5,7 +5,7 @@ import { siteConfig } from '@/lib/seo';
 import { getBaseUrl } from '@/lib/site-url';
 
 export const metadata: Metadata = {
-  title: `Tax Calculators - Free Online Tools | ${siteConfig.name}`,
+  title: 'Tax Calculators - Free Online Tools',
   description: 'Explore tax calculators including income tax, salary tax impact, sales tax, and VAT tools.',
   alternates: { canonical: `${getBaseUrl()}/tax-calculators` },
 };

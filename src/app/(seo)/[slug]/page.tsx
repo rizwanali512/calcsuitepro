@@ -5,6 +5,16 @@ import { calculators, getCalculatorBySlug } from '@/lib/calculators';
 import { getCalculatorSeoDescription, getCalculatorSeoTitle } from '@/lib/calculatorSeoMeta';
 import { siteConfig } from '@/lib/seo';
 import { getSeoPageBySlug, seoPages } from '@/lib/seoPages';
+import { isDoorwaySlug } from '@/lib/doorwayPatterns';
+import { generateMetaKeywords } from '@/lib/calculatorKeywords';
+import {
+  generateBreadcrumbSchema,
+  generateFAQSchema,
+  generateWebApplicationSchema,
+  jsonLdString,
+} from '@/lib/schema';
+import { CATEGORY_META } from '@/lib/categories';
+import { getCalculatorFaqEntries } from '@/lib/calculatorPageFaqs';
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -37,15 +47,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const description =
     seoPage?.metaDescription ?? seoPage?.description ?? getCalculatorSeoDescription(calculator);
   const url = `${siteConfig.url}/${slug}`;
-  const keywordList = calculator.keywords
-    ? [calculator.keywords.primary, ...calculator.keywords.secondary]
-    : undefined;
+  const keywordList = generateMetaKeywords(calculator);
+
+  // Safety net: if a doorway URL slips past the next.config 301 (e.g. a
+  // cached build artifact), serve it with noindex so Google drops it.
+  const doorway = isDoorwaySlug(slug);
 
   return {
     title,
     description,
-    ...(keywordList ? { keywords: keywordList } : {}),
-    alternates: { canonical: url },
+    keywords: keywordList,
+    alternates: {
+      canonical: url,
+      languages: { en: url, 'x-default': url },
+    },
+    ...(doorway ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title,
       description,
@@ -75,22 +91,40 @@ export default async function SeoCalculatorPage({ params }: PageProps) {
   const description =
     seoPage?.metaDescription ?? seoPage?.description ?? getCalculatorSeoDescription(calculator);
 
-  const webAppSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
+  const webAppSchema = generateWebApplicationSchema({
     name: title,
-    url: `${siteConfig.url}/${slug}`,
-    applicationCategory: 'Calculator',
-    operatingSystem: 'All',
+    slug,
     description,
-  };
+  });
+
+  const categoryMeta = CATEGORY_META.find((c) => c.slug === calculator.category);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    ...(categoryMeta
+      ? [{ name: categoryMeta.name, path: `/${calculator.category}-calculators` }]
+      : []),
+    { name: calculator.name, path: `/${slug}` },
+  ]);
+
+  const faqEntries = getCalculatorFaqEntries(calculator);
+  const faqPageSchema = faqEntries.length > 0 ? generateFAQSchema(faqEntries) : null;
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdString(webAppSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdString(breadcrumbSchema) }}
+      />
+      {faqPageSchema ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdString(faqPageSchema) }}
+        />
+      ) : null}
 
       <CalculatorTemplate calculator={calculator} />
 

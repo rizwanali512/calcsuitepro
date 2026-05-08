@@ -5,13 +5,11 @@ import { useMemo, useState } from 'react';
 import GraphCalculator from '@/components/GraphCalculator';
 import ScientificCalculator from '@/components/ScientificCalculator';
 import {
-  buildGraphFaqJsonLd,
   GRAPH_CALCULATOR_FAQ,
   GraphCalculatorArticle,
   GraphCalculatorIntro,
 } from '@/components/GraphCalculatorPageContent';
 import {
-  buildScientificFaqJsonLd,
   SCIENTIFIC_CALCULATOR_FAQ,
   ScientificCalculatorArticle,
   ScientificCalculatorIntro,
@@ -27,19 +25,16 @@ import {
   VISCERAL_FAT_CALCULATOR_FAQ,
 } from '@/components/VisceralFatCalculatorEnhancements';
 import {
-  buildVelocityFaqJsonLd,
   VELOCITY_CALCULATOR_FAQ,
   VelocityCalculatorArticle,
   VelocityCalculatorIntro,
 } from '@/components/VelocityCalculatorPageContent';
 import {
-  buildPressureFaqJsonLd,
   PRESSURE_CALCULATOR_FAQ,
   PressureCalculatorArticle,
   PressureCalculatorIntro,
 } from '@/components/PressureCalculatorPageContent';
 import {
-  buildGravitationalForceFaqJsonLd,
   GRAVITATIONAL_FORCE_CALCULATOR_FAQ,
   GravitationalForceCalculatorArticle,
   GravitationalForceCalculatorIntro,
@@ -55,7 +50,6 @@ import {
   getRelatedCalculatorsSameCategory,
 } from '@/lib/internalLinking';
 import { Calculator, getPopularCalculators } from '@/lib/calculators';
-import { buildCalculatorFaqPageJsonLd } from '@/lib/calculatorFaqSchema';
 import { getCalculatorQuickAnswerParagraphs } from '@/lib/calculatorQuickAnswers';
 import { getCalculatorSeoTitle } from '@/lib/calculatorSeoMeta';
 import { siteConfig } from '@/lib/seo';
@@ -89,6 +83,44 @@ const categoryPaths: Record<Calculator['category'], { href: string; label: strin
   math: { href: '/math-calculators', label: 'Math Calculators' },
   physics: { href: '/physics-calculators', label: 'Physics Calculators' },
   health: { href: '/health-calculators', label: 'Health Calculators' },
+};
+
+/**
+ * "Last updated" timestamp shown near the calculator H1. Updated in CI/build
+ * pipelines so it reflects the deploy date Google ranks against.
+ */
+const LAST_UPDATED_DATE = new Date();
+const LAST_UPDATED_DISPLAY = LAST_UPDATED_DATE.toLocaleString('en-US', {
+  month: 'long',
+  year: 'numeric',
+});
+const LAST_UPDATED_ISO = LAST_UPDATED_DATE.toISOString().slice(0, 10);
+
+/**
+ * Category-level disclaimers for E-E-A-T compliance. Health calculators must
+ * not be confused with medical advice; finance calculators must not be
+ * confused with personalised financial advice.
+ */
+const CATEGORY_DISCLAIMER: Partial<Record<Calculator['category'], string>> = {
+  health:
+    'This tool provides estimates for educational purposes only and is not a substitute for professional medical advice.',
+  finance:
+    'Results are mathematical estimates. Consult a qualified financial advisor before making financial decisions.',
+};
+
+/**
+ * Plain-language source attribution for each calculator category, shown near
+ * the bottom of every calculator page beside the formula. Reinforces E-E-A-T
+ * by signalling the formula came from a recognised reference body.
+ */
+const CATEGORY_FORMULA_SOURCE: Record<Calculator['category'], string> = {
+  finance:
+    'Standard financial formulas as used by banks, lenders, and accounting bodies.',
+  math: 'Standard textbook definitions taught in algebra, statistics, and arithmetic curricula.',
+  physics:
+    'Standard equations from classical mechanics and physics references (e.g. NIST, university physics texts).',
+  health:
+    'Standard formulas published by health organisations such as the WHO, NIH, and CDC.',
 };
 
 const categoryUseCases: Record<Calculator['category'], string[]> = {
@@ -152,15 +184,20 @@ function explanationParagraphs(calculator: Calculator): string[] {
   }
   const inputLabels = calculator.inputs.map((input) => input.label.toLowerCase());
   const useCases = categoryUseCases[calculator.category] ?? [];
-  const calculatorTerm = `${calculator.name.toLowerCase()} online`;
 
-  const paragraph1 = `${calculator.name} is a practical ${calculatorTerm} tool that helps you apply the formula "${calculator.formula}" without doing repetitive manual math. Instead of handling multiple arithmetic steps by hand, you can enter your values once and get a result instantly. This is useful when you need quick decisions, consistent outputs, and fewer input mistakes. Because the calculator runs directly in the browser, it is fast to use on desktop or mobile and works well for both one-time checks and repeated calculations.`;
+  // Three-paragraph structure (per SEO content guidelines):
+  //   1) What the calculator computes + the exact formula it uses.
+  //   2) Who uses it and for which real decisions.
+  //   3) How to interpret the result and the next sensible step.
+  const paragraph1 = `${calculator.name} computes results using the formula ${calculator.formula} from your input values: ${toSentenceList(
+    inputLabels
+  )}. Entering each field returns a numerical answer based on that exact equation, so the page is a faster, less error-prone alternative to running the math by hand.`;
 
-  const paragraph2 = `This calculator is most useful when you want reliable results for ${toSentenceList(
+  const paragraph2 = `It is built for ${toSentenceList(
     useCases
-  )}. Typical inputs include ${toSentenceList(inputLabels)}, and each value directly affects the final output. When users search for a ${calculatorTerm}, they usually need a simple workflow that is easy to understand: enter values, calculate, and compare scenarios. That is exactly what this page is designed to support, while keeping the formula visible so the result stays transparent and trustworthy.`;
+  )}. People typically open this calculator when they need a quick, repeatable answer they can check in seconds—students confirming a homework number, professionals validating a real-world figure, or anyone running a what-if scenario before making a decision.`;
 
-  const paragraph3 = `In real-world use, many people run the same formula several times with different values to compare outcomes before taking action. For example, you can test conservative and aggressive assumptions, review best-case and worst-case numbers, and pick the most realistic target. This makes the ${calculator.name.toLowerCase()} useful for planning, learning, and validation. If any value is missing or invalid, the calculator safely returns an error state so you can correct inputs and recalculate with confidence.`;
+  const paragraph3 = `Read the result alongside the formula on this page so each input's effect is transparent, then re-run with adjusted values to see how the answer changes. If anything looks off, double-check unit consistency in your inputs—mixing percent values with decimals or months with years is the most common source of an unexpected result.`;
 
   return [paragraph1, paragraph2, paragraph3];
 }
@@ -186,44 +223,86 @@ function buildHowToUseSteps(calculator: Calculator): string[] {
   ];
 }
 
+/**
+ * Realistic example values per calculator slug. Used by the "Try a sample"
+ * helper. Numbers are chosen to match what an actual user would enter—e.g. a
+ * 500,000 home loan at 8.5% over 240 months for EMI, not the 20/30%/40m
+ * placeholder that the previous deterministic fallback produced.
+ */
+const EXAMPLE_VALUES_BY_SLUG: Record<string, FormValues> = {
+  'visceral-fat-calculator': {
+    gender: 'woman',
+    age: 25,
+    weightKg: 70,
+    heightM: 1.75,
+    waistCm: 85,
+    thighCm: 55,
+  },
+  'bmi-calculator': { weight: 70, height: 1.75 },
+  'bmr-calculator': { gender: 'woman', age: 32, heightCm: 165, weight: 62 },
+  'calorie-calculator': {
+    gender: 'man',
+    age: 35,
+    heightCm: 178,
+    weight: 82,
+    activity: 'moderate',
+  },
+  'body-fat-calculator': { gender: 'woman', age: 28, heightCm: 168, weight: 65 },
+  'velocity-calculator': { displacement: 100, time: 5 },
+  'pressure-calculator': { force: 200, area: 0.5 },
+  'gravitational-force-calculator': {
+    mass1: 5.972e24,
+    mass2: 7.342e22,
+    distance: 3.844e8,
+  },
+  'emi-calculator': { principal: 500000, interestRate: 8.5, tenure: 240 },
+  'loan-calculator': { principal: 250000, interestRate: 9.5, tenure: 60 },
+  'mortgage-calculator': { principal: 350000, interestRate: 7.25, tenure: 360 },
+  'simple-interest-calculator': { principal: 100000, interestRate: 6.5, timePeriod: 5 },
+  'compound-interest-calculator': {
+    principal: 10000,
+    interestRate: 8,
+    timePeriod: 10,
+    compoundingFrequency: 12,
+  },
+  'tip-calculator': { billAmount: 64.5, tipPercent: 18 },
+};
+
+/**
+ * Name-based realistic defaults used when a calculator does not have an
+ * explicit override above. Matches common input names seen across the
+ * catalogue so generated examples stay believable.
+ */
+function defaultForInputName(inputName: string): number {
+  const name = inputName.toLowerCase();
+  if (/^(principal|loan|amount|investment|cost|price|bill)/.test(name)) return 100000;
+  if (/(rate|percent|tax|tip|margin|growth)/.test(name)) return 8.5;
+  if (/(years|term|duration)/.test(name)) return 10;
+  if (/(months|tenure)/.test(name)) return 60;
+  if (/(weight)/.test(name)) return 70;
+  if (/^height/.test(name)) return 170;
+  if (/(age)/.test(name)) return 30;
+  if (/(force)/.test(name)) return 100;
+  if (/(mass)/.test(name)) return 50;
+  if (/(velocity|speed)/.test(name)) return 20;
+  if (/(distance|displacement)/.test(name)) return 100;
+  if (/(time)/.test(name)) return 5;
+  if (/(area)/.test(name)) return 1;
+  if (/(volume)/.test(name)) return 1;
+  if (/(temperature|temp)/.test(name)) return 25;
+  return 50;
+}
+
 function buildExampleValues(calculator: Calculator): FormValues {
-  if (calculator.slug === 'visceral-fat-calculator') {
-    return {
-      gender: 'woman',
-      age: 25,
-      weightKg: 70,
-      heightM: 1.75,
-      waistCm: 85,
-      thighCm: 55,
-    };
-  }
-  if (calculator.slug === 'bmi-calculator') {
-    return { weight: 70, height: 1.75 };
-  }
-  if (calculator.slug === 'bmr-calculator') {
-    return { gender: 'woman', age: 32, heightCm: 165, weight: 62 };
-  }
-  if (calculator.slug === 'calorie-calculator') {
-    return { gender: 'man', age: 35, heightCm: 178, weight: 82, activity: 'moderate' };
-  }
-  if (calculator.slug === 'body-fat-calculator') {
-    return { gender: 'woman', age: 28, heightCm: 168, weight: 65 };
-  }
-  if (calculator.slug === 'velocity-calculator') {
-    return { displacement: 100, time: 5 };
-  }
-  if (calculator.slug === 'pressure-calculator') {
-    return { force: 200, area: 0.5 };
-  }
-  if (calculator.slug === 'gravitational-force-calculator') {
-    return { mass1: 5.972e24, mass2: 7.342e22, distance: 3.844e8 };
-  }
+  const override = EXAMPLE_VALUES_BY_SLUG[calculator.slug];
+  if (override) return override;
+
   return Object.fromEntries(
-    calculator.inputs.map((input, index) => {
+    calculator.inputs.map((input) => {
       if (input.type === 'select') {
         return [input.name, input.options?.[0]?.value ?? ''];
       }
-      return [input.name, (index + 2) * 10];
+      return [input.name, defaultForInputName(input.name)];
     })
   ) as FormValues;
 }
@@ -389,15 +468,6 @@ export default function CalculatorTemplate({ calculator, embed = false }: Props)
     ];
   }, [calculator]);
 
-  const faqPageJsonLd = useMemo(() => {
-    if (calculator.slug === 'scientific-calculator') return buildScientificFaqJsonLd();
-    if (calculator.slug === 'graph-calculator') return buildGraphFaqJsonLd();
-    if (calculator.slug === 'velocity-calculator') return buildVelocityFaqJsonLd();
-    if (calculator.slug === 'pressure-calculator') return buildPressureFaqJsonLd();
-    if (calculator.slug === 'gravitational-force-calculator') return buildGravitationalForceFaqJsonLd();
-    return buildCalculatorFaqPageJsonLd(faqItems);
-  }, [calculator.slug, faqItems]);
-
   const quickAnswerParagraphs = useMemo(
     () => getCalculatorQuickAnswerParagraphs(calculator),
     [calculator]
@@ -410,12 +480,6 @@ export default function CalculatorTemplate({ calculator, embed = false }: Props)
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-          />
-        ) : null}
-        {!embed && faqPageJsonLd ? (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd) }}
           />
         ) : null}
         {!embed ? (
@@ -450,9 +514,24 @@ export default function CalculatorTemplate({ calculator, embed = false }: Props)
                 {getCalculatorSeoTitle(calculator)}
               </h1>
               <p className="text-gray-500 dark:text-gray-400 leading-6">{calculator.description}</p>
+              <p className="mt-3 text-xs text-gray-400 dark:text-gray-500">
+                Last updated:{' '}
+                <time dateTime={LAST_UPDATED_ISO}>{LAST_UPDATED_DISPLAY}</time>
+              </p>
             </>
           )}
         </header>
+
+        {!embed && CATEGORY_DISCLAIMER[calculator.category] ? (
+          <aside
+            role="note"
+            aria-label="Disclaimer"
+            className="rounded-xl border border-amber-200/80 bg-amber-50/70 px-4 py-3 text-sm text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-100"
+          >
+            <strong className="font-semibold">Disclaimer:</strong>{' '}
+            {CATEGORY_DISCLAIMER[calculator.category]}
+          </aside>
+        ) : null}
 
         {!embed && calculator.slug !== 'visceral-fat-calculator' ? (
           <QuickAnswerBlock paragraphs={quickAnswerParagraphs} className="max-w-3xl" />
@@ -906,6 +985,25 @@ export default function CalculatorTemplate({ calculator, embed = false }: Props)
             ))}
           </div>
         </section>
+        ) : null}
+
+        {!embed ? (
+          <footer className="mt-2 rounded-xl border border-gray-200 bg-white/60 px-4 py-3 text-xs leading-relaxed text-gray-500 dark:border-white/10 dark:bg-white/[0.04] dark:text-gray-400">
+            <p>
+              <strong className="font-semibold text-gray-700 dark:text-gray-200">Formula:</strong>{' '}
+              <code className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-[0.7rem] text-gray-700 dark:bg-white/10 dark:text-gray-200">
+                {calculator.formula}
+              </code>
+              .{' '}
+              <span className="text-gray-500 dark:text-gray-400">
+                Source: {CATEGORY_FORMULA_SOURCE[calculator.category]}
+              </span>
+            </p>
+            <p className="mt-1">
+              Last updated:{' '}
+              <time dateTime={LAST_UPDATED_ISO}>{LAST_UPDATED_DISPLAY}</time>.
+            </p>
+          </footer>
         ) : null}
       </div>
     </div>

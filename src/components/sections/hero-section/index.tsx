@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import HeroLogos from '../hero-logos';
+import HeroStatsBar from '../hero-logos';
 import { Subheading } from './subheading';
 import { IntroVideo } from './intro-video';
 
@@ -128,6 +128,7 @@ export default function HeroSection() {
             className="absolute top-14 left-16 floating-1"
             alt=""
             role="presentation"
+            aria-hidden="true"
             width={170}
             height={44}
           />
@@ -136,6 +137,7 @@ export default function HeroSection() {
             className="absolute left-[145px] top-[298px] floating-2 max-[1240px]:left-[80px]"
             alt=""
             role="presentation"
+            aria-hidden="true"
             width={181}
             height={44}
           />
@@ -144,6 +146,7 @@ export default function HeroSection() {
             className="absolute right-16 top-[108px] floating-3"
             alt=""
             role="presentation"
+            aria-hidden="true"
             width={176}
             height={44}
           />
@@ -152,13 +155,14 @@ export default function HeroSection() {
             className="absolute top-[316px] right-[200px] floating-4 max-[1240px]:right-[80px] max-[1350px]:right-[150px] max-[1500px]:right-[200px]"
             alt=""
             role="presentation"
+            aria-hidden="true"
             width={179}
             height={44}
           />
         </div>
       </div>
       <div className="hero-glow-bg pointer-events-none w-full h-167.5 absolute z-10 bottom-0"></div>
-      <HeroLogos />
+      <HeroStatsBar />
     </section>
   );
 }

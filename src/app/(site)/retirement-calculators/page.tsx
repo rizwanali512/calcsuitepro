@@ -5,7 +5,7 @@ import { siteConfig } from '@/lib/seo';
 import { getBaseUrl } from '@/lib/site-url';
 
 export const metadata: Metadata = {
-  title: `Retirement Calculators - Free Online Tools | ${siteConfig.name}`,
+  title: 'Retirement Calculators - Free Online Tools',
   description:
     'Explore retirement calculators including retirement corpus, annuity, and pension planning tools.',
   alternates: { canonical: `${getBaseUrl()}/retirement-calculators` },
