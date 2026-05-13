@@ -99,8 +99,8 @@ function inferValidationRule(
   if (n === 'timePeriod') {
     return {
       min: 0,
-      max: 100,
-      message: 'Time period must be between 0 and 100',
+      max: 500,
+      message: 'Time period must be between 0 and 500',
       placeholder: 'e.g. 10',
     };
   }

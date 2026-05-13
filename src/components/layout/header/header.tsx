@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import DesktopNav from './desktop-nav';
 import MainMobileNav from './main-mobile-nav';
 import ThemeToggle from './theme-toggle';
+import CommandSearchButton from './command-search-button';
 import { usePathname } from 'next/navigation';
 import { features } from '@/config/features';
 import BrandLogo from '@/components/BrandLogo';
@@ -27,7 +28,8 @@ export default function Header() {
 
           <DesktopNav />
 
-          <div className="flex items-center gap-4 justify-self-end">
+          <div className="flex items-center gap-2 justify-self-end sm:gap-3">
+            <CommandSearchButton />
             <ThemeToggle />
 
             <button

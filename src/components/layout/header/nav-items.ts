@@ -25,6 +25,11 @@ export const navItems: NavItem[] = [
   },
   {
     type: 'link',
+    label: 'Health Calculators',
+    href: '/health-calculators',
+  },
+  {
+    type: 'link',
     label: 'All Calculators',
     href: '/all-calculators',
   },

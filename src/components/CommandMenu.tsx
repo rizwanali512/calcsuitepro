@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
 import { calculators } from '@/lib/calculators';
+import { OPEN_CALCULATOR_COMMAND_MENU_EVENT } from '@/lib/commandMenuEvents';
 
 export default function CommandMenu() {
   const [open, setOpen] = useState(false);
@@ -17,6 +18,12 @@ export default function CommandMenu() {
       : calculators;
     return list.slice(0, 10);
   }, [query]);
+
+  useEffect(() => {
+    const onOpenFromUi = () => setOpen(true);
+    window.addEventListener(OPEN_CALCULATOR_COMMAND_MENU_EVENT, onOpenFromUi);
+    return () => window.removeEventListener(OPEN_CALCULATOR_COMMAND_MENU_EVENT, onOpenFromUi);
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {

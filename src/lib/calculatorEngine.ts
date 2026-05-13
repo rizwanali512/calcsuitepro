@@ -52,6 +52,96 @@ function getNumbers(values: InputValues, keys: string[]): Record<string, number>
   return result;
 }
 
+/** Monthly loan payment (EMI): principal, annual % APR, term in months. Supports 0% interest. */
+function emiMonthlyPayment(
+  principal: number,
+  annualRatePercent: number,
+  tenureMonths: number
+): number | null {
+  if (!Number.isFinite(principal) || principal < 0) return null;
+  if (!Number.isFinite(tenureMonths) || tenureMonths <= 0) return null;
+  const r = annualRatePercent / 100 / 12;
+  if (r === 0) return principal / tenureMonths;
+  const growth = Math.pow(1 + r, tenureMonths);
+  const denom = growth - 1;
+  if (denom === 0) return null;
+  return (principal * r * growth) / denom;
+}
+
+/** Months to amortize balance to zero at fixed payment and APR (credit card / mortgage payoff). */
+function monthsToPayDownLoan(
+  balance: number,
+  annualAprPercent: number,
+  monthlyPayment: number
+): number | null {
+  if (balance <= 0 || monthlyPayment <= 0) return null;
+  const r = annualAprPercent / 100 / 12;
+  if (r === 0) {
+    const m = balance / monthlyPayment;
+    return Number.isFinite(m) && m > 0 ? m : null;
+  }
+  const minDue = balance * r;
+  if (monthlyPayment <= minDue) return null;
+  const inner = 1 - (balance * r) / monthlyPayment;
+  if (inner <= 0 || inner >= 1) return null;
+  const n = Math.log(inner) / Math.log(1 + r);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+/** Max principal for a given monthly payment, APR, and amortization term (months). */
+function maxPrincipalFromMonthlyPayment(
+  monthlyPayment: number,
+  annualRatePercent: number,
+  termMonths: number
+): number | null {
+  if (monthlyPayment <= 0 || termMonths <= 0) return null;
+  const r = annualRatePercent / 100 / 12;
+  if (r === 0) return monthlyPayment * termMonths;
+  const factor = Math.pow(1 + r, termMonths);
+  if (factor === 1) return null;
+  return (monthlyPayment * (factor - 1)) / (r * factor);
+}
+
+function npvUniformCashFlow(
+  initialInvestment: number,
+  annualCashFlow: number,
+  discountRatePercent: number,
+  years: number
+): number | null {
+  if (years < 0 || !Number.isFinite(years)) return null;
+  const r = discountRatePercent / 100;
+  if (years === 0) return -initialInvestment;
+  let sum = 0;
+  for (let t = 1; t <= years; t++) {
+    sum += annualCashFlow / Math.pow(1 + r, t);
+  }
+  return -initialInvestment + sum;
+}
+
+/** IRR for -I + uniform C at t=1..n (Newton). */
+function irrUniformCashFlow(initialInvestment: number, annualCashFlow: number, years: number): number | null {
+  if (initialInvestment <= 0 || years <= 0 || !Number.isFinite(years)) return null;
+  if (annualCashFlow <= 0) return null;
+
+  let rate = 0.1;
+  for (let i = 0; i < 80; i++) {
+    let f = -initialInvestment;
+    let df = 0;
+    for (let t = 1; t <= years; t++) {
+      const disc = Math.pow(1 + rate, t);
+      f += annualCashFlow / disc;
+      df += (-t * annualCashFlow) / ((1 + rate) ** (t + 1));
+    }
+    if (Math.abs(f) < 1e-7 * Math.max(1, initialInvestment)) return rate * 100;
+    if (df === 0 || !Number.isFinite(df)) break;
+    const next = rate - f / df;
+    if (!Number.isFinite(next)) break;
+    if (next <= -0.9999) rate = -0.5;
+    else rate = next;
+  }
+  return null;
+}
+
 /** Male = true, female = false; null if missing/invalid. */
 function parseGenderIsMale(values: InputValues): boolean | null {
   const raw = values.gender;
@@ -257,12 +347,8 @@ const handlers: Record<string, Handler> = {
   },
   'emi-calculator': (values) => {
     const nums = getNumbers(values, ['principal', 'interestRate', 'tenure']);
-    if (!nums || nums.tenure <= 0) return null;
-    const r = nums.interestRate / 100 / 12;
-    if (r === 0) return null;
-    const denominator = Math.pow(1 + r, nums.tenure) - 1;
-    if (denominator === 0) return null;
-    return (nums.principal * r * Math.pow(1 + r, nums.tenure)) / denominator;
+    if (!nums) return null;
+    return emiMonthlyPayment(nums.principal, nums.interestRate, nums.tenure);
   },
   'mortgage-calculator': (values) => handlers['emi-calculator'](values),
   'loan-calculator': (values) => handlers['emi-calculator'](values),
@@ -331,6 +417,191 @@ const handlers: Record<string, Handler> = {
     const nums = getNumbers(values, ['income', 'expenses']);
     if (!nums) return null;
     return nums.income - nums.expenses;
+  },
+  'simple-interest-calculator': (values) => {
+    const nums = getNumbers(values, ['principal', 'interestRate', 'timePeriod']);
+    if (!nums) return null;
+    return (nums.principal * nums.interestRate * nums.timePeriod) / 100;
+  },
+  'profit-margin-calculator': (values) => {
+    const nums = getNumbers(values, ['cost', 'revenue']);
+    if (!nums || nums.revenue === 0) return null;
+    const profit = nums.revenue - nums.cost;
+    return (profit / nums.revenue) * 100;
+  },
+  'savings-calculator': (values) => {
+    const nums = getNumbers(values, ['principal', 'interestRate', 'timePeriod']);
+    if (!nums) return null;
+    return nums.principal * Math.pow(1 + nums.interestRate / 100, nums.timePeriod);
+  },
+  'salary-calculator': (values) => {
+    const nums = getNumbers(values, ['grossSalary', 'deductions']);
+    if (!nums) return null;
+    return nums.grossSalary - nums.deductions;
+  },
+  'sip-calculator': (values) => {
+    const nums = getNumbers(values, ['monthlyInvestment', 'annualReturn', 'months']);
+    if (!nums || nums.months <= 0) return null;
+    const r = nums.annualReturn / 100 / 12;
+    if (r === 0) return nums.monthlyInvestment * nums.months;
+    const growth = Math.pow(1 + r, nums.months);
+    return nums.monthlyInvestment * ((growth - 1) / r) * (1 + r);
+  },
+  'loan-interest-calculator': (values) => {
+    const nums = getNumbers(values, ['principal', 'interestRate', 'tenure']);
+    if (!nums) return null;
+    const emi = emiMonthlyPayment(nums.principal, nums.interestRate, nums.tenure);
+    if (emi == null) return null;
+    return emi * nums.tenure - nums.principal;
+  },
+  'retirement-calculator': (values) => {
+    const nums = getNumbers(values, ['currentSavings', 'monthlyContribution', 'annualReturn', 'years']);
+    if (!nums || nums.years < 0) return null;
+    const n = Math.round(nums.years * 12);
+    const r = nums.annualReturn / 100 / 12;
+    const growth = Math.pow(1 + r, n);
+    const fromSavings = nums.currentSavings * growth;
+    if (r === 0) return fromSavings + nums.monthlyContribution * n;
+    const fromContrib = nums.monthlyContribution * ((growth - 1) / r);
+    return fromSavings + fromContrib;
+  },
+  'credit-card-payoff-calculator': (values) => {
+    const nums = getNumbers(values, ['balance', 'apr', 'monthlyPayment']);
+    if (!nums) return null;
+    return monthsToPayDownLoan(nums.balance, nums.apr, nums.monthlyPayment);
+  },
+  'fixed-deposit-calculator': (values) => handlers['compound-interest-calculator'](values),
+  'recurring-deposit-calculator': (values) => {
+    const nums = getNumbers(values, ['monthlyDeposit', 'interestRate', 'months']);
+    if (!nums || nums.months <= 0) return null;
+    const r = nums.interestRate / 100 / 12;
+    if (r === 0) return nums.monthlyDeposit * nums.months;
+    const growth = Math.pow(1 + r, nums.months);
+    return nums.monthlyDeposit * ((growth - 1) / r);
+  },
+  'break-even-calculator': (values) => {
+    const nums = getNumbers(values, ['fixedCost', 'pricePerUnit', 'variableCostPerUnit']);
+    if (!nums) return null;
+    const margin = nums.pricePerUnit - nums.variableCostPerUnit;
+    if (margin <= 0) return null;
+    return nums.fixedCost / margin;
+  },
+  'depreciation-calculator': (values) => {
+    const nums = getNumbers(values, ['assetCost', 'salvageValue', 'usefulLife']);
+    if (!nums || nums.usefulLife <= 0) return null;
+    return (nums.assetCost - nums.salvageValue) / nums.usefulLife;
+  },
+  'currency-converter-calculator': (values) => {
+    const nums = getNumbers(values, ['amount', 'exchangeRate']);
+    if (!nums) return null;
+    return nums.amount * nums.exchangeRate;
+  },
+  'cagr-calculator': (values) => {
+    const nums = getNumbers(values, ['beginningValue', 'endingValue', 'years']);
+    if (!nums || nums.years <= 0 || nums.beginningValue <= 0 || nums.endingValue <= 0) return null;
+    return (Math.pow(nums.endingValue / nums.beginningValue, 1 / nums.years) - 1) * 100;
+  },
+  'npv-calculator': (values) => {
+    const nums = getNumbers(values, ['initialInvestment', 'cashFlow', 'discountRate', 'years']);
+    if (!nums) return null;
+    return npvUniformCashFlow(nums.initialInvestment, nums.cashFlow, nums.discountRate, nums.years);
+  },
+  'irr-calculator': (values) => {
+    const nums = getNumbers(values, ['initialInvestment', 'annualCashFlow', 'years']);
+    if (!nums) return null;
+    return irrUniformCashFlow(nums.initialInvestment, nums.annualCashFlow, nums.years);
+  },
+  'payback-period-calculator': (values) => {
+    const nums = getNumbers(values, ['initialInvestment', 'annualCashFlow']);
+    if (!nums || nums.annualCashFlow <= 0) return null;
+    return nums.initialInvestment / nums.annualCashFlow;
+  },
+  'amortization-calculator': (values) => handlers['emi-calculator'](values),
+  'mortgage-payoff-calculator': (values) => {
+    const nums = getNumbers(values, ['principal', 'interestRate', 'monthlyPayment']);
+    if (!nums) return null;
+    return monthsToPayDownLoan(nums.principal, nums.interestRate, nums.monthlyPayment);
+  },
+  'house-affordability-calculator': (values) => {
+    const nums = getNumbers(values, ['monthlyIncome', 'monthlyExpenses', 'downPayment']);
+    if (!nums) return null;
+    const surplus = nums.monthlyIncome - nums.monthlyExpenses;
+    const maxPayment = Math.max(0, surplus * 0.9);
+    const maxLoan = maxPrincipalFromMonthlyPayment(maxPayment, 7, 360);
+    if (maxLoan == null) return nums.downPayment;
+    return maxLoan + nums.downPayment;
+  },
+  'refinance-calculator': (values) => {
+    const nums = getNumbers(values, ['principal', 'oldRate', 'newRate', 'tenure']);
+    if (!nums) return null;
+    const oldEmi = emiMonthlyPayment(nums.principal, nums.oldRate, nums.tenure);
+    const newEmi = emiMonthlyPayment(nums.principal, nums.newRate, nums.tenure);
+    if (oldEmi == null || newEmi == null) return null;
+    return oldEmi - newEmi;
+  },
+  'rent-vs-buy-calculator': (values) => {
+    const nums = getNumbers(values, ['monthlyRent', 'monthlyMortgage', 'months']);
+    if (!nums) return null;
+    return nums.monthlyMortgage * nums.months - nums.monthlyRent * nums.months;
+  },
+  'auto-lease-calculator': (values) => {
+    const nums = getNumbers(values, ['vehiclePrice', 'residualValue', 'leaseTerm']);
+    if (!nums || nums.leaseTerm <= 0) return null;
+    const depreciation = (nums.vehiclePrice - nums.residualValue) / nums.leaseTerm;
+    const financeCharge = (nums.vehiclePrice + nums.residualValue) * 0.00125;
+    return depreciation + financeCharge;
+  },
+  'investment-calculator': (values) => {
+    const nums = getNumbers(values, ['principal', 'interestRate', 'timePeriod']);
+    if (!nums) return null;
+    return nums.principal * Math.pow(1 + nums.interestRate / 100, nums.timePeriod);
+  },
+  'interest-calculator': (values) => handlers['simple-interest-calculator'](values),
+  'annuity-calculator': (values) => {
+    const nums = getNumbers(values, ['payment', 'interestRate', 'periods']);
+    if (!nums || nums.periods <= 0) return null;
+    const r = nums.interestRate / 100 / 12;
+    if (r === 0) return nums.payment * nums.periods;
+    const growth = Math.pow(1 + r, nums.periods);
+    return nums.payment * ((growth - 1) / r);
+  },
+  'pension-calculator': (values) => {
+    const nums = getNumbers(values, ['annualContribution', 'interestRate', 'years']);
+    if (!nums || nums.years <= 0) return null;
+    const r = nums.interestRate / 100;
+    if (r === 0) return nums.annualContribution * nums.years;
+    const growth = Math.pow(1 + r, nums.years);
+    return nums.annualContribution * ((growth - 1) / r);
+  },
+  'credit-card-calculator': (values) => {
+    const nums = getNumbers(values, ['balance', 'apr', 'monthlyPayment']);
+    if (!nums) return null;
+    return nums.balance * (nums.apr / 100 / 12);
+  },
+  'debt-payoff-calculator': (values) => {
+    const nums = getNumbers(values, ['debt', 'apr', 'monthlyPayment']);
+    if (!nums) return null;
+    return monthsToPayDownLoan(nums.debt, nums.apr, nums.monthlyPayment);
+  },
+  'margin-calculator': (values) => {
+    const nums = getNumbers(values, ['cost', 'sellingPrice']);
+    if (!nums || nums.sellingPrice === 0) return null;
+    return ((nums.sellingPrice - nums.cost) / nums.sellingPrice) * 100;
+  },
+  'commission-calculator': (values) => {
+    const nums = getNumbers(values, ['sales', 'commissionRate']);
+    if (!nums) return null;
+    return nums.sales * (nums.commissionRate / 100);
+  },
+  'percentage-increase-calculator': (values) => {
+    const nums = getNumbers(values, ['oldValue', 'newValue']);
+    if (!nums || nums.oldValue === 0) return null;
+    return ((nums.newValue - nums.oldValue) / nums.oldValue) * 100;
+  },
+  'percentage-decrease-calculator': (values) => {
+    const nums = getNumbers(values, ['oldValue', 'newValue']);
+    if (!nums || nums.oldValue === 0) return null;
+    return ((nums.oldValue - nums.newValue) / nums.oldValue) * 100;
   },
   'bmi-calculator': (values) => {
     const nums = getNumbers(values, ['weight', 'height']);
