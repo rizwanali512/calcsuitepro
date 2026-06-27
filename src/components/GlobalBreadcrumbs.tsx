@@ -31,6 +31,7 @@ const routeLabelMap: Record<string, string> = {
   terms: 'Terms',
   'privacy-policy': 'Privacy Policy',
   'try-outfit': 'Try Outfit',
+  'delete-account': 'Delete Account',
 };
 
 function toTitleCase(slug: string) {
