@@ -34,6 +34,7 @@ const STATIC_PRIORITY: Record<string, { priority: number; changeFrequency: Chang
   '/about': { priority: 0.5, changeFrequency: 'yearly' },
   '/contact': { priority: 0.5, changeFrequency: 'yearly' },
   '/privacy-policy': { priority: 0.3, changeFrequency: 'yearly' },
+  '/try-outfit/privacy-policy': { priority: 0.3, changeFrequency: 'yearly' },
   '/terms': { priority: 0.3, changeFrequency: 'yearly' },
 };
 
