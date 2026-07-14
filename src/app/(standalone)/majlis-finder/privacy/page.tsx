@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { getBaseUrl } from '@/lib/site-url';
 
 export const metadata: Metadata = {
@@ -181,11 +182,21 @@ export default function MajlisFinderPrivacyPage() {
           </p>
         </section>
 
-        <section>
+        <section style={{ marginBottom: 28 }}>
           <h2 style={headingStyle}>9. Contact us</h2>
           <p style={{ ...paragraphStyle, marginBottom: 0 }}>
             If you have questions about this Privacy Policy or wish to request account or data
             deletion, contact us at <strong>rizwandiplana@gmail.com</strong>.
+          </p>
+        </section>
+
+        <section style={{ borderTop: '1px solid #e5e7eb', paddingTop: 20 }}>
+          <p style={{ ...paragraphStyle, marginBottom: 0, fontSize: '0.95rem' }}>
+            To request account deletion, see{' '}
+            <Link href="/majlis-finder/delete-account" style={linkStyle}>
+              Delete Your Majlis Finder Account
+            </Link>
+            .
           </p>
         </section>
       </article>
