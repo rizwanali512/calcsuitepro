@@ -36,6 +36,7 @@ const STATIC_PRIORITY: Record<string, { priority: number; changeFrequency: Chang
   '/privacy-policy': { priority: 0.3, changeFrequency: 'yearly' },
   '/try-outfit/privacy-policy': { priority: 0.3, changeFrequency: 'yearly' },
   '/try-outfit/delete-account': { priority: 0.3, changeFrequency: 'yearly' },
+  '/majlis-finder/privacy': { priority: 0.3, changeFrequency: 'yearly' },
   '/terms': { priority: 0.3, changeFrequency: 'yearly' },
 };
 
