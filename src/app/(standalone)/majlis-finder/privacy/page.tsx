@@ -72,7 +72,7 @@ export default function MajlisFinderPrivacyPage() {
           Privacy Policy — Majlis Finder
         </h1>
         <p style={{ margin: '0 0 32px', color: '#6b7280', fontSize: '0.95rem' }}>
-          Last updated: July 14, 2026
+          Last updated: July 30, 2026
         </p>
 
         <section style={{ marginBottom: 28 }}>
@@ -100,8 +100,7 @@ export default function MajlisFinderPrivacyPage() {
             </li>
             <li>
               <strong>User-generated content:</strong> saved events, followed organizations/Zakireen,
-              volunteer sign-up details (including phone number if provided), event/announcement
-              content submitted by verified organizers
+              event/announcement content submitted by verified organizers
             </li>
             <li>
               <strong>Advertising identifier and usage data</strong> — collected via third-party ad
@@ -117,7 +116,6 @@ export default function MajlisFinderPrivacyPage() {
               To provide core app functionality (showing relevant events, managing follows/saves,
               sending reminders)
             </li>
-            <li>To allow organizers to manage volunteer sign-ups and contact volunteers</li>
             <li>To show and measure advertising</li>
             <li>We do not sell personal data to third parties</li>
           </ul>
